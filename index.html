@@ -1,190 +1,39 @@
+async function askAI() {
+  const question = document.getElementById('question').value.trim();
+  const answerBox = document.getElementById('answer');
 
-<!DOCTYPE html>
-<html lang="kk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Physics AI — Ақылды физика көмекшісі</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f1f5f9;color:#172554}
-header{background:linear-gradient(120deg,#10234b,#2563eb);color:white;padding:40px 8%;text-align:center}
-header h1{font-size:38px;margin:10px}
-header p{font-size:18px}
-nav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding:18px}
-button{border:0;border-radius:9px;padding:12px 18px;background:#2563eb;color:white;cursor:pointer;font-weight:bold}
-button:hover{background:#1d4ed8}
-nav button{background:white;color:#1e3a8a;border:1px solid #dbeafe}
-nav button:hover{background:#dbeafe}
-main{max-width:950px;margin:auto;padding:20px}
-.section{display:none;background:white;padding:25px;border-radius:15px;margin-bottom:20px;box-shadow:0 3px 15px #0000000d}
-.section.active{display:block}
-h2{color:#1d4ed8}
-input,select{width:100%;padding:12px;margin:8px 0 15px;border:1px solid #cbd5e1;border-radius:8px}
-.result{background:#eff6ff;padding:15px;border-radius:10px;margin-top:15px;white-space:pre-line}
-.formula{font-size:25px;font-weight:bold;color:#2563eb}
-.card{background:#f8fafc;padding:18px;border-radius:12px;margin:12px 0}
-footer{text-align:center;padding:25px;color:#64748b}
-</style>
-</head>
-<body>
+  if (!question) {
+    answerBox.innerText = 'Алдымен сұрақ енгізіңіз!';
+    return;
+  }
 
-<header>
-<h1>⚛️ PHYSICS AI</h1>
-<h2 style="color:white">Физика пәніне арналған интеллектуалды көмекші</h2>
-<p>Үйрен. Есепте. Тәжірибе жаса. Нәтижеге жет!</p>
-</header>
+  answerBox.innerText = 'Жауап дайындалып жатыр...';
 
-<nav>
-<button onclick="openTab('home')">Басты бет</button>
-<button onclick="openTab('theory')">Теория</button>
-<button onclick="openTab('calculator')">Есеп шығару</button>
-<button onclick="openTab('test')">Тест</button>
-<button onclick="openTab('assistant')">AI көмекші</button>
-</nav>
+  try {
+    const response = await fetch(
+      'https://physics-ai-server.zhsa-2001-11.workers.dev/',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          question: question
+        })
+      }
+    );
 
-<main>
+    const data = await response.json();
 
-<div id="home" class="section active">
-<h2>Physics AI жобасына қош келдіңіз!</h2>
-<p>Бұл платформа физиканы оқыту мен үйренуге арналған.</p>
-<div class="card">📘 Теориялық материалдарды меңгеру</div>
-<div class="card">🧮 Физикалық есептерді шығару</div>
-<div class="card">📝 Білімді тест арқылы тексеру</div>
-<div class="card">🤖 Интеллектуалды көмекшіден түсініктеме алу</div>
-</div>
+    if (!response.ok) {
+      throw new Error(data.error || 'Серверде қате пайда болды.');
+    }
 
-<div id="theory" class="section">
-<h2>Физика формулалары</h2>
-<div class="card">
-<h3>1. Жылдамдық</h3>
-<p class="formula">v = s / t</p>
-<p>Жолдың уақытқа қатынасы.</p>
-</div>
-<div class="card">
-<h3>2. Тығыздық</h3>
-<p class="formula">ρ = m / V</p>
-<p>Массаның көлемге қатынасы.</p>
-</div>
-<div class="card">
-<h3>3. Ньютонның екінші заңы</h3>
-<p class="formula">F = m · a</p>
-<p>Күш масса мен үдеудің көбейтіндісіне тең.</p>
-</div>
-<div class="card">
-<h3>4. Жылу мөлшері</h3>
-<p class="formula">Q = c · m · ΔT</p>
-<p>Денені қыздыруға немесе суытуға берілетін жылу мөлшері.</p>
-</div>
-</div>
+    answerBox.innerText = data.answer || 'Жауап алынбады.';
 
-<div id="calculator" class="section">
-<h2>Физикалық есептеу құралы</h2>
-<label>Есеп түрін таңдаңыз:</label>
-<select id="type">
-<option value="speed">Жылдамдық</option>
-<option value="density">Тығыздық</option>
-<option value="force">Күш</option>
-<option value="heat">Жылу мөлшері</option>
-</select>
-<div id="fields"></div>
-<button onclick="calculate()">Есептеу</button>
-<div id="result" class="result"></div>
-</div>
-
-<div id="test" class="section">
-<h2>Физикадан тест</h2>
-<div id="questions"></div>
-<button onclick="checkTest()">Нәтижені тексеру</button>
-<div id="testResult" class="result"></div>
-</div>
-
-<div id="assistant" class="section">
-<h2>🤖 Physics AI көмекшісі</h2>
-<p>Физика бойынша сұрағыңызды жазыңыз:</p>
-<input id="question" placeholder="Мысалы: Тығыздық дегеніміз не?">
-<button onclick="askAI()">Сұрақ қою</button>
-<div id="answer" class="result"></div>
-</div>
-
-</main>
-
-<footer>Physics AI © 2026 | Білім беру жобасы</footer>
-
-<script>
-function openTab(id){
-document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
-document.getElementById(id).classList.add('active');
+  } catch (error) {
+    answerBox.innerText =
+      'Қате: ' + error.message +
+      '\nҚайталап көріңіз.';
+  }
 }
-
-const types={
-speed:{labels:['Жол (м)','Уақыт (с)'],formula:'v = s / t',unit:'м/с'},
-density:{labels:['Масса (кг)','Көлем (м³)'],formula:'ρ = m / V',unit:'кг/м³'},
-force:{labels:['Масса (кг)','Үдеу (м/с²)'],formula:'F = m · a',unit:'Н'},
-heat:{labels:['Меншікті жылу сыйымдылығы','Масса (кг)','Температура өзгерісі (°C)'],formula:'Q = c · m · ΔT',unit:'Дж'}
-};
-
-function renderFields(){
-let type=document.getElementById('type').value;
-document.getElementById('fields').innerHTML=types[type].labels.map((x,i)=>
-`<label>${x}</label><input type="number" step="any" id="v${i}" placeholder="${x}">`).join('');
-document.getElementById('result').innerText='';
-}
-document.getElementById('type').addEventListener('change',renderFields);
-
-function calculate(){
-let type=document.getElementById('type').value;
-let count=types[type].labels.length;
-let values=[];
-for(let i=0;i<count;i++){
-let value=document.getElementById('v'+i).value;
-if(value.trim()===''){alert('Барлық мәндерді енгізіңіз!');return;}
-values.push(Number(value));
-}
-if(values.some(x=>!Number.isFinite(x))){alert('Мәндерді тексеріңіз!');return;}
-if((type==='speed'||type==='density')&&values[1]===0){alert('Бөлгіш нөл болмауы керек!');return;}
-let answer;
-if(type==='speed')answer=values[0]/values[1];
-if(type==='density')answer=values[0]/values[1];
-if(type==='force')answer=values[0]*values[1];
-if(type==='heat')answer=values[0]*values[1]*values[2];
-document.getElementById('result').innerText=
-'Формула: '+types[type].formula+
-'\nОрнына қою: '+values.join(' × ')+
-'\nЖауабы: '+Number(answer.toPrecision(6))+' '+types[type].unit;
-}
-renderFields();
-
-const quiz=[
-{q:'Жылдамдықтың өлшем бірлігі?',a:['м/с','кг','Н'],c:0},
-{q:'Тығыздықтың формуласы?',a:['F=m·a','ρ=m/V','v=s/t'],c:1},
-{q:'Күштің өлшем бірлігі?',a:['Джоуль','Ньютон','Метр'],c:1},
-{q:'Жылу мөлшерінің формуласы?',a:['Q=c·m·ΔT','v=s/t','ρ=m/V'],c:0}
-];
-
-document.getElementById('questions').innerHTML=quiz.map((q,i)=>
-`<div class="card"><b>${i+1}. ${q.q}</b><br>`+
-q.a.map((a,j)=>`<label><input type="radio" name="q${i}" value="${j}" style="width:auto">${a}</label>`).join('')+
-'</div>').join('');
-
-function checkTest(){
-let score=0;
-quiz.forEach((q,i)=>{
-let answer=document.querySelector('input[name="q'+i+'"]:checked');
-if(answer&&Number(answer.value)===q.c)score++;
-});
-document.getElementById('testResult').innerText='Сіздің нәтижеңіз: '+score+' / '+quiz.length;
-}
-
-function askAI(){
-let q=document.getElementById('question').value.toLowerCase();
-let answer='Бұл сұраққа әзірге дайын жауап жоқ. Сұрақты нақтылап көріңіз.';
-if(q.includes('тығыздық'))answer='Тығыздық — зат массасының көлеміне қатынасы. Формуласы: ρ = m / V. Өлшем бірлігі: кг/м³.';
-else if(q.includes('жылдамдық'))answer='Жылдамдық — жүрілген жолдың уақытқа қатынасы. Формуласы: v = s / t. Өлшем бірлігі: м/с.';
-else if(q.includes('күш')||q.includes('ньютон'))answer='Ньютонның екінші заңы: F = m · a. Күш масса мен үдеудің көбейтіндісіне тең.';
-else if(q.includes('жылу'))answer='Жылу мөлшері: Q = c · m · ΔT. Мұнда c — меншікті жылу сыйымдылығы.';
-document.getElementById('answer').innerText=answer;
-}
-</script>
-</body>
-</html>
