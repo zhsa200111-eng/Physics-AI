@@ -453,12 +453,18 @@ function renderUniversityTopics() {
   }
 }
 
+
 function showTopic(topic, categoryName) {
   const details = document.getElementById("topicDetails");
-
   details.style.display = "block";
-
   details.innerHTML = "";
+
+  if (
+    topic.toLowerCase().includes("кирхгоф")
+  ) {
+    showKirchhoffModule(topic, categoryName);
+    return;
+  }
 
   const heading = document.createElement("h3");
   heading.textContent = topic;
@@ -487,9 +493,258 @@ function showTopic(topic, categoryName) {
   details.appendChild(category);
   details.appendChild(description);
   details.appendChild(button);
+  details.scrollIntoView({ behavior: "smooth" });
+}
+
+function showKirchhoffModule(topic, categoryName) {
+  const details = document.getElementById("topicDetails");
+
+  details.innerHTML = `
+    <h2>⚡ ${topic}</h2>
+    <p><b>Бөлім:</b> ${categoryName}</p>
+
+    <div class="card">
+      <h3>1. Кирхгоф заңдарының физикалық негізі</h3>
+      <p>
+        Кирхгоф заңдары электр тізбектеріндегі токтар мен
+        кернеулерді есептеуге арналған. Олар зарядтың және
+        энергияның сақталу заңдарына негізделеді.
+      </p>
+      <p>
+        Бірінші заң зарядтың сақталуынан, ал екінші заң
+        энергияның сақталуынан туындайды.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>2. Кирхгофтың бірінші заңы</h3>
+      <p>
+        Электр тізбегінің кез келген түйінінде токтардың
+        алгебралық қосындысы нөлге тең.
+      </p>
+      <p class="formula">Σ Iₖ = 0</p>
+      <p><b>Немесе:</b> Σ I<sub>кір</sub> = Σ I<sub>шығ</sub></p>
+
+      <p><b>Физикалық мағынасы:</b> түйінде электр заряды
+      жиналмайды. Түйінге кірген токтардың қосындысы
+      түйіннен шыққан токтардың қосындысына тең.</p>
+
+      <p><b>Мысал:</b> түйінге 5 А және 3 А ток кіреді.
+      Бір тармақтан 6 А ток шықса, екінші тармақтағы ток:</p>
+      <p class="formula">I = 5 + 3 − 6 = 2 А</p>
+    </div>
+
+    <div class="card">
+      <h3>3. Кирхгофтың екінші заңы</h3>
+      <p>
+        Кез келген тұйық контурда электр қозғаушы күштердің
+        алгебралық қосындысы кернеу түсулерінің алгебралық
+        қосындысына тең.
+      </p>
+      <p class="formula">Σ εₖ = Σ IₖRₖ</p>
+      <p><b>Жалпы түрде:</b></p>
+      <p class="formula">Σ εₖ − Σ IₖRₖ = 0</p>
+
+      <p><b>Физикалық негізі:</b> заряд тұйық контур бойымен
+      қозғалғанда электр өрісінің жұмысы мен энергия
+      шығынының алгебралық қосындысы нөлге тең.</p>
+    </div>
+
+    <div class="card">
+      <h3>4. Таңбалар ережесі</h3>
+      <ul>
+        <li>Контур бағытын еркін таңдаймыз.</li>
+        <li>Ток бағытымен резистордан өтсек, кернеу түсуі −IR.</li>
+        <li>Токқа қарсы өтсек, кернеу өзгерісі +IR.</li>
+        <li>Ток көзінің теріс полюсінен оң полюсіне өтсек, +ε.</li>
+        <li>Оң полюстен теріс полюске өтсек, −ε.</li>
+      </ul>
+      <p>
+        Егер есептеу нәтижесінде ток теріс шықса,
+        нақты ток бағыты бастапқыда таңдалған бағытқа
+        қарама-қарсы екенін білдіреді.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>5. Бір контурлы есептің шығарылуы</h3>
+      <p><b>Берілгені:</b></p>
+      <p>ε = 12 В; R₁ = 2 Ом; R₂ = 4 Ом.</p>
+      <p><b>Табу керек:</b> I ток күшін.</p>
+
+      <p><b>Шешуі:</b></p>
+      <p>Кирхгофтың екінші заңы бойынша:</p>
+      <p class="formula">ε − IR₁ − IR₂ = 0</p>
+      <p>Ток күшін шығарамыз:</p>
+      <p class="formula">I = ε / (R₁ + R₂)</p>
+      <p>Мәндерін қоямыз:</p>
+      <p class="formula">I = 12 / (2 + 4) = 2 А</p>
+      <p><b>Жауабы:</b> I = 2 А.</p>
+    </div>
+
+    <div class="card">
+      <h3>6. Екі контурлы күрделі электр тізбегі</h3>
+      <p>
+        Екі контурлы тізбекте контурлық токтар әдісін
+        қолдануға болады. Екі контурдың ортақ кедергісі
+        R₃ болсын.
+      </p>
+
+      <p>Бірінші контур теңдеуі:</p>
+      <p class="formula">(R₁ + R₃)I₁ − R₃I₂ = ε₁</p>
+
+      <p>Екінші контур теңдеуі:</p>
+      <p class="formula">−R₃I₁ + (R₂ + R₃)I₂ = ε₂</p>
+
+      <p><b>Берілгені:</b></p>
+      <p>R₁ = 2 Ом; R₂ = 4 Ом; R₃ = 2 Ом;</p>
+      <p>ε₁ = 12 В; ε₂ = 6 В.</p>
+
+      <p><b>Теңдеулер жүйесі:</b></p>
+      <p class="formula">4I₁ − 2I₂ = 12</p>
+      <p class="formula">−2I₁ + 6I₂ = 6</p>
+
+      <p>Жүйені шешкенде:</p>
+      <p class="formula">I₁ = 4,2 А</p>
+      <p class="formula">I₂ = 2,4 А</p>
+
+      <p>Ортақ тармақтағы ток:</p>
+      <p class="formula">I₃ = I₁ − I₂ = 1,8 А</p>
+
+      <p><b>Жауабы:</b> I₁ = 4,2 А; I₂ = 2,4 А;
+      I₃ = 1,8 А.</p>
+    </div>
+
+    <div class="card">
+      <h3>7. Білімді тексеру тесті</h3>
+      <div id="kirchhoffQuiz"></div>
+      <button onclick="checkKirchhoffTest()">Тест нәтижесін тексеру</button>
+      <div id="kirchhoffResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>8. AI көмекшісіне күрделі сұрақ қою</h3>
+      <button onclick="askKirchhoffAI()">
+        Кирхгоф заңдары бойынша қосымша түсіндірме алу
+      </button>
+    </div>
+  `;
+
+  const questions = [
+    {
+      q: "Кирхгофтың бірінші заңы қандай заңға негізделген?",
+      a: ["Энергияның сақталуы", "Зарядтың сақталуы", "Импульстің сақталуы"],
+      c: 1
+    },
+    {
+      q: "Кирхгофтың бірінші заңының формуласы?",
+      a: ["ΣI = 0", "ΣU = IR", "F = ma"],
+      c: 0
+    },
+    {
+      q: "Кирхгофтың екінші заңы нені сипаттайды?",
+      a: ["Массаның сақталуын", "Энергияның сақталуын", "Жылдамдықты"],
+      c: 1
+    },
+    {
+      q: "Түйінге 4 А және 3 А ток кіріп, 5 А ток шықса, екінші шығатын ток қандай?",
+      a: ["1 А", "2 А", "7 А"],
+      c: 1
+    },
+    {
+      q: "12 В кернеу көзіне 2 Ом және 4 Ом кедергілер тізбектей жалғанған. Ток күші?",
+      a: ["2 А", "3 А", "6 А"],
+      c: 0
+    },
+    {
+      q: "Резистордан ток бағытымен өткендегі кернеу өзгерісі қандай?",
+      a: ["+IR", "−IR", "0"],
+      c: 1
+    },
+    {
+      q: "Ток теріс мәнмен есептелсе, бұл нені білдіреді?",
+      a: ["Есеп қате", "Кедергі нөл", "Нақты ток бағыты таңдалған бағытқа қарсы"],
+      c: 2
+    },
+    {
+      q: "Екі контурлы тізбекте ортақ кедергі арқылы өтетін ток қалай анықталады?",
+      a: ["I₁ + I₂", "I₁ − I₂", "I₁ × I₂"],
+      c: 1
+    },
+    {
+      q: "Кирхгофтың екінші заңы қандай шамаларды байланыстырады?",
+      a: ["ЭҚК және кернеу түсулерін", "Масса мен көлемді", "Жол мен уақытты"],
+      c: 0
+    },
+    {
+      q: "Тұйық контур бойымен потенциал өзгерістерінің алгебралық қосындысы неге тең?",
+      a: ["1 В", "Нөлге", "Шексіздікке"],
+      c: 1
+    }
+  ];
+
+  const quizBox = document.getElementById("kirchhoffQuiz");
+
+  questions.forEach((q, i) => {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    const title = document.createElement("b");
+    title.textContent = (i + 1) + ". " + q.q;
+    card.appendChild(title);
+
+    q.a.forEach((answer, j) => {
+      const label = document.createElement("label");
+      label.style.display = "block";
+
+      const radio = document.createElement("input");
+      radio.type = "radio";
+      radio.name = "kirchhoff" + i;
+      radio.value = j;
+      radio.style.width = "auto";
+
+      label.appendChild(radio);
+      label.appendChild(document.createTextNode(" " + answer));
+      card.appendChild(label);
+    });
+
+    quizBox.appendChild(card);
+  });
+
+  window.checkKirchhoffTest = function() {
+    let score = 0;
+    let unanswered = 0;
+
+    questions.forEach((q, i) => {
+      const selected = document.querySelector(
+        'input[name="kirchhoff' + i + '"]:checked'
+      );
+
+      if (!selected) {
+        unanswered++;
+      } else if (Number(selected.value) === q.c) {
+        score++;
+      }
+    });
+
+    document.getElementById("kirchhoffResult").textContent =
+      "Нәтиже: " + score + " / " + questions.length +
+      ". Жауап берілмеген сұрақтар: " + unanswered;
+  };
+
+  window.askKirchhoffAI = function() {
+    document.getElementById("question").value =
+      "Кирхгоф заңдарын университет деңгейінде терең түсіндір. " +
+      "Түйіндік потенциалдар әдісін, контурлық токтар әдісін, " +
+      "теңдеулер жүйесін шешуді және күрделі есепті көрсет.";
+
+    openTab("assistant");
+    askAI();
+  };
 
   details.scrollIntoView({ behavior: "smooth" });
 }
+
 
 renderUniversityTopics();
 </script>
