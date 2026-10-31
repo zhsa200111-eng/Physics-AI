@@ -465,6 +465,10 @@ function showTopic(topic, categoryName) {
     showKirchhoffModule(topic, categoryName);
     return;
   }
+  if (topic.toLowerCase().includes("максвелл")) {
+  showMaxwellModule(topic, categoryName);
+  return;
+}
   if (
   topic.toLowerCase().includes("шредингер") ||
   topic.toLowerCase().includes("потенциалдық шұңқыр") ||
@@ -1976,6 +1980,246 @@ function drawOscillatorGraph(mass, omega, selectedN) {
     "Кванттық сан n = " + n +
     ". Толқындық функция Эрмит көпмүшелері арқылы есептелді. " +
     "График нормаланған өлшемсіз координатада көрсетілген.";
+}
+  function showMaxwellModule(topic, categoryName) {
+  const details = document.getElementById("topicDetails");
+
+  if (!details) return;
+
+  details.innerHTML = `
+    <div class="card">
+      <h2>⚡ ${topic}</h2>
+      <p>Электромагниттік өрістің төрт негізгі теңдеуі.</p>
+
+      <div class="card">
+        <h3>1. Электр өрісі үшін Гаусс заңы</h3>
+        <p>∮ E · dA = Q / ε₀</p>
+        <p>Электр заряды электр өрісінің көзі болып табылады.</p>
+      </div>
+
+      <div class="card">
+        <h3>2. Магнит өрісі үшін Гаусс заңы</h3>
+        <p>∮ B · dA = 0</p>
+        <p>Оқшауланған магниттік зарядтар (монополдар) байқалмаған.</p>
+      </div>
+
+      <div class="card">
+        <h3>3. Фарадей заңы</h3>
+        <p>∮ E · dl = - dΦB / dt</p>
+        <p>Магнит ағынының өзгеруі индукциялық электр өрісін тудырады.</p>
+      </div>
+
+      <div class="card">
+        <h3>4. Ампер–Максвелл заңы</h3>
+        <p>∮ B · dl = μ₀I + μ₀ε₀ dΦE / dt</p>
+        <p>Электр тогы және өзгермелі электр ағыны магнит өрісін тудырады.</p>
+      </div>
+
+      <div class="card">
+        <h3>🧮 Фарадей заңының интерактивті калькуляторы</h3>
+
+        <label>Орам саны N:</label>
+        <input type="number" id="maxwellN" value="100" min="1">
+
+        <label>Катушка ауданы (м²):</label>
+        <input type="number" id="maxwellArea" value="0.01" step="any">
+
+        <label>Магнит өрісінің бастапқы мәні B₁ (Тл):</label>
+        <input type="number" id="maxwellB1" value="0.1" step="any">
+
+        <label>Магнит өрісінің соңғы мәні B₂ (Тл):</label>
+        <input type="number" id="maxwellB2" value="0.5" step="any">
+
+        <label>Уақыт аралығы Δt (с):</label>
+        <input type="number" id="maxwellTime" value="2" step="any">
+
+        <button onclick="calculateFaraday()">ЭҚК есептеу</button>
+
+        <div id="maxwellResult" class="result"></div>
+      </div>
+
+      <div class="card">
+        <h3>📈 Магнит өрісінің өзгеру графигі</h3>
+
+        <canvas id="maxwellCanvas"
+          width="600" height="300"
+          style="width:100%;max-width:600px;border:1px solid #ccc;border-radius:10px;">
+        </canvas>
+      </div>
+
+      <div class="card">
+        <h3>📝 Білімді тексеру</h3>
+
+        <div id="maxwellQuiz"></div>
+
+        <button onclick="checkMaxwellQuiz()">Тестті тексеру</button>
+
+        <div id="maxwellQuizResult" class="result"></div>
+      </div>
+    </div>
+  `;
+
+  renderMaxwellQuiz();
+  calculateFaraday();
+}
+
+
+function calculateFaraday() {
+  const N = Number(document.getElementById("maxwellN").value);
+  const A = Number(document.getElementById("maxwellArea").value);
+  const B1 = Number(document.getElementById("maxwellB1").value);
+  const B2 = Number(document.getElementById("maxwellB2").value);
+  const time = Number(document.getElementById("maxwellTime").value);
+
+  const result = document.getElementById("maxwellResult");
+
+  if (
+    ![N, A, B1, B2, time].every(Number.isFinite) ||
+    !Number.isInteger(N) || N <= 0 ||
+    A <= 0 || B1 < 0 || B2 < 0 || time <= 0
+  ) {
+    result.textContent = "Мәндерді дұрыс енгізіңіз!";
+    return;
+  }
+
+  // Магнит ағынының өзгерісі: ΔΦ = A × (B₂ - B₁)
+  const deltaFlux = A * (B2 - B1);
+
+  // Фарадей заңы: ε = -N × ΔΦ / Δt
+  const emf = -N * deltaFlux / time;
+
+  result.textContent =
+    "Формула: ε = -N × A × (B₂ - B₁) / Δt" +
+    "\nМагнит ағынының өзгерісі: " +
+    deltaFlux.toExponential(5) + " Вб" +
+    "\nИндукциялық ЭҚК: " +
+    emf.toFixed(6) + " В" +
+    "\nЭҚК модулі: " +
+    Math.abs(emf).toFixed(6) + " В";
+
+  drawMaxwellGraph(B1, B2, time);
+}
+
+
+function drawMaxwellGraph(B1, B2, time) {
+  const canvas = document.getElementById("maxwellCanvas");
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width;
+  const H = canvas.height;
+
+  ctx.clearRect(0, 0, W, H);
+
+  const left = 55;
+  const right = 570;
+  const top = 25;
+  const bottom = 250;
+
+  const maxB = Math.max(B1, B2, 0.01) * 1.2;
+
+  function px(t) {
+    return left + t / time * (right - left);
+  }
+
+  function py(B) {
+    return bottom - B / maxB * (bottom - top);
+  }
+
+  ctx.beginPath();
+  ctx.moveTo(left, top);
+  ctx.lineTo(left, bottom);
+  ctx.lineTo(right, bottom);
+  ctx.strokeStyle = "#333";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(px(0), py(B1));
+  ctx.lineTo(px(time), py(B2));
+  ctx.strokeStyle = "#2563eb";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  ctx.fillStyle = "#222";
+  ctx.font = "14px Arial";
+  ctx.fillText("B (Тл)", 5, 20);
+  ctx.fillText("t (с)", right - 15, bottom + 25);
+  ctx.fillText("B₁ = " + B1, left, py(B1) - 10);
+  ctx.fillText("B₂ = " + B2, right - 75, py(B2) - 10);
+}
+
+
+function renderMaxwellQuiz() {
+  const questions = [
+    {
+      q: "1. Электр өрісінің көзі не?",
+      a: ["Электр заряды", "Масса", "Температура"],
+      c: 0
+    },
+    {
+      q: "2. Магнит өрісі үшін Гаусс заңының оң жағы неге тең?",
+      a: ["1", "0", "μ₀"],
+      c: 1
+    },
+    {
+      q: "3. Фарадей заңы нені сипаттайды?",
+      a: [
+        "Жылу берілуін",
+        "Электромагниттік индукцияны",
+        "Дененің қозғалысын"
+      ],
+      c: 1
+    },
+    {
+      q: "4. Магнит өрісінің SI жүйесіндегі өлшем бірлігі?",
+      a: ["Тесла", "Ньютон", "Джоуль"],
+      c: 0
+    },
+    {
+      q: "5. Ампер–Максвелл заңы нені байланыстырады?",
+      a: [
+        "Магнит өрісін токпен және электр ағынымен",
+        "Массаны көлеммен",
+        "Қысымды температурамен"
+      ],
+      c: 0
+    }
+  ];
+
+  window.maxwellQuestions = questions;
+
+  document.getElementById("maxwellQuiz").innerHTML =
+    questions.map((q, i) => `
+      <div style="margin-bottom:15px;">
+        <p><strong>${q.q}</strong></p>
+        ${q.a.map((answer, j) => `
+          <label style="display:block;margin:6px 0;">
+            <input type="radio" name="maxwellQ${i}" value="${j}">
+            ${answer}
+          </label>
+        `).join("")}
+      </div>
+    `).join("");
+}
+
+
+function checkMaxwellQuiz() {
+  const questions = window.maxwellQuestions;
+  let score = 0;
+
+  questions.forEach((q, i) => {
+    const selected = document.querySelector(
+      'input[name="maxwellQ' + i + '"]:checked'
+    );
+
+    if (selected && Number(selected.value) === q.c) {
+      score++;
+    }
+  });
+
+  document.getElementById("maxwellQuizResult").textContent =
+    "Сіздің нәтижеңіз: " + score + " / " + questions.length;
 }
 </script>
 </body>
