@@ -763,6 +763,7 @@ function showSchrodingerModule(topic, categoryName) {
 
   details.style.display = "block";
   details.innerHTML = `
+  drawWaveFunction();
     <h2>⚛️ Шредингер теңдеуі және кванттық механика</h2>
     <p><b>Таңдалған тақырып:</b> ${topic}</p>
     <p><b>Бөлім:</b> ${categoryName}</p>
@@ -1041,6 +1042,47 @@ function showSchrodingerModule(topic, categoryName) {
   <div id="quantumEnergyInfo" class="result"></div>
 </div>
     <div class="card">
+    <div class="card">
+  <h3>🌊 Толқындық функция визуализациясы</h3>
+
+  <p>
+    Шексіз потенциалдық шұңқырдағы бөлшектің
+    толқындық функциясын және ықтималдық тығыздығын зерттеңіз.
+  </p>
+
+  <label>Кванттық сан n:</label>
+
+  <input
+    type="range"
+    id="waveN"
+    min="1"
+    max="5"
+    value="1"
+    oninput="drawWaveFunction()"
+  >
+
+  <p id="waveNValue">n = 1</p>
+
+  <h4>1. Толқындық функция ψ(x)</h4>
+
+  <canvas
+    id="waveCanvas"
+    width="600"
+    height="260"
+    style="width:100%;max-width:600px;border:1px solid #ccc;border-radius:10px;"
+  ></canvas>
+
+  <h4>2. Ықтималдық тығыздығы |ψ(x)|²</h4>
+
+  <canvas
+    id="probCanvas"
+    width="600"
+    height="260"
+    style="width:100%;max-width:600px;border:1px solid #ccc;border-radius:10px;"
+  ></canvas>
+
+  <div id="waveInfo" class="result"></div>
+</div>
       <h3>11. Өздік жұмыс</h3>
       <p>
         1. Шұңқыр ұзындығы 2 нм болса, электронның
@@ -1336,6 +1378,112 @@ function drawQuantumLevels() {
   info.textContent =
     "Таңдалған деңгей энергиясы: E" +
     selectedN + " = " + energy(selectedN).toFixed(6) + " эВ";
+}
+  function drawWaveFunction() {
+  const n = Number(document.getElementById("waveN").value);
+
+  const waveCanvas = document.getElementById("waveCanvas");
+  const probCanvas = document.getElementById("probCanvas");
+
+  if (!waveCanvas || !probCanvas) return;
+
+  const waveCtx = waveCanvas.getContext("2d");
+  const probCtx = probCanvas.getContext("2d");
+
+  const W = waveCanvas.width;
+  const H = waveCanvas.height;
+
+  const left = 45;
+  const right = W - 20;
+  const center = H / 2;
+  const amplitude = 85;
+
+  waveCtx.clearRect(0, 0, W, H);
+  probCtx.clearRect(0, 0, W, H);
+
+  // Координаталық осьтер
+  function drawAxes(ctx, isProbability) {
+    ctx.beginPath();
+    ctx.moveTo(left, 15);
+    ctx.lineTo(left, H - 30);
+    ctx.lineTo(right, H - 30);
+    ctx.strokeStyle = "#333";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    ctx.font = "13px Arial";
+    ctx.fillStyle = "#222";
+    ctx.fillText("0", left - 15, H - 12);
+    ctx.fillText("L", right - 3, H - 12);
+    ctx.fillText("x", right + 5, H - 12);
+
+    if (!isProbability) {
+      ctx.beginPath();
+      ctx.moveTo(left, center);
+      ctx.lineTo(right, center);
+      ctx.strokeStyle = "#888";
+      ctx.stroke();
+      ctx.fillText("0", 10, center + 4);
+    }
+  }
+
+  drawAxes(waveCtx, false);
+  drawAxes(probCtx, true);
+
+  // Толқындық функция ψ(x) = √(2/L) sin(nπx/L)
+  waveCtx.beginPath();
+
+  for (let i = 0; i <= 500; i++) {
+    const x = i / 500;
+    const psi = Math.sqrt(2) * Math.sin(n * Math.PI * x);
+
+    const px = left + x * (right - left);
+    const py = center - psi * amplitude;
+
+    if (i === 0) {
+      waveCtx.moveTo(px, py);
+    } else {
+      waveCtx.lineTo(px, py);
+    }
+  }
+
+  waveCtx.strokeStyle = "#2563eb";
+  waveCtx.lineWidth = 2.5;
+  waveCtx.stroke();
+
+  // Ықтималдық тығыздығы |ψ(x)|²
+  probCtx.beginPath();
+
+  const base = H - 30;
+
+  for (let i = 0; i <= 500; i++) {
+    const x = i / 500;
+    const psiSquared = 2 * Math.pow(
+      Math.sin(n * Math.PI * x), 2
+    );
+
+    const px = left + x * (right - left);
+    const py = base - psiSquared * 90;
+
+    if (i === 0) {
+      probCtx.moveTo(px, py);
+    } else {
+      probCtx.lineTo(px, py);
+    }
+  }
+
+  probCtx.strokeStyle = "#e63946";
+  probCtx.lineWidth = 2.5;
+  probCtx.stroke();
+
+  document.getElementById("waveNValue").textContent =
+    "Таңдалған кванттық сан: n = " + n;
+
+  document.getElementById("waveInfo").textContent =
+    "Толқындық функция: ψ(x) = √(2/L) sin(" +
+    n + "πx/L). " +
+    "Ықтималдық тығыздығы: |ψ(x)|² = (2/L)sin²(" +
+    n + "πx/L).";
 }
 </script>
 </body>
