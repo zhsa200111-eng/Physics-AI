@@ -990,6 +990,24 @@ function showSchrodingerModule(topic, categoryName) {
       <p><b>Жауабы:</b> 0,376 эВ.</p>
     </div>
 
+<div class="card">
+  <h3>🧮 Кванттық энергия калькуляторы</h3>
+  <p>Шексіз потенциалдық шұңқырдағы бөлшектің энергиясын есептеңіз.</p>
+
+  <label>Бөлшек массасы (кг):</label>
+  <input type="number" id="qmMass" value="9.109e-31" step="any">
+
+  <label>Шұңқыр ұзындығы (нм):</label>
+  <input type="number" id="qmLength" value="1" step="any">
+
+  <label>Кванттық сан n:</label>
+  <input type="number" id="qmN" value="1" min="1" step="1">
+
+  <button onclick="calculateQuantumEnergy()">Энергияны есептеу</button>
+
+  <div id="qmResult" class="result"></div>
+</div>
+
     <div class="card">
       <h3>11. Өздік жұмыс</h3>
       <p>
@@ -1169,6 +1187,44 @@ function showSchrodingerModule(topic, categoryName) {
   };
 
   details.scrollIntoView({ behavior: "smooth" });
+}
+
+function calculateQuantumEnergy() {
+  const hbar = 1.054571817e-34;
+  const electronVolt = 1.602176634e-19;
+
+  const mass = Number(document.getElementById("qmMass").value);
+  const lengthNm = Number(document.getElementById("qmLength").value);
+  const n = Number(document.getElementById("qmN").value);
+
+  const result = document.getElementById("qmResult");
+
+  if (
+    !Number.isFinite(mass) ||
+    !Number.isFinite(lengthNm) ||
+    !Number.isFinite(n) ||
+    mass <= 0 ||
+    lengthNm <= 0 ||
+    !Number.isInteger(n) ||
+    n < 1
+  ) {
+    result.textContent = "Мәндерді дұрыс енгізіңіз!";
+    return;
+  }
+
+  const length = lengthNm * 1e-9;
+
+  const energy =
+    (n * n * Math.PI * Math.PI * hbar * hbar) /
+    (2 * mass * length * length);
+
+  const energyEV = energy / electronVolt;
+
+  result.textContent =
+    "Формула: Eₙ = n²π²ℏ² / (2mL²)" +
+    "\nКванттық сан: n = " + n +
+    "\nЭнергия: " + energy.toExponential(5) + " Дж" +
+    "\nЭнергия: " + energyEV.toFixed(6) + " эВ";
 }
 
 </script>
