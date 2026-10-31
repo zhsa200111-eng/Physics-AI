@@ -1996,7 +1996,22 @@ function drawOscillatorGraph(mass, omega, selectedN) {
         <p>∮ E · dA = Q / ε₀</p>
         <p>Электр заряды электр өрісінің көзі болып табылады.</p>
       </div>
+<div class="card">
+  <h3>🧲 Магнит өрісінің интерактивті моделі</h3>
+  <p>Магнит полюстері мен магнит өрісінің бағытын зерттеңіз.</p>
 
+  <label>Магнит түрін таңдаңыз:</label>
+  <select id="magnetType" onchange="drawMagneticField()">
+    <option value="normal">N — S (қалыпты магнит)</option>
+    <option value="reverse">S — N (кері магнит)</option>
+  </select>
+
+  <canvas id="magneticCanvas" width="600" height="360"
+    style="width:100%;max-width:600px;border:1px solid #ccc;border-radius:10px;">
+  </canvas>
+
+  <div id="magneticInfo" class="result"></div>
+</div>
       <div class="card">
         <h3>2. Магнит өрісі үшін Гаусс заңы</h3>
         <p>∮ B · dA = 0</p>
@@ -2092,6 +2107,7 @@ function drawOscillatorGraph(mass, omega, selectedN) {
   renderMaxwellQuiz();
   calculateFaraday();
     drawElectricField();
+    drawMagneticField();
 }
 
 
@@ -2378,6 +2394,111 @@ function checkMaxwellQuiz() {
     "Бірінші заряд: " + q1 + " мкКл. " +
     "Екінші заряд: " + q2 + " мкКл. " +
     "Электр өрісі оң зарядтан шығып, теріс зарядқа бағытталады.";
+}
+  function drawMagneticField() {
+  const canvas = document.getElementById("magneticCanvas");
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+  const type = document.getElementById("magnetType").value;
+
+  const W = canvas.width;
+  const H = canvas.height;
+
+  ctx.clearRect(0, 0, W, H);
+
+  const leftPole = type === "normal" ? "N" : "S";
+  const rightPole = type === "normal" ? "S" : "N";
+
+  // Магнит
+  ctx.fillStyle = "#dc3545";
+  ctx.fillRect(210, 145, 90, 65);
+
+  ctx.fillStyle = "#2563eb";
+  ctx.fillRect(300, 145, 90, 65);
+
+  ctx.fillStyle = "white";
+  ctx.font = "bold 28px Arial";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  ctx.fillText(leftPole, 255, 177);
+  ctx.fillText(rightPole, 345, 177);
+
+  // Магнит өрісінің күш сызықтары
+  const paths = [
+    { h: 65 },
+    { h: 95 },
+    { h: 125 },
+    { h: 155 }
+  ];
+
+  paths.forEach(p => {
+    [1, -1].forEach(direction => {
+      ctx.beginPath();
+
+      ctx.ellipse(
+        300,
+        177,
+        90,
+        p.h,
+        0,
+        Math.PI,
+        2 * Math.PI
+      );
+
+      ctx.strokeStyle = "#16a34a";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    });
+  });
+
+  // Бағыт көрсеткілері
+  function arrow(x1, y1, x2, y2) {
+    const angle = Math.atan2(y2 - y1, x2 - x1);
+    const size = 8;
+
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.strokeStyle = "#15803d";
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(x2, y2);
+    ctx.lineTo(
+      x2 - size * Math.cos(angle - 0.5),
+      y2 - size * Math.sin(angle - 0.5)
+    );
+    ctx.lineTo(
+      x2 - size * Math.cos(angle + 0.5),
+      y2 - size * Math.sin(angle + 0.5)
+    );
+    ctx.closePath();
+    ctx.fillStyle = "#15803d";
+    ctx.fill();
+  }
+
+  if (type === "normal") {
+    arrow(410, 90, 430, 90);
+    arrow(430, 265, 410, 265);
+  } else {
+    arrow(430, 90, 410, 90);
+    arrow(410, 265, 430, 265);
+  }
+
+  ctx.textAlign = "left";
+  ctx.textBaseline = "alphabetic";
+  ctx.fillStyle = "#222";
+  ctx.font = "14px Arial";
+
+  ctx.fillText("Магнит өрісінің бағыты: N полюсінен S полюсіне", 15, 30);
+
+  const info = document.getElementById("magneticInfo");
+
+  info.textContent =
+    "Магнит өрісінің күш сызықтары магниттің сыртында N полюсінен S полюсіне бағытталады. " +
+    "Магниттің ішінде бағыт S полюсінен N полюсіне қарай жалғасады.";
 }
 </script>
 </body>
