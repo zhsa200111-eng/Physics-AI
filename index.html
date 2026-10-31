@@ -1118,6 +1118,37 @@ function showSchrodingerModule(topic, categoryName) {
 
   <div id="tunnelResult" class="result"></div>
 </div>
+<div class="card">
+  <h3>⚛️ Кванттық гармониялық осциллятор</h3>
+
+  <p>
+    Осциллятордың энергия деңгейлерін және потенциалдық
+    энергиясын зерттеңіз.
+  </p>
+
+  <label>Бөлшек массасы (кг):</label>
+  <input type="number" id="oscMass"
+    value="9.109e-31" step="any">
+
+  <label>Тербеліс жиілігі (Гц):</label>
+  <input type="number" id="oscFrequency"
+    value="1e15" step="any">
+
+  <label>Кванттық сан n:</label>
+  <input type="number" id="oscN"
+    value="0" min="0" max="10" step="1">
+
+  <button onclick="calculateOscillator()">
+    Энергияны есептеу
+  </button>
+
+  <canvas id="oscCanvas"
+    width="600" height="340"
+    style="width:100%;max-width:600px;border:1px solid #ccc;border-radius:10px;margin-top:15px;">
+  </canvas>
+
+  <div id="oscResult" class="result"></div>
+</div>
       <h3>11. Өздік жұмыс</h3>
       <p>
         1. Шұңқыр ұзындығы 2 нм болса, электронның
@@ -1649,6 +1680,149 @@ function drawTunnelingDiagram(E, V0) {
   ctx.fillText("Тосқауыл", 265, bottom + 22);
   ctx.fillText("x", right + 8, bottom + 5);
   ctx.fillText("V(x)", 8, 20);
+}
+  function calculateOscillator() {
+  const hbar = 1.054571817e-34;
+  const eV = 1.602176634e-19;
+
+  const mass = Number(document.getElementById("oscMass").value);
+  const frequency = Number(
+    document.getElementById("oscFrequency").value
+  );
+  const n = Number(document.getElementById("oscN").value);
+
+  const result = document.getElementById("oscResult");
+
+  if (
+    !Number.isFinite(mass) ||
+    !Number.isFinite(frequency) ||
+    !Number.isFinite(n) ||
+    mass <= 0 ||
+    frequency <= 0 ||
+    !Number.isInteger(n) ||
+    n < 0 ||
+    n > 10
+  ) {
+    result.textContent =
+      "Қате! Масса мен жиілікті оң мәнмен, ал n санын 0–10 аралығында бүтін санмен енгізіңіз.";
+    return;
+  }
+
+  const omega = 2 * Math.PI * frequency;
+
+  // E_n = ħω(n + 1/2)
+  const energy = hbar * omega * (n + 0.5);
+
+  // Нөлдік тербеліс энергиясы
+  const zeroEnergy = hbar * omega / 2;
+
+  const energyEV = energy / eV;
+  const zeroEnergyEV = zeroEnergy / eV;
+
+  result.textContent =
+    "Бұрыштық жиілік: ω = " + omega.toExponential(4) + " рад/с" +
+    "\nКванттық сан: n = " + n +
+    "\nЭнергия формуласы: Eₙ = ℏω(n + 1/2)" +
+    "\nТолық энергия: " + energy.toExponential(5) + " Дж" +
+    "\nТолық энергия: " + energyEV.toFixed(6) + " эВ" +
+    "\nНөлдік энергия: " + zeroEnergyEV.toFixed(6) + " эВ";
+
+  drawOscillatorGraph(mass, omega, n);
+}
+
+
+function drawOscillatorGraph(mass, omega, selectedN) {
+  const canvas = document.getElementById("oscCanvas");
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width;
+  const H = canvas.height;
+
+  ctx.clearRect(0, 0, W, H);
+
+  const left = 55;
+  const right = 575;
+  const top = 25;
+  const bottom = 285;
+
+  // Өлшемсіз координата ξ = x / x₀
+  // x₀ = √(ℏ / mω)
+  // V/(ℏω) = ξ²/2
+
+  const maxX = 4;
+  const maxY = 10;
+
+  function px(x) {
+    return left + (x + maxX) / (2 * maxX) * (right - left);
+  }
+
+  function py(y) {
+    return bottom - y / maxY * (bottom - top);
+  }
+
+  // Координаталық осьтер
+  ctx.beginPath();
+  ctx.moveTo(left, top);
+  ctx.lineTo(left, bottom);
+  ctx.lineTo(right, bottom);
+  ctx.strokeStyle = "#333";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  ctx.font = "13px Arial";
+  ctx.fillStyle = "#222";
+  ctx.fillText("V / (ℏω)", 5, 18);
+  ctx.fillText("x / x₀", right - 10, bottom + 25);
+
+  // Потенциалдық парабола
+  ctx.beginPath();
+
+  for (let i = 0; i <= 400; i++) {
+    const x = -maxX + (2 * maxX * i / 400);
+    const V = 0.5 * x * x;
+
+    if (i === 0) {
+      ctx.moveTo(px(x), py(V));
+    } else {
+      ctx.lineTo(px(x), py(V));
+    }
+  }
+
+  ctx.strokeStyle = "#2563eb";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  // Энергия деңгейлері
+  for (let n = 0; n <= 10; n++) {
+    const E = n + 0.5;
+
+    if (E > maxY) continue;
+
+    ctx.beginPath();
+    ctx.moveTo(left, py(E));
+    ctx.lineTo(right, py(E));
+
+    ctx.strokeStyle =
+      n === selectedN ? "#e63946" : "#999";
+
+    ctx.lineWidth = n === selectedN ? 3 : 1.5;
+    ctx.setLineDash(n === selectedN ? [] : [5, 5]);
+    ctx.stroke();
+  }
+
+  ctx.setLineDash([]);
+
+  ctx.fillStyle = "#e63946";
+  ctx.font = "bold 14px Arial";
+  ctx.fillText(
+    "n = " + selectedN,
+    right - 55,
+    py(selectedN + 0.5) - 8
+  );
+
+  ctx.fillStyle = "#2563eb";
+  ctx.fillText("V(x)", px(2.5), py(3.2));
 }
 </script>
 </body>
