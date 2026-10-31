@@ -38,6 +38,7 @@ footer{text-align:center;padding:25px;color:#64748b}
 <nav>
 <button onclick="openTab('home')">Басты бет</button>
 <button onclick="openTab('theory')">Теория</button>
+<button onclick="openTab('university')">Теория 2.0</button>
 <button onclick="openTab('calculator')">Есеп шығару</button>
 <button onclick="openTab('test')">Тест</button>
 <button onclick="openTab('assistant')">AI көмекші</button>
@@ -106,7 +107,33 @@ footer{text-align:center;padding:25px;color:#64748b}
 <button onclick="askAI()">Сұрақ қою</button>
 <div id="answer" class="result"></div>
 </div>
+<div id="university" class="section">
+  <h2>🎓 Теория 2.0</h2>
+  <p>Жалпы, теориялық және заманауи физиканың негізгі және күрделі тақырыптарын меңгеріңіз.</p>
 
+  <input
+    type="text"
+    id="topicSearch"
+    placeholder="Тақырыпты іздеу..."
+    oninput="renderUniversityTopics()"
+  >
+
+  <select id="topicCategory" onchange="renderUniversityTopics()">
+    <option value="all">Барлық бөлімдер</option>
+    <option value="mechanics">Механика</option>
+    <option value="thermo">Молекулалық физика және термодинамика</option>
+    <option value="electro">Электр және магнетизм</option>
+    <option value="waves">Тербелістер, толқындар және оптика</option>
+    <option value="quantum">Кванттық физика</option>
+    <option value="modern">Қазіргі физика</option>
+    <option value="math">Математикалық физика</option>
+    <option value="computational">Есептеу физикасы</option>
+  </select>
+
+  <div id="universityTopics"></div>
+
+  <div id="topicDetails" class="result" style="display:none"></div>
+</div>
 </main>
 
 <footer>Physics AI © 2026 | Білім беру жобасы</footer>
@@ -225,6 +252,246 @@ try {
       '\nҚайталап көріңіз.';
   }
 }
+  const universityTopics = [
+  // 1. МЕХАНИКА
+  {
+    category: "mechanics",
+    name: "Классикалық механика",
+    topics: [
+      "Кинематика және динамика",
+      "Ньютон заңдары",
+      "Импульстің сақталу заңы",
+      "Энергияның сақталу заңы",
+      "Айналмалы қозғалыс динамикасы",
+      "Қатты дене механикасы",
+      "Лагранж механикасы",
+      "Гамильтон механикасы",
+      "Гамильтон теңдеулері",
+      "Вариациялық принцип"
+    ]
+  },
+
+  // 2. МОЛЕКУЛАЛЫҚ ФИЗИКА ЖӘНЕ ТЕРМОДИНАМИКА
+  {
+    category: "thermo",
+    name: "Молекулалық физика және термодинамика",
+    topics: [
+      "Молекулалық-кинетикалық теория",
+      "Идеал газ күйінің теңдеуі",
+      "Термодинамиканың бірінші заңы",
+      "Термодинамиканың екінші заңы",
+      "Энтропия",
+      "Карно циклі",
+      "Больцман таралуы",
+      "Гиббс ансамблі",
+      "Ферми–Дирак статистикасы",
+      "Бозе–Эйнштейн статистикасы"
+    ]
+  },
+
+  // 3. ЭЛЕКТР ЖӘНЕ МАГНЕТИЗМ
+  {
+    category: "electro",
+    name: "Электр және магнетизм",
+    topics: [
+      "Кулон заңы",
+      "Электр өрісі және потенциал",
+      "Электр тогы және Ом заңы",
+      "Кирхгофтың бірінші заңы",
+      "Кирхгофтың екінші заңы",
+      "RC және RLC тізбектері",
+      "Магнит өрісі",
+      "Фарадей заңы",
+      "Максвелл теңдеулері",
+      "Пойнтинг векторы"
+    ]
+  },
+
+  // 4. ТЕРБЕЛІСТЕР, ТОЛҚЫНДАР ЖӘНЕ ОПТИКА
+  {
+    category: "waves",
+    name: "Тербелістер, толқындар және оптика",
+    topics: [
+      "Гармониялық тербелістер",
+      "Математикалық маятник",
+      "Мәжбүрлі тербелістер",
+      "Резонанс құбылысы",
+      "Механикалық толқындар",
+      "Электромагниттік толқындар",
+      "Жарық интерференциясы",
+      "Жарық дифракциясы",
+      "Поляризация",
+      "Фурье талдауы"
+    ]
+  },
+
+  // 5. КВАНТТЫҚ ФИЗИКА
+  {
+    category: "quantum",
+    name: "Кванттық механика",
+    topics: [
+      "Планк гипотезасы",
+      "Фотоэффект",
+      "Де Бройль толқындары",
+      "Толқындық функция",
+      "Шредингердің уақытқа тәуелді теңдеуі",
+      "Шредингердің уақытқа тәуелсіз теңдеуі",
+      "Бір өлшемді потенциалдық шұңқыр",
+      "Кванттық гармониялық осциллятор",
+      "Потенциалдық тосқауыл және туннельдік эффект",
+      "Кванттық операторлар",
+      "Меншікті мәндер мен меншікті функциялар",
+      "Гейзенберг анықталмағандық принципі",
+      "Бұрыштық импульс",
+      "Спин",
+      "Сутегі атомының кванттық моделі"
+    ]
+  },
+
+  // 6. ҚАЗІРГІ ФИЗИКА
+  {
+    category: "modern",
+    name: "Қазіргі физика",
+    topics: [
+      "Арнайы салыстырмалылық теориясы",
+      "Лоренц түрлендірулері",
+      "Минковский кеңістігі",
+      "Масса мен энергия байланысы",
+      "Жалпы салыстырмалылық теориясы",
+      "Эйнштейн теңдеулері",
+      "Қара құрдымдар",
+      "Атом ядросының құрылысы",
+      "Радиоактивтілік",
+      "Ядролық реакциялар",
+      "Кварктар мен лептондар",
+      "Стандартты модель"
+    ]
+  },
+
+  // 7. МАТЕМАТИКАЛЫҚ ФИЗИКА
+  {
+    category: "math",
+    name: "Математикалық физика",
+    topics: [
+      "Векторлық талдау",
+      "Тензорлық талдау",
+      "Матрицалар және сызықтық алгебра",
+      "Комплекс сандар",
+      "Дифференциалдық теңдеулер",
+      "Жеке туындылы дифференциалдық теңдеулер",
+      "Толқындық теңдеу",
+      "Жылу өткізгіштік теңдеуі",
+      "Лаплас теңдеуі",
+      "Фурье қатары және түрлендіруі",
+      "Ықтималдық теориясы"
+    ]
+  },
+
+  // 8. ЕСЕПТЕУ ФИЗИКАСЫ
+  {
+    category: "computational",
+    name: "Есептеу физикасы",
+    topics: [
+      "Сандық интегралдау",
+      "Сандық дифференциалдау",
+      "Дифференциалдық теңдеулерді сандық шешу",
+      "Эйлер әдісі",
+      "Рунге–Кутта әдісі",
+      "Монте-Карло әдісі",
+      "Компьютерлік модельдеу",
+      "Физикалық процестерді визуализациялау"
+    ]
+  }
+];
+
+function renderUniversityTopics() {
+  const search = document.getElementById("topicSearch")
+    .value.toLowerCase().trim();
+
+  const category = document.getElementById("topicCategory").value;
+
+  const container = document.getElementById("universityTopics");
+
+  container.innerHTML = "";
+
+  universityTopics.forEach(section => {
+    if (category !== "all" && section.category !== category) {
+      return;
+    }
+
+    const filtered = section.topics.filter(topic =>
+      topic.toLowerCase().includes(search)
+    );
+
+    if (filtered.length === 0) return;
+
+    const card = document.createElement("div");
+    card.className = "card";
+
+    const heading = document.createElement("h3");
+    heading.textContent = section.name;
+    card.appendChild(heading);
+
+    filtered.forEach(topic => {
+      const button = document.createElement("button");
+
+      button.textContent = topic;
+      button.style.margin = "5px";
+      button.style.background = "#e0ecff";
+      button.style.color = "#1e3a8a";
+
+      button.onclick = () => showTopic(topic, section.name);
+
+      card.appendChild(button);
+    });
+
+    container.appendChild(card);
+  });
+
+  if (!container.innerHTML) {
+    container.textContent = "Тақырып табылмады.";
+  }
+}
+
+function showTopic(topic, categoryName) {
+  const details = document.getElementById("topicDetails");
+
+  details.style.display = "block";
+
+  details.innerHTML = "";
+
+  const heading = document.createElement("h3");
+  heading.textContent = topic;
+
+  const category = document.createElement("p");
+  category.textContent = "Бөлім: " + categoryName;
+
+  const description = document.createElement("p");
+  description.textContent =
+    "Бұл тақырып бойынша теория, негізгі формулалар, " +
+    "формулалардың шығарылуы, шешілген есептер және тесттер дайындалады.";
+
+  const button = document.createElement("button");
+  button.textContent = "AI көмекшіден түсіндіруді сұрау";
+
+  button.onclick = () => {
+    document.getElementById("question").value =
+      topic + " тақырыбын университет деңгейінде толық түсіндір. " +
+      "Негізгі формулаларын шығарып, мысал есеп келтір.";
+
+    openTab("assistant");
+    askAI();
+  };
+
+  details.appendChild(heading);
+  details.appendChild(category);
+  details.appendChild(description);
+  details.appendChild(button);
+
+  details.scrollIntoView({ behavior: "smooth" });
+}
+
+renderUniversityTopics();
 </script>
 </body>
 </html>
