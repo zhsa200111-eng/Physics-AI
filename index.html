@@ -176,14 +176,44 @@ if(answer&&Number(answer.value)===q.c)score++;
 document.getElementById('testResult').innerText='Сіздің нәтижеңіз: '+score+' / '+quiz.length;
 }
 
-function askAI(){
-let q=document.getElementById('question').value.toLowerCase();
-let answer='Бұл сұраққа әзірге дайын жауап жоқ. Сұрақты нақтылап көріңіз.';
-if(q.includes('тығыздық'))answer='Тығыздық — зат массасының көлеміне қатынасы. Формуласы: ρ = m / V. Өлшем бірлігі: кг/м³.';
-else if(q.includes('жылдамдық'))answer='Жылдамдық — жүрілген жолдың уақытқа қатынасы. Формуласы: v = s / t. Өлшем бірлігі: м/с.';
-else if(q.includes('күш')||q.includes('ньютон'))answer='Ньютонның екінші заңы: F = m · a. Күш масса мен үдеудің көбейтіндісіне тең.';
-else if(q.includes('жылу'))answer='Жылу мөлшері: Q = c · m · ΔT. Мұнда c — меншікті жылу сыйымдылығы.';
-document.getElementById('answer').innerText=answer;
+async function askAI() {
+  const question = document.getElementById('question').value.trim();
+  const answerBox = document.getElementById('answer');
+
+  if (!question) {
+    answerBox.innerText = 'Алдымен сұрақ енгізіңіз!';
+    return;
+  }
+
+  answerBox.innerText = 'Жауап дайындалып жатыр...';
+
+  try {
+    const response = await fetch(
+      'https://physics-ai-server.zhsa-2001-11.workers.dev/',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          question: question
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Серверде қате пайда болды.');
+    }
+
+    answerBox.innerText = data.answer || 'Жауап алынбады.';
+
+  } catch (error) {
+    answerBox.innerText =
+      'Қате: ' + error.message +
+      '\nҚайталап көріңіз.';
+  }
 }
 </script>
 </body>
