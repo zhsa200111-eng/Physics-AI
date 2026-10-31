@@ -1149,6 +1149,21 @@ function showSchrodingerModule(topic, categoryName) {
 
   <div id="oscResult" class="result"></div>
 </div>
+<div style="margin-top:20px;">
+  <h4>🌊 Толқындық функция ψₙ(x)</h4>
+  <canvas id="oscWaveCanvas"
+    width="600" height="250"
+    style="width:100%;max-width:600px;border:1px solid #ccc;border-radius:10px;">
+  </canvas>
+
+  <h4>📊 Ықтималдық тығыздығы |ψₙ(x)|²</h4>
+  <canvas id="oscProbCanvas"
+    width="600" height="250"
+    style="width:100%;max-width:600px;border:1px solid #ccc;border-radius:10px;">
+  </canvas>
+
+  <div id="oscWaveInfo" class="result"></div>
+</div>
       <h3>11. Өздік жұмыс</h3>
       <p>
         1. Шұңқыр ұзындығы 2 нм болса, электронның
@@ -1728,6 +1743,7 @@ function drawTunnelingDiagram(E, V0) {
     "\nНөлдік энергия: " + zeroEnergyEV.toFixed(6) + " эВ";
 
   drawOscillatorGraph(mass, omega, n);
+    drawOscillatorWave();
 }
 
 
@@ -1823,6 +1839,143 @@ function drawOscillatorGraph(mass, omega, selectedN) {
 
   ctx.fillStyle = "#2563eb";
   ctx.fillText("V(x)", px(2.5), py(3.2));
+}
+  function drawOscillatorWave() {
+  const n = Number(document.getElementById("oscN").value);
+
+  const waveCanvas = document.getElementById("oscWaveCanvas");
+  const probCanvas = document.getElementById("oscProbCanvas");
+
+  if (!waveCanvas || !probCanvas) return;
+
+  const waveCtx = waveCanvas.getContext("2d");
+  const probCtx = probCanvas.getContext("2d");
+
+  const W = waveCanvas.width;
+  const H = waveCanvas.height;
+
+  const left = 45;
+  const right = W - 20;
+  const center = H / 2;
+  const bottom = H - 30;
+
+  // Эрмит көпмүшелері
+  function hermite(k, x) {
+    if (k === 0) return 1;
+    if (k === 1) return 2 * x;
+
+    let h0 = 1;
+    let h1 = 2 * x;
+
+    for (let i = 2; i <= k; i++) {
+      const h = 2 * x * h1 - 2 * (i - 1) * h0;
+      h0 = h1;
+      h1 = h;
+    }
+
+    return h1;
+  }
+
+  // Факториал
+  function factorial(k) {
+    let value = 1;
+    for (let i = 2; i <= k; i++) value *= i;
+    return value;
+  }
+
+  // Нормаланған өлшемсіз толқындық функция
+  function psi(x) {
+    const Hn = hermite(n, x);
+    const denominator =
+      Math.pow(Math.PI, 0.25) *
+      Math.sqrt(Math.pow(2, n) * factorial(n));
+
+    return Hn * Math.exp(-x * x / 2) / denominator;
+  }
+
+  waveCtx.clearRect(0, 0, W, H);
+  probCtx.clearRect(0, 0, W, H);
+
+  const minX = -4;
+  const maxX = 4;
+  const waveScale = 85;
+  const probScale = 180;
+
+  function px(x) {
+    return left + (x - minX) / (maxX - minX) * (right - left);
+  }
+
+  // Толқындық функцияның осьтері
+  waveCtx.beginPath();
+  waveCtx.moveTo(left, 15);
+  waveCtx.lineTo(left, H - 25);
+  waveCtx.lineTo(right, H - 25);
+  waveCtx.strokeStyle = "#333";
+  waveCtx.stroke();
+
+  waveCtx.beginPath();
+  waveCtx.moveTo(left, center);
+  waveCtx.lineTo(right, center);
+  waveCtx.strokeStyle = "#999";
+  waveCtx.stroke();
+
+  // ψ(x) графигі
+  waveCtx.beginPath();
+
+  for (let i = 0; i <= 500; i++) {
+    const x = minX + (maxX - minX) * i / 500;
+    const y = psi(x);
+
+    const plotX = px(x);
+    const plotY = center - y * waveScale;
+
+    if (i === 0) waveCtx.moveTo(plotX, plotY);
+    else waveCtx.lineTo(plotX, plotY);
+  }
+
+  waveCtx.strokeStyle = "#2563eb";
+  waveCtx.lineWidth = 2.5;
+  waveCtx.stroke();
+
+  waveCtx.fillStyle = "#222";
+  waveCtx.font = "13px Arial";
+  waveCtx.fillText("ψ(x)", 8, 18);
+  waveCtx.fillText("x / x₀", right - 30, H - 7);
+
+  // Ықтималдық графигінің осьтері
+  probCtx.beginPath();
+  probCtx.moveTo(left, 15);
+  probCtx.lineTo(left, bottom);
+  probCtx.lineTo(right, bottom);
+  probCtx.strokeStyle = "#333";
+  probCtx.stroke();
+
+  // |ψ(x)|² графигі
+  probCtx.beginPath();
+
+  for (let i = 0; i <= 500; i++) {
+    const x = minX + (maxX - minX) * i / 500;
+    const probability = Math.pow(psi(x), 2);
+
+    const plotX = px(x);
+    const plotY = bottom - probability * probScale;
+
+    if (i === 0) probCtx.moveTo(plotX, plotY);
+    else probCtx.lineTo(plotX, plotY);
+  }
+
+  probCtx.strokeStyle = "#e63946";
+  probCtx.lineWidth = 2.5;
+  probCtx.stroke();
+
+  probCtx.fillStyle = "#222";
+  probCtx.fillText("|ψ(x)|²", 8, 18);
+  probCtx.fillText("x / x₀", right - 30, H - 7);
+
+  document.getElementById("oscWaveInfo").textContent =
+    "Кванттық сан n = " + n +
+    ". Толқындық функция Эрмит көпмүшелері арқылы есептелді. " +
+    "График нормаланған өлшемсіз координатада көрсетілген.";
 }
 </script>
 </body>
