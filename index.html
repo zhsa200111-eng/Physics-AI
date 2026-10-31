@@ -1083,6 +1083,41 @@ function showSchrodingerModule(topic, categoryName) {
 
   <div id="waveInfo" class="result"></div>
 </div>
+<div class="card">
+  <h3>⚛️ Кванттық туннельдік эффект</h3>
+
+  <p>
+    Бөлшектің потенциалдық тосқауылдан өту ықтималдығын есептеңіз.
+    Бұл модель тікбұрышты потенциалдық тосқауыл үшін жасалған.
+  </p>
+
+  <label>Бөлшек массасы (кг):</label>
+  <input type="number" id="tunnelMass"
+    value="9.109e-31" step="any">
+
+  <label>Бөлшек энергиясы (эВ):</label>
+  <input type="number" id="tunnelEnergy"
+    value="1" step="any">
+
+  <label>Потенциалдық тосқауыл биіктігі (эВ):</label>
+  <input type="number" id="barrierHeight"
+    value="5" step="any">
+
+  <label>Тосқауыл ені (нм):</label>
+  <input type="number" id="barrierWidth"
+    value="0.5" step="any">
+
+  <button onclick="calculateTunneling()">
+    Өту ықтималдығын есептеу
+  </button>
+
+  <canvas id="tunnelCanvas"
+    width="600" height="300"
+    style="width:100%;max-width:600px;border:1px solid #ccc;border-radius:10px;margin-top:15px;">
+  </canvas>
+
+  <div id="tunnelResult" class="result"></div>
+</div>
       <h3>11. Өздік жұмыс</h3>
       <p>
         1. Шұңқыр ұзындығы 2 нм болса, электронның
@@ -1484,6 +1519,136 @@ function drawQuantumLevels() {
     n + "πx/L). " +
     "Ықтималдық тығыздығы: |ψ(x)|² = (2/L)sin²(" +
     n + "πx/L).";
+}
+  function calculateTunneling() {
+  const hbar = 1.054571817e-34;
+  const eV = 1.602176634e-19;
+
+  const mass = Number(document.getElementById("tunnelMass").value);
+  const E = Number(document.getElementById("tunnelEnergy").value);
+  const V0 = Number(document.getElementById("barrierHeight").value);
+  const widthNm = Number(document.getElementById("barrierWidth").value);
+
+  const result = document.getElementById("tunnelResult");
+
+  if (
+    !Number.isFinite(mass) ||
+    !Number.isFinite(E) ||
+    !Number.isFinite(V0) ||
+    !Number.isFinite(widthNm) ||
+    mass <= 0 || E <= 0 || V0 <= E || widthNm <= 0
+  ) {
+    result.textContent =
+      "Қате! Барлық мән оң болуы керек және тосқауыл биіктігі бөлшек энергиясынан жоғары болуы керек.";
+    return;
+  }
+
+  const energyJ = E * eV;
+  const barrierJ = V0 * eV;
+  const width = widthNm * 1e-9;
+
+  // Энергиядан төмен бөлшек үшін туннельдік өту коэффициенті
+  const kappa = Math.sqrt(
+    2 * mass * (barrierJ - energyJ)
+  ) / hbar;
+
+  const z = kappa * width;
+
+  // Сандық тұрақтылық үшін үлкен z жағдайын өңдеу
+  let T;
+
+  if (z > 350) {
+    T = 0;
+  } else {
+    const sinhZ = Math.sinh(z);
+
+    const denominator =
+      1 + (barrierJ * barrierJ * sinhZ * sinhZ) /
+      (4 * energyJ * (barrierJ - energyJ));
+
+    T = 1 / denominator;
+  }
+
+  const percent = T * 100;
+
+  result.textContent =
+    "Туннельдік өту коэффициенті: " + T.toExponential(5) +
+    "\nӨту ықтималдығы: " + percent.toExponential(5) + " %" +
+    "\nКері шағылу ықтималдығы: " +
+    ((1 - T) * 100).toFixed(6) + " %" +
+    "\nκ = " + kappa.toExponential(4) + " м⁻¹";
+
+  drawTunnelingDiagram(E, V0);
+}
+
+function drawTunnelingDiagram(E, V0) {
+  const canvas = document.getElementById("tunnelCanvas");
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width;
+  const H = canvas.height;
+
+  ctx.clearRect(0, 0, W, H);
+
+  const left = 50;
+  const right = 570;
+  const bottom = 245;
+  const top = 30;
+
+  const barrierLeft = 235;
+  const barrierRight = 365;
+
+  const scale = (bottom - top) / (V0 * 1.25);
+
+  const barrierY = bottom - V0 * scale;
+  const energyY = bottom - E * scale;
+
+  // Осьтер
+  ctx.beginPath();
+  ctx.moveTo(left, top);
+  ctx.lineTo(left, bottom);
+  ctx.lineTo(right, bottom);
+  ctx.strokeStyle = "#333";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Потенциалдық тосқауыл
+  ctx.fillStyle = "rgba(230, 57, 70, 0.18)";
+  ctx.fillRect(
+    barrierLeft,
+    barrierY,
+    barrierRight - barrierLeft,
+    bottom - barrierY
+  );
+
+  ctx.strokeStyle = "#e63946";
+  ctx.lineWidth = 3;
+  ctx.strokeRect(
+    barrierLeft,
+    barrierY,
+    barrierRight - barrierLeft,
+    bottom - barrierY
+  );
+
+  // Бөлшек энергиясы
+  ctx.beginPath();
+  ctx.moveTo(left, energyY);
+  ctx.lineTo(right, energyY);
+  ctx.strokeStyle = "#2563eb";
+  ctx.lineWidth = 2;
+  ctx.setLineDash([7, 5]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Жазулар
+  ctx.fillStyle = "#222";
+  ctx.font = "14px Arial";
+  ctx.fillText("V₀ = " + V0 + " эВ", barrierLeft, barrierY - 8);
+  ctx.fillText("E = " + E + " эВ", left + 5, energyY - 8);
+  ctx.fillText("Тосқауыл", 265, bottom + 22);
+  ctx.fillText("x", right + 8, bottom + 5);
+  ctx.fillText("V(x)", 8, 20);
 }
 </script>
 </body>
