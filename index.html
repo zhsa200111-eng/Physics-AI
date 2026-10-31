@@ -2014,7 +2014,37 @@ function drawOscillatorGraph(mass, omega, selectedN) {
         <p>∮ B · dl = μ₀I + μ₀ε₀ dΦE / dt</p>
         <p>Электр тогы және өзгермелі электр ағыны магнит өрісін тудырады.</p>
       </div>
+<div class="card">
+  <h3>⚡ Электр өрісінің интерактивті моделі</h3>
 
+  <p>
+    Екі нүктелік зарядтың электр өрісін зерттеңіз.
+    Заряд мәндерін өзгерткенде өріс бағыты да өзгереді.
+  </p>
+
+  <label>Бірінші заряд q₁ (мкКл):</label>
+  <input type="number" id="charge1" value="1" step="0.1">
+
+  <label>Екінші заряд q₂ (мкКл):</label>
+  <input type="number" id="charge2" value="-1" step="0.1">
+
+  <button onclick="drawElectricField()">
+    Өрісті көрсету
+  </button>
+
+  <canvas id="electricCanvas"
+    width="600" height="360"
+    style="width:100%;max-width:600px;border:1px solid #ccc;border-radius:10px;margin-top:15px;">
+  </canvas>
+
+  <div id="electricInfo" class="result"></div>
+
+  <p>
+    <strong>Ескерту:</strong>
+    Қызыл шеңбер — оң заряд, көк шеңбер — теріс заряд.
+    Көрсеткілер электр өрісінің бағытын көрсетеді.
+  </p>
+</div>
       <div class="card">
         <h3>🧮 Фарадей заңының интерактивті калькуляторы</h3>
 
@@ -2061,6 +2091,7 @@ function drawOscillatorGraph(mass, omega, selectedN) {
 
   renderMaxwellQuiz();
   calculateFaraday();
+    drawElectricField();
 }
 
 
@@ -2220,6 +2251,133 @@ function checkMaxwellQuiz() {
 
   document.getElementById("maxwellQuizResult").textContent =
     "Сіздің нәтижеңіз: " + score + " / " + questions.length;
+}
+  function drawElectricField() {
+  const canvas = document.getElementById("electricCanvas");
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+
+  const q1 = Number(document.getElementById("charge1").value);
+  const q2 = Number(document.getElementById("charge2").value);
+
+  const info = document.getElementById("electricInfo");
+
+  if (
+    !Number.isFinite(q1) ||
+    !Number.isFinite(q2) ||
+    Math.abs(q1) > 100 ||
+    Math.abs(q2) > 100
+  ) {
+    info.textContent = "Заряд мәндерін дұрыс енгізіңіз! (-100 мен 100 мкКл аралығы)";
+    return;
+  }
+
+  const W = canvas.width;
+  const H = canvas.height;
+
+  ctx.clearRect(0, 0, W, H);
+
+  const charges = [
+    { x: 190, y: 180, q: q1 },
+    { x: 410, y: 180, q: q2 }
+  ];
+
+  // Электр өрісінің векторын есептеу
+  function field(x, y) {
+    let Ex = 0;
+    let Ey = 0;
+
+    charges.forEach(c => {
+      const dx = x - c.x;
+      const dy = y - c.y;
+      const r2 = dx * dx + dy * dy;
+
+      if (r2 < 100) return;
+
+      const factor = c.q / Math.pow(r2, 1.5);
+
+      Ex += factor * dx;
+      Ey += factor * dy;
+    });
+
+    return { Ex, Ey };
+  }
+
+  // Өріс бағыттарын көрсететін көрсеткілер
+  for (let y = 30; y < H - 20; y += 35) {
+    for (let x = 25; x < W - 20; x += 35) {
+      const E = field(x, y);
+      const magnitude = Math.hypot(E.Ex, E.Ey);
+
+      if (magnitude < 0.000001) continue;
+
+      const ux = E.Ex / magnitude;
+      const uy = E.Ey / magnitude;
+
+      const length = 12;
+
+      const x2 = x + ux * length;
+      const y2 = y + uy * length;
+
+      ctx.beginPath();
+      ctx.moveTo(x - ux * length / 2, y - uy * length / 2);
+      ctx.lineTo(x2, y2);
+
+      ctx.strokeStyle = "#64748b";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // Көрсеткі ұшы
+      ctx.beginPath();
+      ctx.moveTo(x2, y2);
+      ctx.lineTo(
+        x2 - ux * 5 - uy * 3,
+        y2 - uy * 5 + ux * 3
+      );
+      ctx.lineTo(
+        x2 - ux * 5 + uy * 3,
+        y2 - uy * 5 - ux * 3
+      );
+      ctx.closePath();
+
+      ctx.fillStyle = "#64748b";
+      ctx.fill();
+    }
+  }
+
+  // Зарядтарды бейнелеу
+  charges.forEach((c, i) => {
+    if (c.q === 0) return;
+
+    ctx.beginPath();
+    ctx.arc(c.x, c.y, 19, 0, 2 * Math.PI);
+
+    ctx.fillStyle = c.q > 0 ? "#e63946" : "#2563eb";
+    ctx.fill();
+
+    ctx.fillStyle = "#fff";
+    ctx.font = "bold 22px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(c.q > 0 ? "+" : "−", c.x, c.y);
+
+    ctx.textAlign = "left";
+    ctx.textBaseline = "alphabetic";
+
+    ctx.fillStyle = "#222";
+    ctx.font = "13px Arial";
+    ctx.fillText(
+      "q" + (i + 1) + " = " + c.q + " мкКл",
+      c.x - 45,
+      c.y + 35
+    );
+  });
+
+  info.textContent =
+    "Бірінші заряд: " + q1 + " мкКл. " +
+    "Екінші заряд: " + q2 + " мкКл. " +
+    "Электр өрісі оң зарядтан шығып, теріс зарядқа бағытталады.";
 }
 </script>
 </body>
