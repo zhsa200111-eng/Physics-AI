@@ -1007,7 +1007,39 @@ function showSchrodingerModule(topic, categoryName) {
 
   <div id="qmResult" class="result"></div>
 </div>
+<div class="card">
+  <h3>📊 Кванттық энергия деңгейлерінің графигі</h3>
 
+  <p>
+    Шексіз потенциалдық шұңқырдағы бөлшектің
+    энергия деңгейлерін бақылаңыз.
+  </p>
+
+  <label>Кванттық санды таңдаңыз:</label>
+
+  <input
+    type="range"
+    id="energyLevel"
+    min="1"
+    max="5"
+    value="1"
+    oninput="drawQuantumLevels()"
+  >
+
+  <p>
+    Таңдалған деңгей:
+    <strong id="selectedN">n = 1</strong>
+  </p>
+
+  <canvas
+    id="quantumCanvas"
+    width="600"
+    height="320"
+    style="width:100%;max-width:600px;border:1px solid #ccc;border-radius:10px;"
+  ></canvas>
+
+  <div id="quantumEnergyInfo" class="result"></div>
+</div>
     <div class="card">
       <h3>11. Өздік жұмыс</h3>
       <p>
@@ -1225,8 +1257,86 @@ function calculateQuantumEnergy() {
     "\nКванттық сан: n = " + n +
     "\nЭнергия: " + energy.toExponential(5) + " Дж" +
     "\nЭнергия: " + energyEV.toFixed(6) + " эВ";
+  drawQuantumLevels();
 }
+function drawQuantumLevels() {
+  const canvas = document.getElementById("quantumCanvas");
+  if (!canvas) return;
 
+  const ctx = canvas.getContext("2d");
+
+  const slider = document.getElementById("energyLevel");
+  const selectedN = Number(slider.value);
+
+  const mass = Number(document.getElementById("qmMass").value);
+  const lengthNm = Number(document.getElementById("qmLength").value);
+
+  const hbar = 1.054571817e-34;
+  const eV = 1.602176634e-19;
+
+  const info = document.getElementById("quantumEnergyInfo");
+
+  if (!Number.isFinite(mass) || mass <= 0 ||
+      !Number.isFinite(lengthNm) || lengthNm <= 0) {
+    info.textContent = "Масса мен ұзындықты дұрыс енгізіңіз!";
+    return;
+  }
+
+  const L = lengthNm * 1e-9;
+
+  function energy(n) {
+    return (n * n * Math.PI * Math.PI * hbar * hbar) /
+      (2 * mass * L * L) / eV;
+  }
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const maxEnergy = energy(5) * 1.15;
+  const left = 65;
+  const right = 560;
+  const bottom = 275;
+  const top = 25;
+
+  // График осьтері
+  ctx.beginPath();
+  ctx.moveTo(left, top);
+  ctx.lineTo(left, bottom);
+  ctx.lineTo(right, bottom);
+  ctx.strokeStyle = "#333";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Ось атаулары
+  ctx.font = "14px Arial";
+  ctx.fillStyle = "#222";
+  ctx.fillText("E (эВ)", 10, 20);
+  ctx.fillText("Кванттық деңгей", 230, 310);
+
+  // Энергия деңгейлері
+  for (let n = 1; n <= 5; n++) {
+    const E = energy(n);
+    const y = bottom - (E / maxEnergy) * (bottom - top);
+
+    ctx.beginPath();
+    ctx.moveTo(left, y);
+    ctx.lineTo(right, y);
+
+    ctx.strokeStyle = n === selectedN ? "#e63946" : "#2563eb";
+    ctx.lineWidth = n === selectedN ? 4 : 2;
+    ctx.stroke();
+
+    ctx.fillStyle = "#222";
+    ctx.fillText("n = " + n, 15, y + 5);
+    ctx.fillText(E.toFixed(3) + " эВ", right - 55, y - 7);
+  }
+
+  document.getElementById("selectedN").textContent =
+    "n = " + selectedN;
+
+  info.textContent =
+    "Таңдалған деңгей энергиясы: E" +
+    selectedN + " = " + energy(selectedN).toFixed(6) + " эВ";
+}
 </script>
 </body>
 </html>
