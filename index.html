@@ -204,19 +204,53 @@ if(answer&&Number(answer.value)===q.c)score++;
 });
 document.getElementById('testResult').innerText='Сіздің нәтижеңіз: '+score+' / '+quiz.length;
 }
+
 function cleanAIAnswer(text) {
   return String(text)
+    // Markdown белгілерін тазалау
     .replace(/^#{1,6}\s*/gm, '')
     .replace(/\*\*(.*?)\*\*/g, '$1')
     .replace(/\*(.*?)\*/g, '$1')
     .replace(/__(.*?)__/g, '$1')
     .replace(/_(.*?)_/g, '$1')
     .replace(/`{1,3}/g, '')
-    .replace(/^\s*[-•]\s+/gm, '• ')
-    .replace(/^\s*>\s?/gm, '')
+
+    // LaTeX математикалық белгілерін оқу форматына ауыстыру
+    .replace(/\$\$?/g, '')
+    .replace(/\\\(|\\\)|\\\[|\\\]/g, '')
+    .replace(/\\cdot/g, '×')
+    .replace(/\\times/g, '×')
+    .replace(/\\div/g, '÷')
+    .replace(/\\lambda/g, 'λ')
+    .replace(/\\theta/g, 'θ')
+    .replace(/\\alpha/g, 'α')
+    .replace(/\\beta/g, 'β')
+    .replace(/\\pi/g, 'π')
+    .replace(/\\Delta/g, 'Δ')
+    .replace(/\\rho/g, 'ρ')
+    .replace(/\\mu/g, 'μ')
+    .replace(/\\omega/g, 'ω')
+    .replace(/\\sin/g, 'sin')
+    .replace(/\\cos/g, 'cos')
+    .replace(/\\sqrt\{([^{}]*)\}/g, '√($1)')
+    .replace(/\\text\{([^{}]*)\}/g, '$1')
+    .replace(/\\frac\s*\{/g, '(')
+    .replace(/\}\s*\{/g, ') / (')
+    .replace(/\}/g, ')')
+    .replace(/\{/g, '(')
+    .replace(/\\cdot/g, '×')
+    .replace(/\^\{(-?\d+)\}/g, '^$1')
+    .replace(/\^\circ/g, '°')
+    .replace(/\\,/g, ' ')
+    .replace(/\\;/g, ' ')
+    .replace(/\\ /g, ' ')
+
+    // Артық бос орындарды реттеу
+    .replace(/^\s*[-*]\s+/gm, '• ')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 }
+
 async function askAI() {
   const question = document.getElementById('question').value.trim();
   const answerBox = document.getElementById('answer');
