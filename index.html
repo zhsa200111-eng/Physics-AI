@@ -258,7 +258,9 @@ try {
       throw new Error(data.error || 'Серверде қате пайда болды.');
     }
 
-    answerBox.innerText = data.answer || 'Жауап алынбады.';
+   answerBox.innerText = cleanAIAnswer(
+  data.answer || 'Жауап алынбады.'
+);
 
   } catch (error) {
     answerBox.innerText =
