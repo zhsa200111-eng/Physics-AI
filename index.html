@@ -766,8 +766,8 @@ function showSchrodingerModule(topic, categoryName) {
   const details = document.getElementById("topicDetails");
 
   details.style.display = "block";
-  details.innerHTML = `
-  drawWaveFunction();
+  details.innerHTML = drawWaveFunction();`
+    
     <h2>⚛️ Шредингер теңдеуі және кванттық механика</h2>
     <p><b>Таңдалған тақырып:</b> ${topic}</p>
     <p><b>Бөлім:</b> ${categoryName}</p>
@@ -2018,6 +2018,62 @@ function drawOscillatorGraph(mass, omega, selectedN) {
 
   <div id="magneticInfo" class="result"></div>
 </div>
+<div class="card">
+  <h3>⚡ Электромагниттік индукция моделі</h3>
+  <p>Магнитті катушкаға жақындату немесе алыстату арқылы индукциялық ЭҚК өзгерісін зерттеңіз.</p>
+
+  <label>Магнит қозғалысы:</label>
+  <select id="inductionDirection">
+    <option value="approach">Катушкаға жақындау</option>
+    <option value="away">Катушкадан алыстау</option>
+    <option value="stop">Магнит қозғалмайды</option>
+  </select>
+
+  <label>Магнит қозғалысының жылдамдығы (м/с):</label>
+  <input type="number" id="inductionSpeed" value="0.5" min="0" max="10" step="0.1">
+
+  <label>Катушка орамдарының саны:</label>
+  <input type="number" id="inductionTurns" value="100" min="1" max="10000">
+
+  <button onclick="calculateInduction()">Есептеу</button>
+
+  <canvas id="inductionCanvas" width="600" height="260"
+    style="width:100%;max-width:600px;border:1px solid #ccc;border-radius:10px;margin-top:12px;">
+  </canvas>
+
+  <div id="inductionResult" class="result"></div>
+  <div class="card">
+  <h3>🌊 Электромагниттік толқынның интерактивті моделі</h3>
+
+  <p>
+    Электр және магнит өрістерінің кеңістікте таралуын бақылаңыз.
+  </p>
+
+  <label>Толқын фазасы:</label>
+  <input
+    type="range"
+    id="wavePhase"
+    min="0"
+    max="6.28"
+    step="0.1"
+    value="0"
+    oninput="drawEMWave()"
+  >
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin:12px 0;">
+    <button onclick="startEMWave()">▶ Анимацияны бастау</button>
+    <button onclick="stopEMWave()">⏸ Тоқтату</button>
+  </div>
+
+  <canvas id="emWaveCanvas"
+    width="600"
+    height="360"
+    style="width:100%;max-width:600px;border:1px solid #ccc;border-radius:10px;">
+  </canvas>
+
+  <div id="emWaveInfo" class="result"></div>
+</div>
+</div>
       <div class="card">
         <h3>3. Фарадей заңы</h3>
         <p>∮ E · dl = - dΦB / dt</p>
@@ -2108,6 +2164,8 @@ function drawOscillatorGraph(mass, omega, selectedN) {
   calculateFaraday();
     drawElectricField();
     drawMagneticField();
+    calculateInduction();
+    drawEMWave();
 }
 
 
@@ -2499,6 +2557,224 @@ function checkMaxwellQuiz() {
   info.textContent =
     "Магнит өрісінің күш сызықтары магниттің сыртында N полюсінен S полюсіне бағытталады. " +
     "Магниттің ішінде бағыт S полюсінен N полюсіне қарай жалғасады.";
+}
+  function calculateInduction() {
+  const direction = document.getElementById("inductionDirection").value;
+  const speed = Number(document.getElementById("inductionSpeed").value);
+  const N = Number(document.getElementById("inductionTurns").value);
+
+  const result = document.getElementById("inductionResult");
+  const canvas = document.getElementById("inductionCanvas");
+
+  if (
+    !Number.isFinite(speed) ||
+    !Number.isFinite(N) ||
+    speed < 0 || speed > 10 ||
+    N < 1 || N > 10000
+  ) {
+    result.textContent = "Жылдамдықты 0–10 м/с, орам санын 1–10000 аралығында енгізіңіз.";
+    return;
+  }
+
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Магнит пен катушка
+  const coilX = 390;
+  const coilY = 125;
+
+  ctx.strokeStyle = "#2563eb";
+  ctx.lineWidth = 3;
+
+  for (let i = 0; i < 7; i++) {
+    ctx.beginPath();
+    ctx.ellipse(coilX, coilY, 25 + i * 4, 65, 0, 0, 2 * Math.PI);
+    ctx.stroke();
+  }
+
+  ctx.fillStyle = "#dc3545";
+  ctx.fillRect(80, 90, 65, 35);
+
+  ctx.fillStyle = "#2563eb";
+  ctx.fillRect(145, 90, 65, 35);
+
+  ctx.fillStyle = "white";
+  ctx.font = "bold 20px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText("N", 112, 114);
+  ctx.fillText("S", 177, 114);
+
+  ctx.fillStyle = "#222";
+  ctx.font = "14px Arial";
+  ctx.textAlign = "left";
+  ctx.fillText("Тұрақты магнит", 80, 75);
+  ctx.fillText("Катушка", 350, 215);
+
+  // Магнит қозғалысының бағыты
+  if (direction === "approach") {
+    ctx.beginPath();
+    ctx.moveTo(225, 107);
+    ctx.lineTo(310, 107);
+  } else if (direction === "away") {
+    ctx.beginPath();
+    ctx.moveTo(310, 107);
+    ctx.lineTo(225, 107);
+  } else {
+    ctx.beginPath();
+    ctx.moveTo(230, 107);
+    ctx.lineTo(300, 107);
+  }
+
+  ctx.strokeStyle = "#e67e22";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  if (direction !== "stop") {
+    const angle = direction === "approach" ? 0 : Math.PI;
+
+    ctx.beginPath();
+    ctx.moveTo(
+      direction === "approach" ? 310 : 225,
+      107
+    );
+    ctx.lineTo(
+      (direction === "approach" ? 310 : 225) - 10 * Math.cos(angle - 0.5),
+      107 - 10 * Math.sin(angle - 0.5)
+    );
+    ctx.lineTo(
+      (direction === "approach" ? 310 : 225) - 10 * Math.cos(angle + 0.5),
+      107 - 10 * Math.sin(angle + 0.5)
+    );
+    ctx.closePath();
+    ctx.fillStyle = "#e67e22";
+    ctx.fill();
+  }
+
+  // Фарадей заңы: |ε| = N × |ΔΦ/Δt|
+  // Модель үшін магнит ағынының өзгеру жылдамдығы
+  // жылдамдыққа пропорционал деп алынады.
+  const fluxRate = 0.02 * speed;
+  const emf = direction === "stop" ? 0 : N * fluxRate;
+
+  result.innerHTML =
+    "<b>Фарадей заңы:</b> |ε| = N · |ΔΦ/Δt|<br>" +
+    "Орам саны: " + N + "<br>" +
+    "Магнит жылдамдығы: " + speed + " м/с<br>" +
+    "Индукциялық ЭҚК модулі: <b>" + emf.toFixed(3) + " В</b><br>" +
+    (direction === "stop"
+      ? "Магнит қозғалмайды: магнит ағыны өзгермейді, ЭҚК = 0."
+      : direction === "approach"
+        ? "Магнит катушкаға жақындауда: магнит ағыны өзгереді."
+        : "Магнит катушкадан алыстауда: магнит ағыны өзгереді.");
+}
+  let emWaveTimer = null;
+
+function drawEMWave() {
+  const canvas = document.getElementById("emWaveCanvas");
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+  const phase = Number(document.getElementById("wavePhase").value);
+
+  const W = canvas.width;
+  const H = canvas.height;
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Толқынның таралу осі
+  ctx.strokeStyle = "#777";
+  ctx.lineWidth = 1.5;
+
+  ctx.beginPath();
+  ctx.moveTo(35, 180);
+  ctx.lineTo(565, 180);
+  ctx.stroke();
+
+  ctx.fillStyle = "#222";
+  ctx.font = "14px Arial";
+  ctx.fillText("Таралу бағыты (x)", 420, 205);
+
+  // Электр өрісі E
+  ctx.beginPath();
+
+  for (let x = 0; x <= 520; x += 2) {
+    const y =
+      180 - 65 * Math.sin(x * 0.025 - phase);
+
+    if (x === 0) {
+      ctx.moveTo(40 + x, y);
+    } else {
+      ctx.lineTo(40 + x, y);
+    }
+  }
+
+  ctx.strokeStyle = "#e63946";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  // Магнит өрісі B — перспективалық ығысумен көрсетілген
+  ctx.beginPath();
+
+  for (let x = 0; x <= 520; x += 2) {
+    const y =
+      180 + 65 * Math.sin(x * 0.025 - phase);
+
+    const z = 25 * Math.cos(x * 0.025 - phase);
+
+    if (x === 0) {
+      ctx.moveTo(40 + x, y + z);
+    } else {
+      ctx.lineTo(40 + x, y + z);
+    }
+  }
+
+  ctx.strokeStyle = "#2563eb";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  // Атаулар
+  ctx.font = "bold 18px Arial";
+  ctx.fillStyle = "#e63946";
+  ctx.fillText("E — электр өрісі", 45, 35);
+
+  ctx.fillStyle = "#2563eb";
+  ctx.fillText("B — магнит өрісі", 45, 60);
+
+  ctx.fillStyle = "#222";
+  ctx.font = "14px Arial";
+  ctx.fillText("E ⟂ B ⟂ таралу бағыты", 45, 320);
+
+  const info = document.getElementById("emWaveInfo");
+
+  info.textContent =
+    "Фаза: " + phase.toFixed(2) +
+    " рад. Электр және магнит өрістері бірдей фазада тербеледі. " +
+    "Олардың тербеліс бағыттары мен толқынның таралу бағыты өзара перпендикуляр.";
+}
+
+function startEMWave() {
+  stopEMWave();
+
+  const slider = document.getElementById("wavePhase");
+  if (!slider) return;
+
+  emWaveTimer = setInterval(() => {
+    let phase = Number(slider.value) + 0.1;
+
+    if (phase > 6.28) {
+      phase = 0;
+    }
+
+    slider.value = phase;
+    drawEMWave();
+  }, 40);
+}
+
+function stopEMWave() {
+  if (emWaveTimer !== null) {
+    clearInterval(emWaveTimer);
+    emWaveTimer = null;
+  }
 }
 </script>
 </body>
