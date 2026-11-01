@@ -458,7 +458,39 @@ function showTopic(topic, categoryName) {
   const details = document.getElementById("topicDetails");
   details.style.display = "block";
   details.innerHTML = "";
+
 if (
+  topic.toLowerCase().includes("кванттық қателер") ||
+  topic.toLowerCase().includes("шор коды") ||
+  topic.toLowerCase().includes("кванттық қателерді түзету") ||
+  topic.toLowerCase().includes("quantum error correction") ||
+  topic.toLowerCase().includes("қателерді түзету коды")
+) {
+  showQuantumErrorCorrectionModule(topic, categoryName);
+  return;
+}
+
+  if (
+  topic.toLowerCase().includes("кванттық криптография") ||
+  topic.toLowerCase().includes("bb84") ||
+  topic.toLowerCase().includes("кванттық шифрлау") ||
+  topic.toLowerCase().includes("кванттық кілт") ||
+  topic.toLowerCase().includes("кванттық байланыс")
+) {
+  showQuantumCryptographyModule(topic, categoryName);
+  return;
+}
+  if (
+  topic.toLowerCase().includes("кванттық ақпарат") ||
+  topic.toLowerCase().includes("кванттық компьютер") ||
+  topic.toLowerCase().includes("кубит") ||
+  topic.toLowerCase().includes("кванттық қақпа") ||
+  topic.toLowerCase().includes("кванттық шатасу")
+) {
+  showQuantumComputingModule(topic, categoryName);
+  return;
+}
+  if (
   topic.toLowerCase().includes("космостық микротолқынды фон") ||
   topic.toLowerCase().includes("реликт сәулелену") ||
   topic.toLowerCase().includes("үлкен жарылыс") ||
@@ -9959,6 +9991,1220 @@ function nextCMBQuestion() {
   }
 
   renderCMBQuestion();
+}
+
+function showQuantumComputingModule(topic, categoryName) {
+  const details = document.getElementById("topicDetails");
+  details.style.display = "block";
+
+  details.innerHTML = `
+    <div class="card">
+      <h2>💻 Кванттық ақпарат және кванттық компьютерлер</h2>
+      <p>
+        Кванттық компьютер — ақпаратты кубиттер арқылы өңдейтін
+        есептеу жүйесі. Классикалық бит 0 немесе 1 мәнін қабылдайды,
+        ал кубит кванттық күйдің суперпозициясында бола алады.
+      </p>
+      <p style="text-align:center;font-size:20px">
+        |ψ⟩ = α|0⟩ + β|1⟩
+      </p>
+      <p>
+        Мұнда α және β — комплекс амплитудалар.
+        Нормалау шарты: |α|² + |β|² = 1.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>1. Кубит ықтималдығын есептеу</h3>
+      <p>
+        Бір кубитті өлшегенде 0 нәтижесінің ықтималдығы |α|²,
+        ал 1 нәтижесінің ықтималдығы |β|² болады.
+      </p>
+
+      <label>α амплитудасының нақты бөлігі:</label>
+      <input id="qcAlphaR" type="number" value="0.7071" step="any">
+
+      <label>α амплитудасының жорамал бөлігі:</label>
+      <input id="qcAlphaI" type="number" value="0" step="any">
+
+      <label>β амплитудасының нақты бөлігі:</label>
+      <input id="qcBetaR" type="number" value="0.7071" step="any">
+
+      <label>β амплитудасының жорамал бөлігі:</label>
+      <input id="qcBetaI" type="number" value="0" step="any">
+
+      <button onclick="calculateQubitState()">Кубит күйін есептеу</button>
+      <div id="qcStateResult"></div>
+    </div>
+
+    <div class="card">
+      <h3>2. Кванттық қақпалар</h3>
+      <p>
+        Кванттық қақпалар кубиттің күйін өзгертеді.
+        Төменде бастапқы күйді таңдап, қақпалардың әсерін зерттеңіз.
+      </p>
+
+      <label>Бастапқы кубит күйі:</label>
+      <select id="qcInitialState">
+        <option value="0">|0⟩</option>
+        <option value="1">|1⟩</option>
+        <option value="plus">(|0⟩ + |1⟩)/√2</option>
+      </select>
+
+      <label>Қақпаны таңдаңыз:</label>
+      <select id="qcGate">
+        <option value="H">Hadamard (H)</option>
+        <option value="X">Pauli-X</option>
+        <option value="Y">Pauli-Y</option>
+        <option value="Z">Pauli-Z</option>
+      </select>
+
+      <button onclick="applyQuantumGate()">Қақпаны қолдану</button>
+      <div id="qcGateResult"></div>
+    </div>
+
+    <div class="card">
+      <h3>3. Кванттық суперпозиция</h3>
+      <p>
+        Hadamard қақпасы |0⟩ күйін екі күйдің тең суперпозициясына
+        айналдырады.
+      </p>
+      <p style="text-align:center;font-size:20px">
+        H|0⟩ = (|0⟩ + |1⟩)/√2
+      </p>
+
+      <button onclick="runHadamardDemo()">Hadamard тәжірибесін бастау</button>
+      <div id="qcHadamardResult"></div>
+      <canvas id="qcProbabilityCanvas" width="600" height="250"
+        style="width:100%;max-width:600px"></canvas>
+    </div>
+
+    <div class="card">
+      <h3>4. Кванттық шатасу</h3>
+      <p>
+        Кванттық шатасу кезінде екі немесе одан да көп кубиттің
+        күйлері бір-бірімен байланысады. Оларды жеке-жеке
+        толық сипаттау мүмкін болмайды.
+      </p>
+      <p style="text-align:center;font-size:20px">
+        |Φ⁺⟩ = (|00⟩ + |11⟩)/√2
+      </p>
+      <p>
+        Бұл — Белл күйлерінің бірі. Екі кубит өлшенгенде
+        осы күйде 00 немесе 11 нәтижелері алынады.
+      </p>
+
+      <button onclick="runEntanglementDemo()">Шатасу моделін іске қосу</button>
+      <div id="qcEntanglementResult"></div>
+    </div>
+
+    <div class="card">
+      <h3>5. Кванттық өлшеу тәжірибесі</h3>
+      <p>
+        Кубитті өлшеу нәтижесі ықтималдыққа тәуелді.
+        Төменде өлшеу санын таңдап, тәжірибені модельдеңіз.
+      </p>
+
+      <label>Өлшеу саны:</label>
+      <input id="qcShots" type="number" value="1000" min="1" max="100000" step="1">
+
+      <label>|1⟩ күйінің ықтималдығы (%):</label>
+      <input id="qcProbOne" type="number" value="50" min="0" max="100" step="any">
+
+      <button onclick="runQubitMeasurement()">Өлшеуді орындау</button>
+      <div id="qcMeasurementResult"></div>
+    </div>
+
+    <div class="card">
+      <h3>6. Кванттық компьютер қайда қолданылады?</h3>
+      <ul>
+        <li>Кванттық химия және молекулаларды модельдеу.</li>
+        <li>Материалтану және жаңа материалдарды зерттеу.</li>
+        <li>Кейбір оңтайландыру есептері.</li>
+        <li>Кванттық криптография және байланыс.</li>
+        <li>Кейбір арнайы есептерді жылдам шешу алгоритмдері.</li>
+      </ul>
+      <p>
+        Кванттық компьютер барлық есептерде классикалық
+        компьютерден жылдам емес. Оның артықшылығы нақты
+        алгоритм мен есеп түріне байланысты.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>7. Білімді тексеру</h3>
+      <div id="qcQuiz"></div>
+      <button id="qcNext" onclick="nextQCQuestion()">Келесі сұрақ</button>
+      <div id="qcScore"></div>
+    </div>
+  `;
+
+  drawQubitProbabilities(0.5, 0.5);
+  renderQCQuestion();
+}
+
+function calculateQubitState() {
+  const ar = Number(document.getElementById("qcAlphaR").value);
+  const ai = Number(document.getElementById("qcAlphaI").value);
+  const br = Number(document.getElementById("qcBetaR").value);
+  const bi = Number(document.getElementById("qcBetaI").value);
+  const result = document.getElementById("qcStateResult");
+
+  if (![ar,ai,br,bi].every(Number.isFinite)) {
+    result.innerHTML = "<p>Амплитудаларды дұрыс енгізіңіз.</p>";
+    return;
+  }
+
+  const p0 = ar*ar + ai*ai;
+  const p1 = br*br + bi*bi;
+  const norm = p0 + p1;
+
+  if (norm < 1e-12) {
+    result.innerHTML = "<p>Нөлдік күйді нормалау мүмкін емес.</p>";
+    return;
+  }
+
+  const normalizedP0 = p0/norm;
+  const normalizedP1 = p1/norm;
+
+  result.innerHTML = `
+    <p>Нормалау коэффициенті: <b>${Math.sqrt(norm).toFixed(6)}</b></p>
+    <p>|0⟩ ықтималдығы: <b>${(normalizedP0*100).toFixed(2)}%</b></p>
+    <p>|1⟩ ықтималдығы: <b>${(normalizedP1*100).toFixed(2)}%</b></p>
+    <p>Нормалау шарты: ${Math.abs(norm-1)<0.0001
+      ? "Бастапқы күй нормаланған."
+      : "Енгізілген күй автоматты түрде нормаланды."}</p>
+  `;
+
+  drawQubitProbabilities(normalizedP0,normalizedP1);
+}
+
+function applyQuantumGate() {
+  const initial = document.getElementById("qcInitialState").value;
+  const gate = document.getElementById("qcGate").value;
+  const result = document.getElementById("qcGateResult");
+
+  const s = 1/Math.sqrt(2);
+  let a = [1,0];
+  let b = [0,0];
+
+  if (initial==="1") {
+    a=[0,0];
+    b=[1,0];
+  } else if (initial==="plus") {
+    a=[s,0];
+    b=[s,0];
+  }
+
+  // Комплекс амплитудалар: [нақты, жорамал]
+  let outA, outB;
+
+  if (gate==="H") {
+    outA=[
+      (a[0]+b[0])*s,
+      (a[1]+b[1])*s
+    ];
+    outB=[
+      (a[0]-b[0])*s,
+      (a[1]-b[1])*s
+    ];
+  } else if (gate==="X") {
+    outA=b.slice();
+    outB=a.slice();
+  } else if (gate==="Y") {
+    // Y|0> = i|1>, Y|1> = -i|0>
+    outA=[b[1],-b[0]];
+    outB=[-a[1],a[0]];
+  } else {
+    outA=a.slice();
+    outB=[-b[0],-b[1]];
+  }
+
+  const p0=outA[0]**2+outA[1]**2;
+  const p1=outB[0]**2+outB[1]**2;
+
+  result.innerHTML = `
+    <p>Қолданылған қақпа: <b>${gate}</b></p>
+    <p>α = ${outA[0].toFixed(4)} ${outA[1]>=0?"+":"-"}
+      ${Math.abs(outA[1]).toFixed(4)}i</p>
+    <p>β = ${outB[0].toFixed(4)} ${outB[1]>=0?"+":"-"}
+      ${Math.abs(outB[1]).toFixed(4)}i</p>
+    <p>|0⟩ ықтималдығы: ${(p0*100).toFixed(2)}%</p>
+    <p>|1⟩ ықтималдығы: ${(p1*100).toFixed(2)}%</p>
+  `;
+
+  drawQubitProbabilities(p0,p1);
+}
+
+function runHadamardDemo() {
+  const result = document.getElementById("qcHadamardResult");
+  const p0=0.5;
+  const p1=0.5;
+
+  result.innerHTML = `
+    <h3>H|0⟩ = (|0⟩ + |1⟩)/√2</h3>
+    <p>|0⟩ ықтималдығы: 50%</p>
+    <p>|1⟩ ықтималдығы: 50%</p>
+    <p>Кубит өлшенгенге дейін суперпозиция күйінде сипатталады.</p>
+  `;
+
+  drawQubitProbabilities(p0,p1);
+}
+
+function drawQubitProbabilities(p0,p1) {
+  const canvas=document.getElementById("qcProbabilityCanvas");
+  if (!canvas) return;
+
+  const ctx=canvas.getContext("2d");
+  ctx.clearRect(0,0,600,250);
+  ctx.fillStyle="#f8fafc";
+  ctx.fillRect(0,0,600,250);
+
+  const values=[
+    {label:"|0⟩",value:p0,x:145},
+    {label:"|1⟩",value:p1,x:365}
+  ];
+
+  values.forEach(item=>{
+    const h=item.value*155;
+    ctx.fillStyle=item.label==="|0⟩"?"#2563eb":"#16a34a";
+    ctx.fillRect(item.x,195-h,100,h);
+
+    ctx.fillStyle="#111827";
+    ctx.font="16px Arial";
+    ctx.fillText(item.label,item.x+35,220);
+    ctx.fillText((item.value*100).toFixed(1)+"%",item.x+20,185-h);
+  });
+
+  ctx.strokeStyle="#64748b";
+  ctx.beginPath();
+  ctx.moveTo(70,195);
+  ctx.lineTo(530,195);
+  ctx.stroke();
+}
+
+function runEntanglementDemo() {
+  const result=document.getElementById("qcEntanglementResult");
+
+  // Белл күйі |Φ+> үшін ықтималдықтар:
+  // P(00)=1/2, P(11)=1/2, P(01)=P(10)=0
+  result.innerHTML = `
+    <h3>Белл күйі |Φ⁺⟩</h3>
+    <p>00 нәтижесі: <b>50%</b></p>
+    <p>01 нәтижесі: <b>0%</b></p>
+    <p>10 нәтижесі: <b>0%</b></p>
+    <p>11 нәтижесі: <b>50%</b></p>
+    <p>Екі кубитті бірдей негізде өлшегенде,
+    нәтижелер өзара толық корреляцияланған.</p>
+  `;
+}
+
+function runQubitMeasurement() {
+  const shots=Number(document.getElementById("qcShots").value);
+  const p1=Number(document.getElementById("qcProbOne").value);
+  const result=document.getElementById("qcMeasurementResult");
+
+  if (!Number.isInteger(shots) || shots<1 || shots>100000 ||
+      !Number.isFinite(p1) || p1<0 || p1>100) {
+    result.innerHTML="<p>Өлшеу саны мен ықтималдықты дұрыс енгізіңіз.</p>";
+    return;
+  }
+
+  let count1=0;
+
+  for(let i=0;i<shots;i++) {
+    if(Math.random()<p1/100) count1++;
+  }
+
+  const count0=shots-count1;
+
+  result.innerHTML=`
+    <p>Өлшеу саны: ${shots}</p>
+    <p>|0⟩ нәтижесі: <b>${count0}</b> (${(count0/shots*100).toFixed(2)}%)</p>
+    <p>|1⟩ нәтижесі: <b>${count1}</b> (${(count1/shots*100).toFixed(2)}%)</p>
+    <p>Бұл — ықтималдыққа негізделген кездейсоқ модельдеу.
+    Нәтиже әр іске қосқанда өзгеруі мүмкін.</p>
+  `;
+}
+
+const qcQuestions = [
+  {
+    q:"Классикалық бит қандай мән қабылдайды?",
+    a:["0 немесе 1","Кез келген нақты сан","Тек 2"],
+    c:0
+  },
+  {
+    q:"Кубит күйінің жалпы өрнегі:",
+    a:["α|0⟩ + β|1⟩","F = ma","U = IR"],
+    c:0
+  },
+  {
+    q:"Кубиттің нормалау шарты:",
+    a:["|α|² + |β|² = 1","α + β = 0","αβ = 1"],
+    c:0
+  },
+  {
+    q:"Hadamard қақпасы |0⟩ күйіне әсер еткенде не болады?",
+    a:["Тең суперпозиция пайда болады","Кубит жойылады","Күй өзгермейді"],
+    c:0
+  },
+  {
+    q:"Pauli-X қақпасының негізгі әсері:",
+    a:["|0⟩ мен |1⟩ күйлерін ауыстыру","Күйді өлшеу","Кубитті өшіру"],
+    c:0
+  },
+  {
+    q:"Кванттық шатасу дегеніміз не?",
+    a:["Кубиттердің өзара кванттық байланысқан күйі","Компьютердің қызып кетуі","Кәдімгі электр тогы"],
+    c:0
+  },
+  {
+    q:"Кванттық өлшеудің нәтижесі неге тәуелді?",
+    a:["Күй амплитудаларының ықтималдықтарына","Экран өлшеміне","Пернетақта жылдамдығына"],
+    c:0
+  },
+  {
+    q:"Кванттық компьютер барлық есепте классикалық компьютерден жылдам ба?",
+    a:["Жоқ, артықшылығы есеп пен алгоритмге тәуелді","Иә, әрқашан","Тек мәтін теруде"],
+    c:0
+  }
+];
+
+let qcIndex=0;
+let qcScore=0;
+let qcAnswered=false;
+
+function renderQCQuestion() {
+  const box=document.getElementById("qcQuiz");
+  if(!box) return;
+
+  qcAnswered=false;
+  const q=qcQuestions[qcIndex];
+
+  box.innerHTML=`
+    <p><b>${qcIndex+1}/${qcQuestions.length}.</b> ${q.q}</p>
+    ${q.a.map((answer,i)=>`
+      <button class="qc-option"
+        onclick="answerQCQuestion(${i})"
+        style="display:block;width:100%;margin:6px 0;text-align:left">
+        ${String.fromCharCode(65+i)}. ${answer}
+      </button>
+    `).join("")}
+    <div id="qcFeedback"></div>
+  `;
+
+  document.getElementById("qcNext").disabled=true;
+}
+
+function answerQCQuestion(selected) {
+  if(qcAnswered) return;
+  qcAnswered=true;
+
+  const q=qcQuestions[qcIndex];
+
+  document.querySelectorAll(".qc-option").forEach((button,i)=>{
+    button.disabled=true;
+    if(i===q.c) button.style.background="#c8e6c9";
+    if(i===selected && i!==q.c) button.style.background="#ffcdd2";
+  });
+
+  if(selected===q.c) {
+    qcScore++;
+    document.getElementById("qcFeedback").innerHTML="<p>✅ Дұрыс жауап!</p>";
+  } else {
+    document.getElementById("qcFeedback").innerHTML=
+      `<p>❌ Дұрыс жауап: ${q.a[q.c]}</p>`;
+  }
+
+  document.getElementById("qcNext").disabled=false;
+}
+
+function nextQCQuestion() {
+  if(!qcAnswered) return;
+
+  qcIndex++;
+
+  if(qcIndex>=qcQuestions.length) {
+    document.getElementById("qcQuiz").innerHTML="<h3>Тест аяқталды!</h3>";
+    document.getElementById("qcNext").disabled=true;
+    document.getElementById("qcScore").innerHTML=
+      `<h3>Нәтиже: ${qcScore}/${qcQuestions.length}</h3>`;
+    return;
+  }
+
+  renderQCQuestion();
+}
+
+function showQuantumCryptographyModule(topic, categoryName) {
+  const details = document.getElementById("topicDetails");
+  details.style.display = "block";
+
+  details.innerHTML = `
+    <div class="topic-module">
+      <h2>🔐 Кванттық криптография және BB84 хаттамасы</h2>
+
+      <p>
+        Кванттық криптография — кванттық механика заңдарын пайдаланып,
+        ақпаратты қауіпсіз жеткізу әдісі. Оның негізгі бағыттарының бірі —
+        кванттық кілттерді тарату (QKD).
+      </p>
+
+      <h3>1. Кванттық криптографияның негізгі ұғымдары</h3>
+
+      <div class="formula-box">
+        <p><b>Кубиттің жалпы күйі:</b></p>
+        <p> |ψ⟩ = α|0⟩ + β|1⟩ </p>
+        <p>|α|² + |β|² = 1</p>
+      </div>
+
+      <ul>
+        <li><b>Кубит</b> — кванттық ақпараттың ең кіші бірлігі.</li>
+        <li><b>Суперпозиция</b> — кубиттің бірнеше күйдің комбинациясында болуы.</li>
+        <li><b>Өлшеу</b> — кубитті өлшегенде нәтиже ықтималдықпен алынады.</li>
+        <li><b>Кванттық кілт</b> — ақпаратты шифрлау үшін қолданылатын биттер тізбегі.</li>
+      </ul>
+
+      <h3>2. BB84 хаттамасының жұмыс принципі</h3>
+
+      <p>
+        BB84 хаттамасын 1984 жылы Чарльз Беннетт пен Жиль Брассар ұсынған.
+        Хаттамада Алиса мен Боб екі түрлі базисті пайдаланады:
+      </p>
+
+      <div class="formula-box">
+        <p><b>Тікелей базис (+):</b></p>
+        <p>|0⟩ және |1⟩</p>
+        <p><b>Диагональ базис (×):</b></p>
+        <p>|+⟩ = (|0⟩ + |1⟩)/√2</p>
+        <p>|−⟩ = (|0⟩ − |1⟩)/√2</p>
+      </div>
+
+      <p>
+        Алиса кездейсоқ биттер мен базистер таңдайды.
+        Боб та өлшеу үшін кездейсоқ базистерді таңдайды.
+        Екеуі кейін ашық арна арқылы базистерін салыстырады,
+        бірақ бит мәндерін жарияламайды.
+      </p>
+
+      <h3>3. BB84 хаттамасының интерактивті симуляциясы</h3>
+
+      <p>
+        Төмендегі тәжірибеде Алиса биттерді жібереді, ал Боб оларды
+        кездейсоқ базистермен өлшейді. Қалауыңыз бойынша тыңшыны да қосуға болады.
+      </p>
+
+      <label>Кубиттер саны:</label>
+      <input type="number" id="qcBitsCount" value="12" min="4" max="40">
+
+      <div style="margin-top:12px;">
+        <label>
+          <input type="checkbox" id="qcEveEnabled">
+          Тыңшы Ева арнаға аралассын
+        </label>
+      </div>
+
+      <button onclick="runBB84Simulation()">
+        Симуляцияны бастау
+      </button>
+
+      <div id="bb84Results" style="margin-top:15px;"></div>
+
+      <h3>4. Кванттық кілттің қалыптасуы</h3>
+
+      <p>
+        Базистері сәйкес келген позициялар ғана сақталады.
+        Бұл процесс базистерді салыстыру (sifting) деп аталады.
+      </p>
+
+      <div class="formula-box">
+        <p><b>Сақталған кілт:</b></p>
+        <p id="bb84Key">Симуляцияны іске қосыңыз.</p>
+      </div>
+
+      <h3>5. Тыңшылықты анықтау</h3>
+
+      <p>
+        Ева кубитті ұстап алып өлшеп, қайта жіберсе, ол кейбір
+        жағдайларда бастапқы кванттық күйді өзгертеді.
+        Бұл Бобтың нәтижелерінде қателердің пайда болуына әкеледі.
+      </p>
+
+      <div class="formula-box">
+        <p><b>Кванттық биттік қате көрсеткіші (QBER):</b></p>
+        <p>QBER = Қате биттер саны / Салыстырылған биттер саны × 100%</p>
+      </div>
+
+      <div id="bb84Security"></div>
+
+      <h3>6. Білімді тексеру</h3>
+      <div id="qcCryptoQuiz"></div>
+      <button onclick="nextQCryptoQuestion()">Келесі сұрақ</button>
+    </div>
+  `;
+
+  renderQCryptoQuestion();
+}
+
+
+// BB84 симуляциясы
+function runBB84Simulation() {
+  const count = Math.max(
+    4,
+    Math.min(40, Number(document.getElementById("qcBitsCount").value) || 12)
+  );
+
+  const eve = document.getElementById("qcEveEnabled").checked;
+
+  const randomBit = () => Math.random() < 0.5 ? 0 : 1;
+  const randomBasis = () => Math.random() < 0.5 ? "+" : "x";
+
+  const aliceBits = [];
+  const aliceBases = [];
+  const bobBases = [];
+  const bobResults = [];
+
+  let errors = 0;
+  let matched = 0;
+  let key = "";
+
+  for (let i = 0; i < count; i++) {
+    const bit = randomBit();
+    const aliceBasis = randomBasis();
+    const bobBasis = randomBasis();
+
+    let receivedBit = bit;
+
+    // Ева араласқанда кездейсоқ базиспен өлшейді
+    if (eve) {
+      const eveBasis = randomBasis();
+
+      if (eveBasis !== aliceBasis) {
+        receivedBit = randomBit();
+      }
+    }
+
+    // Бобтың өлшеу нәтижесі
+    if (bobBasis !== aliceBasis) {
+      receivedBit = randomBit();
+    }
+
+    aliceBits.push(bit);
+    aliceBases.push(aliceBasis);
+    bobBases.push(bobBasis);
+    bobResults.push(receivedBit);
+
+    if (aliceBasis === bobBasis) {
+      matched++;
+
+      if (bit !== receivedBit) {
+        errors++;
+      } else {
+        key += bit;
+      }
+    }
+  }
+
+  const qber = matched > 0 ? errors / matched * 100 : 0;
+
+  let table = `
+    <div style="overflow-x:auto;">
+    <table border="1" cellpadding="7" style="border-collapse:collapse;width:100%;text-align:center;">
+      <tr>
+        <th>№</th>
+        <th>Алиса биті</th>
+        <th>Алиса базисі</th>
+        <th>Боб базисі</th>
+        <th>Боб нәтижесі</th>
+        <th>Күйі</th>
+      </tr>
+  `;
+
+  for (let i = 0; i < count; i++) {
+    const sameBasis = aliceBases[i] === bobBases[i];
+
+    table += `
+      <tr>
+        <td>${i + 1}</td>
+        <td>${aliceBits[i]}</td>
+        <td>${aliceBases[i]}</td>
+        <td>${bobBases[i]}</td>
+        <td>${bobResults[i]}</td>
+        <td>
+          ${sameBasis
+            ? (aliceBits[i] === bobResults[i] ? "Сақталды" : "Қате")
+            : "Алынып тасталды"}
+        </td>
+      </tr>
+    `;
+  }
+
+  table += "</table></div>";
+
+  document.getElementById("bb84Results").innerHTML = `
+    ${table}
+    <h4>Симуляция нәтижесі</h4>
+    <p>Жіберілген кубиттер: <b>${count}</b></p>
+    <p>Базисі сәйкес келгендері: <b>${matched}</b></p>
+    <p>Қате биттер: <b>${errors}</b></p>
+    <p>QBER: <b>${qber.toFixed(2)}%</b></p>
+  `;
+
+  document.getElementById("bb84Key").textContent =
+    key.length ? key : "Кілт қалыптасқан жоқ.";
+
+  let securityMessage = "";
+
+  if (matched === 0) {
+    securityMessage = "Салыстыруға жеткілікті бит жоқ. Тәжірибені қайталаңыз.";
+  } else if (eve && qber > 0) {
+    securityMessage =
+      "Ева араласқан кезде қателер пайда болды. Бұл тыңшылықтың белгісі болуы мүмкін.";
+  } else if (!eve && errors === 0) {
+    securityMessage =
+      "Бұл тәжірибеде қате байқалмады. Бірақ бұл арнаның толық қауіпсіз екенін дәлелдемейді.";
+  } else {
+    securityMessage =
+      "Қате байқалды. Себебін зерттеу үшін симуляцияны бірнеше рет қайталаңыз.";
+  }
+
+  document.getElementById("bb84Security").innerHTML = `
+    <div class="formula-box">
+      <b>Қауіпсіздік талдауы:</b>
+      <p>${securityMessage}</p>
+    </div>
+  `;
+}
+
+
+// Кванттық криптография тесті
+const qCryptoQuestions = [
+  {
+    q: "Кубит дегеніміз не?",
+    a: ["Кванттық ақпарат бірлігі", "Классикалық процессор", "Электр тогы"],
+    correct: 0
+  },
+  {
+    q: "BB84 хаттамасын кімдер ұсынды?",
+    a: ["Ньютон мен Эйнштейн", "Беннетт пен Брассар", "Бор мен Планк"],
+    correct: 1
+  },
+  {
+    q: "BB84 хаттамасында неше базис қолданылады?",
+    a: ["1", "2", "4"],
+    correct: 1
+  },
+  {
+    q: "Базистер сәйкес келмесе не болады?",
+    a: ["Нәтиже кездейсоқ болады", "Бит автоматты түрде 1 болады", "Кубит жойылады"],
+    correct: 0
+  },
+  {
+    q: "QBER нені көрсетеді?",
+    a: ["Қате биттердің үлесін", "Кубит массасын", "Жарық жылдамдығын"],
+    correct: 0
+  },
+  {
+    q: "Ева кубитті өлшегенде не болуы мүмкін?",
+    a: ["Кванттық күй өзгеруі мүмкін", "Кубит массасы артады", "Бит саны міндетті түрде екі еселенеді"],
+    correct: 0
+  },
+  {
+    q: "BB84 хаттамасының негізгі мақсаты қандай?",
+    a: ["Кванттық кілтті қауіпсіз тарату", "Компьютер жылдамдығын арттыру", "Электр қуатын өндіру"],
+    correct: 0
+  },
+  {
+    q: "Базистерді салыстырғаннан кейін не сақталады?",
+    a: ["Базистері сәйкес позициялар", "Барлық кездейсоқ позициялар", "Тек нөлдер"],
+    correct: 0
+  }
+];
+
+let qCryptoIndex = 0;
+let qCryptoScore = 0;
+let qCryptoAnswered = false;
+
+function renderQCryptoQuestion() {
+  const box = document.getElementById("qcCryptoQuiz");
+  if (!box) return;
+
+  qCryptoAnswered = false;
+  const q = qCryptoQuestions[qCryptoIndex];
+
+  box.innerHTML = `
+    <p><b>${qCryptoIndex + 1}/${qCryptoQuestions.length}.</b> ${q.q}</p>
+    ${q.a.map((answer, i) => `
+      <button onclick="answerQCryptoQuestion(${i})"
+        style="display:block;margin:7px 0;">
+        ${answer}
+      </button>
+    `).join("")}
+    <p id="qCryptoFeedback"></p>
+    <p>Ұпай: ${qCryptoScore}</p>
+  `;
+}
+
+function answerQCryptoQuestion(index) {
+  if (qCryptoAnswered) return;
+  qCryptoAnswered = true;
+
+  const q = qCryptoQuestions[qCryptoIndex];
+  const feedback = document.getElementById("qCryptoFeedback");
+
+  if (index === q.correct) {
+    qCryptoScore++;
+    feedback.textContent = "Дұрыс жауап!";
+    feedback.style.color = "green";
+  } else {
+    feedback.textContent =
+      "Қате. Дұрыс жауап: " + q.a[q.correct];
+    feedback.style.color = "red";
+  }
+
+  const score = document.querySelector("#qcCryptoQuiz p:last-child");
+  if (score) score.textContent = "Ұпай: " + qCryptoScore;
+}
+
+function nextQCryptoQuestion() {
+  if (qCryptoIndex < qCryptoQuestions.length - 1) {
+    qCryptoIndex++;
+    renderQCryptoQuestion();
+  } else {
+    document.getElementById("qcCryptoQuiz").innerHTML = `
+      <h3>Тест аяқталды!</h3>
+      <p>Нәтиже: ${qCryptoScore}/${qCryptoQuestions.length}</p>
+      <button onclick="restartQCryptoQuiz()">Қайта бастау</button>
+    `;
+  }
+}
+
+function restartQCryptoQuiz() {
+  qCryptoIndex = 0;
+  qCryptoScore = 0;
+  renderQCryptoQuestion();
+}
+
+function showQuantumErrorCorrectionModule(topic, categoryName) {
+  const details = document.getElementById("topicDetails");
+  details.style.display = "block";
+
+  details.innerHTML = `
+    <div class="topic-module">
+      <h2>🛡️ Кванттық қателерді түзету</h2>
+
+      <p>
+        Кванттық ақпаратты сақтау және өңдеу кезінде кубиттер
+        қоршаған ортамен әрекеттесіп, қателерге ұшырауы мүмкін.
+        Кванттық қателерді түзету әдістері осы қателерді анықтап,
+        ақпаратты қалпына келтіруге мүмкіндік береді.
+      </p>
+
+      <h3>1. Кванттық қателердің негізгі түрлері</h3>
+
+      <div class="formula-box">
+        <p><b>Биттік қате (X):</b></p>
+        <p>|0⟩ → |1⟩, |1⟩ → |0⟩</p>
+
+        <p><b>Фазалық қате (Z):</b></p>
+        <p>|0⟩ → |0⟩, |1⟩ → −|1⟩</p>
+
+        <p><b>Аралас қате (Y):</b></p>
+        <p>Y = iXZ</p>
+      </div>
+
+      <h3>2. Үш кубиттік биттік қате коды</h3>
+
+      <p>
+        Бір логикалық кубит үш физикалық кубитке кодталады:
+      </p>
+
+      <div class="formula-box">
+        <p>|0⟩ → |000⟩</p>
+        <p>|1⟩ → |111⟩</p>
+      </div>
+
+      <p>
+        Егер бір кубит қате өзгерсе, қалған екі кубиттің мәні
+        көпшілік дауыс әдісімен бастапқы ақпаратты қалпына келтіруге
+        көмектеседі.
+      </p>
+
+      <h3>3. Биттік қатені модельдеу</h3>
+
+      <label>Бастапқы логикалық бит:</label>
+      <select id="qecOriginalBit">
+        <option value="0">0</option>
+        <option value="1">1</option>
+      </select>
+
+      <label>Қате енгізілетін кубит:</label>
+      <select id="qecErrorPosition">
+        <option value="0">Қате жоқ</option>
+        <option value="1">1-кубит</option>
+        <option value="2">2-кубит</option>
+        <option value="3">3-кубит</option>
+      </select>
+
+      <button onclick="runQECBitSimulation()">
+        Қатені модельдеу
+      </button>
+
+      <div id="qecBitResult" class="formula-box">
+        Тәжірибені бастаңыз.
+      </div>
+
+      <h3>4. Синдром арқылы қатені анықтау</h3>
+
+      <p>
+        Үш кубиттік кодта синдром өлшеулері:
+      </p>
+
+      <div class="formula-box">
+        <p>S₁ = Z₁Z₂</p>
+        <p>S₂ = Z₂Z₃</p>
+        <p>Егер синдром 00 болса — қате жоқ.</p>
+        <p>Егер синдром 10 болса — 1-кубитте қате.</p>
+        <p>Егер синдром 11 болса — 2-кубитте қате.</p>
+        <p>Егер синдром 01 болса — 3-кубитте қате.</p>
+      </div>
+
+      <div id="qecSyndrome"></div>
+
+      <h3>5. Фазалық қатені түзету</h3>
+
+      <p>
+        Фазалық қатені түзету үшін үш кубиттік кодты
+        Hadamard түрлендіруі арқылы басқа базиске көшіруге болады.
+      </p>
+
+      <div class="formula-box">
+        <p>H|0⟩ = (|0⟩ + |1⟩)/√2</p>
+        <p>H|1⟩ = (|0⟩ − |1⟩)/√2</p>
+        <p>HZH = X</p>
+      </div>
+
+      <label>Фазалық қатенің орны:</label>
+      <select id="qecPhasePosition">
+        <option value="0">Қате жоқ</option>
+        <option value="1">1-кубит</option>
+        <option value="2">2-кубит</option>
+        <option value="3">3-кубит</option>
+      </select>
+
+      <button onclick="runQECPhaseSimulation()">
+        Фазалық қатені түзету
+      </button>
+
+      <div id="qecPhaseResult" class="formula-box">
+        Тәжірибені бастаңыз.
+      </div>
+
+      <h3>6. Шордың 9 кубиттік коды</h3>
+
+      <p>
+        Шор коды — бір логикалық кубитті тоғыз физикалық кубит
+        арқылы кодтайтын кванттық қателерді түзету коды.
+        Ол биттік және фазалық қателерді түзету идеясын біріктіреді.
+      </p>
+
+      <div class="formula-box">
+        <p><b>Логикалық нөл:</b></p>
+        <p>
+          |0L⟩ =
+          (|000⟩ + |111⟩) ⊗
+          (|000⟩ + |111⟩) ⊗
+          (|000⟩ + |111⟩) / (2√2)
+        </p>
+
+        <p><b>Логикалық бір:</b></p>
+        <p>
+          |1L⟩ =
+          (|000⟩ − |111⟩) ⊗
+          (|000⟩ − |111⟩) ⊗
+          (|000⟩ − |111⟩) / (2√2)
+        </p>
+      </div>
+
+      <h3>7. Қателерді түзету тәжірибесі</h3>
+
+      <p>
+        Бір кубиттік кодтың биттік қатені түзету қабілетін
+        кездейсоқ қателер арқылы тексеріңіз.
+      </p>
+
+      <label>Тәжірибе саны:</label>
+      <input id="qecTrials" type="number" value="100" min="10" max="10000">
+
+      <label>Бір кубиттің қате ықтималдығы (%):</label>
+      <input id="qecErrorRate" type="number" value="5" min="0" max="50">
+
+      <button onclick="runQECStatistics()">
+        Статистиканы есептеу
+      </button>
+
+      <div id="qecStatistics" class="formula-box"></div>
+
+      <h3>8. Білімді тексеру</h3>
+      <div id="qecQuiz"></div>
+      <button onclick="nextQECQuestion()">Келесі сұрақ</button>
+    </div>
+  `;
+
+  renderQECQuestion();
+}
+
+
+// Үш кубиттік биттік қатені модельдеу
+function runQECBitSimulation() {
+  const original = Number(
+    document.getElementById("qecOriginalBit").value
+  );
+
+  const position = Number(
+    document.getElementById("qecErrorPosition").value
+  );
+
+  const bits = [original, original, original];
+
+  if (position > 0) {
+    bits[position - 1] = 1 - bits[position - 1];
+  }
+
+  const syndrome1 = bits[0] ^ bits[1];
+  const syndrome2 = bits[1] ^ bits[2];
+
+  let detectedPosition = 0;
+
+  if (syndrome1 === 1 && syndrome2 === 0) {
+    detectedPosition = 1;
+  } else if (syndrome1 === 1 && syndrome2 === 1) {
+    detectedPosition = 2;
+  } else if (syndrome1 === 0 && syndrome2 === 1) {
+    detectedPosition = 3;
+  }
+
+  const correctedBits = [...bits];
+
+  if (detectedPosition > 0) {
+    correctedBits[detectedPosition - 1] =
+      1 - correctedBits[detectedPosition - 1];
+  }
+
+  const restored = correctedBits[0];
+
+  document.getElementById("qecBitResult").innerHTML = `
+    <p><b>Бастапқы код:</b> ${original}${original}${original}</p>
+    <p><b>Қате енгізілгеннен кейін:</b> ${bits.join("")}</p>
+    <p><b>Синдром:</b> ${syndrome1}${syndrome2}</p>
+    <p><b>Анықталған қате орны:</b>
+      ${detectedPosition === 0 ? "Қате жоқ" : detectedPosition + "-кубит"}
+    </p>
+    <p><b>Түзетілген код:</b> ${correctedBits.join("")}</p>
+    <p><b>Қалпына келген бит:</b> ${restored}</p>
+    <p><b>Нәтиже:</b>
+      ${restored === original ? "Қате сәтті түзетілді!" : "Қате түзетілмеді."}
+    </p>
+  `;
+
+  document.getElementById("qecSyndrome").innerHTML = `
+    <div class="formula-box">
+      <b>Синдромды талдау:</b>
+      <p>S₁ = ${syndrome1}</p>
+      <p>S₂ = ${syndrome2}</p>
+      <p>Анықталған кубит: ${detectedPosition || "Қате жоқ"}</p>
+    </div>
+  `;
+}
+
+
+// Фазалық қатені модельдеу
+function runQECPhaseSimulation() {
+  const position = Number(
+    document.getElementById("qecPhasePosition").value
+  );
+
+  const syndrome = [
+    position === 1 ? "1" : "0",
+    position === 3 ? "1" : "0"
+  ];
+
+  if (position === 2) {
+    syndrome[0] = "1";
+    syndrome[1] = "1";
+  }
+
+  const result = position === 0
+    ? "Фазалық қате жоқ."
+    : position + "-кубиттегі фазалық қате анықталып, түзетілді.";
+
+  document.getElementById("qecPhaseResult").innerHTML = `
+    <p><b>Синдром:</b> ${syndrome.join("")}</p>
+    <p><b>Нәтиже:</b> ${result}</p>
+    <p>
+      Бұл — фазалық қателерді түзетудің базисті өзгертуге
+      негізделген оқу моделі.
+    </p>
+  `;
+}
+
+
+// Кездейсоқ биттік қателер статистикасы
+function runQECStatistics() {
+  const trials = Math.max(
+    10,
+    Math.min(10000, Number(document.getElementById("qecTrials").value) || 100)
+  );
+
+  const rate = Math.max(
+    0,
+    Math.min(50, Number(document.getElementById("qecErrorRate").value) || 0)
+  ) / 100;
+
+  let rawErrors = 0;
+  let correctedErrors = 0;
+
+  for (let i = 0; i < trials; i++) {
+    const original = Math.random() < 0.5 ? 0 : 1;
+    const bits = [original, original, original];
+
+    for (let j = 0; j < 3; j++) {
+      if (Math.random() < rate) {
+        bits[j] = 1 - bits[j];
+      }
+    }
+
+    const rawBit = bits[0];
+    if (rawBit !== original) rawErrors++;
+
+    const corrected = bits[0] + bits[1] + bits[2] >= 2 ? 1 : 0;
+
+    if (corrected !== original) correctedErrors++;
+  }
+
+  const rawPercent = rawErrors / trials * 100;
+  const correctedPercent = correctedErrors / trials * 100;
+
+  document.getElementById("qecStatistics").innerHTML = `
+    <p>Тәжірибе саны: <b>${trials}</b></p>
+    <p>Бір кубиттің қате ықтималдығы: <b>${(rate * 100).toFixed(1)}%</b></p>
+    <p>Жалғыз кубиттегі қате үлесі:
+      <b>${rawPercent.toFixed(2)}%</b></p>
+    <p>Үш кубиттік кодтан кейінгі қате үлесі:
+      <b>${correctedPercent.toFixed(2)}%</b></p>
+    <p>
+      ${correctedPercent < rawPercent
+        ? "Көпшілік дауыс әдісі қателерді азайтты."
+        : "Бұл тәжірибеде қателер азайған жоқ. Тәжірибені қайталаңыз."}
+    </p>
+  `;
+}
+
+
+// Тест сұрақтары
+const qecQuestions = [
+  {
+    q: "Кванттық қателерді түзетудің мақсаты қандай?",
+    a: ["Кубиттердегі қателерді анықтау және түзету", "Жарық жылдамдығын арттыру", "Температураны өлшеу"],
+    correct: 0
+  },
+  {
+    q: "Биттік қатені қандай оператор көрсетеді?",
+    a: ["X", "Z", "H"],
+    correct: 0
+  },
+  {
+    q: "Фазалық қатені қандай оператор көрсетеді?",
+    a: ["X", "Z", "I"],
+    correct: 1
+  },
+  {
+    q: "Үш кубиттік кодта логикалық нөл қалай кодталады?",
+    a: ["000", "111", "010"],
+    correct: 0
+  },
+  {
+    q: "Синдром 11 нені білдіреді?",
+    a: ["1-кубитте қате", "2-кубитте қате", "3-кубитте қате"],
+    correct: 1
+  },
+  {
+    q: "Hadamard операторы не үшін қолданылады?",
+    a: ["Базисті түрлендіру үшін", "Массаны өлшеу үшін", "Кедергіні арттыру үшін"],
+    correct: 0
+  },
+  {
+    q: "Шор коды неше физикалық кубитті пайдаланады?",
+    a: ["3", "5", "9"],
+    correct: 2
+  },
+  {
+    q: "Үш кубиттік қайталау коды қандай қатені түзетеді?",
+    a: ["Бір биттік қатені", "Кез келген көп кубиттік қатені", "Барлық қателерді бірден"],
+    correct: 0
+  }
+];
+
+let qecIndex = 0;
+let qecScore = 0;
+let qecAnswered = false;
+
+function renderQECQuestion() {
+  const box = document.getElementById("qecQuiz");
+  if (!box) return;
+
+  qecAnswered = false;
+  const q = qecQuestions[qecIndex];
+
+  box.innerHTML = `
+    <p><b>${qecIndex + 1}/${qecQuestions.length}.</b> ${q.q}</p>
+    ${q.a.map((answer, i) => `
+      <button onclick="answerQECQuestion(${i})"
+        style="display:block;margin:7px 0;">
+        ${answer}
+      </button>
+    `).join("")}
+    <p id="qecFeedback"></p>
+    <p>Ұпай: ${qecScore}</p>
+  `;
+}
+
+function answerQECQuestion(index) {
+  if (qecAnswered) return;
+  qecAnswered = true;
+
+  const q = qecQuestions[qecIndex];
+  const feedback = document.getElementById("qecFeedback");
+
+  if (index === q.correct) {
+    qecScore++;
+    feedback.textContent = "Дұрыс жауап!";
+    feedback.style.color = "green";
+  } else {
+    feedback.textContent = "Қате. Дұрыс жауап: " + q.a[q.correct];
+    feedback.style.color = "red";
+  }
+
+  const score = document.querySelector("#qecQuiz p:last-child");
+  if (score) score.textContent = "Ұпай: " + qecScore;
+}
+
+function nextQECQuestion() {
+  if (qecIndex < qecQuestions.length - 1) {
+    qecIndex++;
+    renderQECQuestion();
+  } else {
+    document.getElementById("qecQuiz").innerHTML = `
+      <h3>Тест аяқталды!</h3>
+      <p>Жинаған ұпайыңыз: ${qecScore}/${qecQuestions.length}</p>
+      <button onclick="restartQECQuiz()">Қайта бастау</button>
+    `;
+  }
+}
+
+function restartQECQuiz() {
+  qecIndex = 0;
+  qecScore = 0;
+  renderQECQuestion();
 }
 
 </script>
