@@ -766,7 +766,29 @@ function showSchrodingerModule(topic, categoryName) {
   const details = document.getElementById("topicDetails");
 
   details.style.display = "block";
-  details.innerHTML = drawWaveFunction();`
+  details.innerHTML = drawWaveFunction();
+  drawDoubleSlit();`
+  <div class="card">
+  <h3>🔬 Екі саңылау тәжірибесі</h3>
+  <p>Интерференциялық жолақтардың өзгерісін зерттеңіз.</p>
+
+  <label>Толқын ұзындығы λ (нм):</label>
+  <input type="number" id="slitLambda" value="500" min="100" max="1000">
+
+  <label>Саңылаулар арақашықтығы d (мкм):</label>
+  <input type="number" id="slitDistance" value="200" min="10" max="1000">
+
+  <label>Экранға дейінгі қашықтық L (м):</label>
+  <input type="number" id="slitScreen" value="1" min="0.1" max="10" step="0.1">
+
+  <button onclick="drawDoubleSlit()">Тәжірибені орындау</button>
+
+  <canvas id="doubleSlitCanvas" width="600" height="330"
+    style="width:100%;max-width:600px;border:1px solid #ccc;border-radius:10px;margin-top:12px;">
+  </canvas>
+
+  <div id="doubleSlitResult" class="result"></div>
+</div>
     
     <h2>⚛️ Шредингер теңдеуі және кванттық механика</h2>
     <p><b>Таңдалған тақырып:</b> ${topic}</p>
@@ -2775,6 +2797,112 @@ function stopEMWave() {
     clearInterval(emWaveTimer);
     emWaveTimer = null;
   }
+}
+  function drawDoubleSlit() {
+  const lambda = Number(document.getElementById("slitLambda").value);
+  const d = Number(document.getElementById("slitDistance").value);
+  const L = Number(document.getElementById("slitScreen").value);
+
+  const canvas = document.getElementById("doubleSlitCanvas");
+  const result = document.getElementById("doubleSlitResult");
+
+  if (!canvas || !result) return;
+
+  if (
+    !Number.isFinite(lambda) ||
+    !Number.isFinite(d) ||
+    !Number.isFinite(L) ||
+    lambda < 100 || lambda > 1000 ||
+    d < 10 || d > 1000 ||
+    L < 0.1 || L > 10
+  ) {
+    result.textContent = "Параметрлердің мәндерін дұрыс енгізіңіз!";
+    return;
+  }
+
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width;
+  const H = canvas.height;
+
+  ctx.clearRect(0, 0, W, H);
+
+  // SI жүйесіне ауыстыру
+  const lambdaM = lambda * 1e-9;
+  const dM = d * 1e-6;
+
+  // Интерференциялық жолақтар аралығы
+  const fringeSpacing = lambdaM * L / dM;
+  const fringeMM = fringeSpacing * 1000;
+
+  // Экрандағы интерференциялық көрініс
+  const screenX = 390;
+  const screenY = 35;
+  const screenW = 130;
+  const screenH = 260;
+
+  const visibleRangeMM = 10;
+
+  for (let y = 0; y < screenH; y++) {
+    const positionMM =
+      ((y / screenH) - 0.5) * visibleRangeMM;
+
+    const positionM = positionMM * 1e-3;
+
+    const phase =
+      Math.PI * dM * positionM / (lambdaM * L);
+
+    // Екі саңылау интерференциясының интенсивтілігі
+    const intensity = Math.pow(Math.cos(phase), 2);
+
+    const brightness = Math.round(255 * intensity);
+
+    ctx.fillStyle =
+      `rgb(${brightness}, ${brightness}, ${brightness})`;
+
+    ctx.fillRect(screenX, screenY + y, screenW, 1);
+  }
+
+  // Саңылаулар мен экран сызбасы
+  ctx.fillStyle = "#64748b";
+  ctx.fillRect(100, 70, 12, 190);
+
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(98, 145, 16, 9);
+  ctx.fillRect(98, 177, 16, 9);
+
+  ctx.fillStyle = "#222";
+  ctx.font = "14px Arial";
+  ctx.fillText("Екі саңылау", 65, 50);
+  ctx.fillText("Экрандағы жолақтар", 370, 315);
+
+  // Экранға дейінгі бағыт
+  ctx.beginPath();
+  ctx.moveTo(125, 165);
+  ctx.lineTo(370, 165);
+  ctx.strokeStyle = "#2563eb";
+  ctx.setLineDash([5, 5]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Негізгі максимум
+  ctx.strokeStyle = "#e63946";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(screenX, screenY + screenH / 2);
+  ctx.lineTo(screenX + screenW, screenY + screenH / 2);
+  ctx.stroke();
+
+  ctx.fillStyle = "#222";
+  ctx.fillText("Орталық максимум", 370, 25);
+
+  result.innerHTML =
+    "<b>Тәжірибе нәтижесі:</b><br>" +
+    "Толқын ұзындығы: " + lambda + " нм<br>" +
+    "Саңылаулар арасы: " + d + " мкм<br>" +
+    "Экранға дейінгі қашықтық: " + L + " м<br>" +
+    "Интерференциялық жолақтар аралығы: <b>" +
+    fringeMM.toFixed(3) + " мм</b><br>" +
+    "Формула: Δy = λL / d";
 }
 </script>
 </body>
