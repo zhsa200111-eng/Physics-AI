@@ -766,8 +766,8 @@ function showSchrodingerModule(topic, categoryName) {
   const details = document.getElementById("topicDetails");
 
   details.style.display = "block";
-  details.innerHTML = drawWaveFunction();
-  drawDoubleSlit();`
+  details.innerHTML = `
+  
   <div class="card">
   <h3>🔬 Екі саңылау тәжірибесі</h3>
   <p>Интерференциялық жолақтардың өзгерісін зерттеңіз.</p>
@@ -1228,7 +1228,11 @@ function showSchrodingerModule(topic, categoryName) {
       </button>
     </div>
   `;
-
+drawDoubleSlit();
+  drawWaveFunction();
+  drawQuantumLevels();
+  calculateTunneling();
+  calculateOscillator();
   const questions = [
     {
       q: "Шредингер теңдеуі нені сипаттайды?",
