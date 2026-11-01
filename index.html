@@ -252,6 +252,7 @@ function cleanAIAnswer(text) {
 async function askAI() {
   const question = document.getElementById('question').value.trim();
   const answerBox = document.getElementById('answer');
+  
 
   if (!question) {
     answerBox.innerText = 'Алдымен сұрақ енгізіңіз!';
@@ -261,6 +262,23 @@ async function askAI() {
   answerBox.innerText = 'Жауап дайындалып жатыр...';
 
   try {
+    
+const formattingInstruction = `
+Жауапты қазақ тілінде, таза әрі оқуға жеңіл мәтінмен жаз.
+LaTeX командаларын мүлдем қолданба.
+Математикалық формулаларды қарапайым мәтінмен жаз.
+Мысалы:
+d²ψ/dx² + (2m/ℏ²)(E − U)ψ = 0
+
+\psi, \hbar, \lambda, \theta, \frac, \cdot сияқты командаларды қолданба.
+Олардың орнына ψ, ℏ, λ, θ, ×, ÷, π таңбаларын қолдан.
+Markdown белгілерін, $ таңбаларын, ### тақырыптарын қолданба.
+Артық жұлдызшалар мен бөлгіш сызықтарды қойма.
+Бөлшектерді a/b түрінде жаз.
+Дәрежелерді ², ³ түрінде жаз.
+Әр формуланы жеке жолға шығар.
+Жауапта түсініксіз техникалық кодтар болмауы керек.
+`;
     const response = await fetch(
       'https://physics-ai-server.zhsa-2001-11.workers.dev/',
       {
@@ -269,7 +287,7 @@ async function askAI() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          question: question
+          question: formattingInstruction + "\n\n" + question
         })
       }
     );
