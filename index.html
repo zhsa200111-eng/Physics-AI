@@ -443,6 +443,8 @@ try {
       "Қара құрдымдар",
       "Атомдық физика және атомның кванттық модельдері",
       "Көпэлектронды атомдар және электрондық қабықшалардың құрылысы",
+      "Атомдық спектрлер және спектроскопия негіздері",
+      "Рентген сәулелері және олардың физикалық қасиеттері",
       "Атом ядросының құрылысы",
       "Радиоактивтілік",
       "Ядролық реакциялар",
@@ -542,6 +544,20 @@ function showTopic(topic, categoryName) {
   details.style.display = "block";
   details.innerHTML = "";
 if (
+  topic.toLowerCase().includes("рентген сәулелері") ||
+  topic.toLowerCase().includes("рентген сәулелерінің қасиеттері")
+) {
+  showUniversityXrayModule(topic, categoryName);
+  return;
+}
+  if (
+  topic.toLowerCase().includes("атомдық спектрлер") ||
+  topic.toLowerCase().includes("спектроскопия негіздері")
+) {
+  showUniversityAtomicSpectroscopyModule(topic, categoryName);
+  return;
+}
+  if (
   topic.toLowerCase().includes("көпэлектронды атомдар") ||
   topic.toLowerCase().includes("электрондық қабықшалардың құрылысы") ||
   topic.toLowerCase().includes("электрондық конфигурация")
@@ -19217,7 +19233,903 @@ function checkMultiAtomQuiz() {
     }</p>
   `;
 }
+ function showUniversityAtomicSpectroscopyModule(topic, categoryName) {
+  const details = document.getElementById("topicDetails");
+
+  details.innerHTML = `
+    <div class="card">
+      <h2>Атомдық спектрлер және спектроскопия негіздері</h2>
+
+      <p>
+        Атомдық спектроскопия — атомдардың электромагниттік сәулені
+        шығаруы мен жұтуын зерттейтін физика саласы. Спектрлерді
+        зерттеу арқылы атомдардың энергетикалық деңгейлері,
+        электрондық құрылысы және заттың құрамы туралы ақпарат алуға болады.
+      </p>
+
+      <h3>1. Атомдық спектрлердің пайда болуы</h3>
+
+      <p>
+        Атомдағы электрондар белгілі энергетикалық күйлерде орналасады.
+        Электрон бір энергетикалық деңгейден екіншісіне ауысқанда
+        энергия айырмасына сәйкес фотон шығарады немесе жұтады.
+      </p>
+
+      <div class="formula">
+        ΔE = E₂ − E₁ = hν
+      </div>
+
+      <p>
+        Мұнда h — Планк тұрақтысы, ν — фотон жиілігі.
+        Фотон энергиясы жиілікке тура пропорционал.
+      </p>
+
+      <div class="formula">
+        E = hν = hc / λ
+      </div>
+
+      <h3>2. Сәуле шығару спектрі</h3>
+
+      <p>
+        Қозған атом жоғары энергетикалық күйден төменгі күйге
+        ауысқанда фотон шығарады. Нәтижесінде белгілі жиіліктерге
+        сәйкес спектрлік сызықтар пайда болады.
+      </p>
+
+      <p>
+        Әр химиялық элементтің энергетикалық деңгейлері өзіне тән
+        болғандықтан, оның спектрі де ерекше болады. Сондықтан
+        спектрді элементтің өзіндік «саусақ ізі» ретінде пайдалануға болады.
+      </p>
+
+      <h3>3. Жұтылу спектрі</h3>
+
+      <p>
+        Атом төменгі энергетикалық күйден жоғары күйге өту үшін
+        энергиясы сәйкес келетін фотонды жұтады. Үздіксіз спектр
+        суықтау газ арқылы өткенде жұтылу сызықтары байқалуы мүмкін.
+      </p>
+
+      <div class="formula">
+        hν = Eжоғары − Eтөменгі
+      </div>
+
+      <h3>4. Сутегі атомының спектрі</h3>
+
+      <p>
+        Сутегі атомының спектрлік сызықтары Ридберг формуласы
+        арқылы сипатталады:
+      </p>
+
+      <div class="formula">
+        1 / λ = Rₕ (1 / n₁² − 1 / n₂²)
+      </div>
+
+      <p>
+        Мұнда n₂ &gt; n₁, Rₕ ≈ 1,097373 × 10⁷ м⁻¹ —
+        сутегі үшін Ридберг тұрақтысы. Бұл формула сутегі атомының
+        спектрлік ауысуларын сипаттайды.
+      </p>
+
+      <h3>5. Сутегінің спектрлік сериялары</h3>
+
+      <ul>
+        <li>
+          <strong>Лайман сериясы:</strong> n₁ = 1. Сызықтары
+          ультракүлгін аймақта орналасады.
+        </li>
+        <li>
+          <strong>Бальмер сериясы:</strong> n₁ = 2. Сызықтарының
+          бір бөлігі көрінетін жарық аймағында орналасады.
+        </li>
+        <li>
+          <strong>Пашен сериясы:</strong> n₁ = 3. Инфрақызыл
+          аймақта орналасады.
+        </li>
+        <li>
+          <strong>Брэкетт сериясы:</strong> n₁ = 4.
+          Инфрақызыл аймақта орналасады.
+        </li>
+        <li>
+          <strong>Пфунд сериясы:</strong> n₁ = 5.
+          Инфрақызыл аймақта орналасады.
+        </li>
+      </ul>
+
+      <h3>6. Спектрлік сызықтардың жиілігі мен толқын ұзындығы</h3>
+
+      <p>
+        Электрон ауысуы кезінде фотонның энергиясы анықталғаннан
+        кейін оның жиілігі мен толқын ұзындығын есептеуге болады:
+      </p>
+
+      <div class="formula">
+        ν = ΔE / h
+      </div>
+
+      <div class="formula">
+        λ = c / ν
+      </div>
+
+      <p>
+        Толқын ұзындығы азайған сайын фотон энергиясы артады.
+        Ультракүлгін сәуленің фотондары көрінетін жарық фотондарынан
+        жоғары энергияға ие.
+      </p>
+
+      <h3>7. Спектрлік сызықтардың кеңеюі</h3>
+
+      <p>
+        Нақты тәжірибеде спектрлік сызықтар шексіз жіңішке болмайды.
+        Олардың кеңеюіне бірнеше физикалық құбылыс әсер етеді:
+      </p>
+
+      <ul>
+        <li>
+          Табиғи кеңею — қозған күйдің өмір сүру уақыты шектеулі
+          болуымен байланысты.
+        </li>
+        <li>
+          Доплерлік кеңею — атомдардың жылулық қозғалысына байланысты.
+        </li>
+        <li>
+          Соқтығысу немесе қысымдық кеңею — бөлшектердің өзара
+          соқтығысуынан туындайды.
+        </li>
+      </ul>
+
+      <h3>8. Спектроскопияның қолданылуы</h3>
+
+      <p>
+        Спектроскопиялық әдістер заттың химиялық құрамын анықтауға,
+        жұлдыздардың температурасын және химиялық құрамын зерттеуге,
+        плазманы диагностикалауға және материалдардың қасиеттерін
+        талдауға мүмкіндік береді.
+      </p>
+
+      <p>
+        Астрофизикада жұлдыздардың спектрлерін зерттеу арқылы
+        олардың құрамындағы сутегі, гелий және басқа элементтерді
+        анықтауға болады.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Есептеу құралы 1. Сутегі атомының спектрлік сызығы</h3>
+
+      <label>Соңғы деңгей n₁:</label>
+      <input id="spectroscopyN1" type="number"
+        min="1" max="20" step="1" value="2">
+
+      <label>Бастапқы деңгей n₂:</label>
+      <input id="spectroscopyN2" type="number"
+        min="2" max="30" step="1" value="3">
+
+      <button onclick="calculateAtomicSpectralLine()">
+        Спектрлік сызықты есептеу
+      </button>
+
+      <div id="spectroscopyLineResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>Есептеу құралы 2. Фотон энергиясы мен жиілігі</h3>
+
+      <label>Толқын ұзындығы λ (нм):</label>
+      <input id="spectroscopyWavelength" type="number"
+        min="0.001" step="1" value="656.3">
+
+      <button onclick="calculateSpectroscopyPhoton()">
+        Фотон параметрлерін есептеу
+      </button>
+
+      <div id="spectroscopyPhotonResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>Есептеу құралы 3. Спектрлік серияны анықтау</h3>
+
+      <label>Серияны таңдаңыз:</label>
+      <select id="spectroscopySeries">
+        <option value="1">Лайман сериясы (n₁ = 1)</option>
+        <option value="2" selected>Бальмер сериясы (n₁ = 2)</option>
+        <option value="3">Пашен сериясы (n₁ = 3)</option>
+        <option value="4">Брэкетт сериясы (n₁ = 4)</option>
+        <option value="5">Пфунд сериясы (n₁ = 5)</option>
+      </select>
+
+      <label>Бастапқы деңгей n₂:</label>
+      <input id="spectroscopySeriesN2" type="number"
+        min="2" max="30" step="1" value="3">
+
+      <button onclick="calculateSpectroscopySeries()">
+        Серияны есептеу
+      </button>
+
+      <div id="spectroscopySeriesResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>Есептеу құралы 4. Доплерлік ығысу</h3>
+
+      <label>Бақыланған толқын ұзындығы (нм):</label>
+      <input id="spectroscopyObserved" type="number"
+        min="0.001" step="0.1" value="656.5">
+
+      <label>Зертханалық толқын ұзындығы (нм):</label>
+      <input id="spectroscopyRest" type="number"
+        min="0.001" step="0.1" value="656.3">
+
+      <button onclick="calculateSpectroscopyDoppler()">
+        Жылдамдықты есептеу
+      </button>
+
+      <div id="spectroscopyDopplerResult" class="result"></div>
+
+      <p>
+        Ескерту: бұл құрал жарық көзі бақылаушыға қатысты
+        радиал бағытта қозғалғандағы v ≪ c жуықтауын қолданады.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Білімді тексеру тесті</h3>
+
+      <div class="quiz-question">
+        <p>1. Атомдық спектрлер неліктен сызықтық сипатта болады?</p>
+        <label><input type="radio" name="spectroscopyQ1" value="a">
+          Атом энергиясының дискретті деңгейлері болғандықтан</label><br>
+        <label><input type="radio" name="spectroscopyQ1" value="b">
+          Атомдағы барлық энергия үздіксіз өзгеретіндіктен</label><br>
+        <label><input type="radio" name="spectroscopyQ1" value="c">
+          Фотон энергиясы әрқашан нөлге тең болғандықтан</label><br>
+      </div>
+
+      <div class="quiz-question">
+        <p>2. Электрон жоғары деңгейден төменгі деңгейге ауысқанда не болады?</p>
+        <label><input type="radio" name="spectroscopyQ2" value="a">
+          Фотон шығарылады</label><br>
+        <label><input type="radio" name="spectroscopyQ2" value="b">
+          Фотон міндетті түрде жұтылады</label><br>
+        <label><input type="radio" name="spectroscopyQ2" value="c">
+          Атом ядросы жойылады</label><br>
+      </div>
+
+      <div class="quiz-question">
+        <p>3. Лайман сериясында электрон қай деңгейге ауысады?</p>
+        <label><input type="radio" name="spectroscopyQ3" value="a">
+          n₁ = 1</label><br>
+        <label><input type="radio" name="spectroscopyQ3" value="b">
+          n₁ = 2</label><br>
+        <label><input type="radio" name="spectroscopyQ3" value="c">
+          n₁ = 3</label><br>
+      </div>
+
+      <div class="quiz-question">
+        <p>4. Бальмер сериясы негізінен қай спектрлік аймақпен байланысты?</p>
+        <label><input type="radio" name="spectroscopyQ4" value="a">
+          Көрінетін аймақ</label><br>
+        <label><input type="radio" name="spectroscopyQ4" value="b">
+          Радиотолқындар аймағы</label><br>
+        <label><input type="radio" name="spectroscopyQ4" value="c">
+          Гамма-сәулелер аймағы</label><br>
+      </div>
+
+      <div class="quiz-question">
+        <p>5. Доплерлік кеңеюдің негізгі себебі қандай?</p>
+        <label><input type="radio" name="spectroscopyQ5" value="a">
+          Атомдардың жылулық қозғалысы</label><br>
+        <label><input type="radio" name="spectroscopyQ5" value="b">
+          Ядро зарядының жоғалуы</label><br>
+        <label><input type="radio" name="spectroscopyQ5" value="c">
+          Планк тұрақтысының өзгеруі</label><br>
+      </div>
+
+      <div class="quiz-question">
+        <p>6. Спектроскопия арқылы қандай ақпарат алуға болады?</p>
+        <label><input type="radio" name="spectroscopyQ6" value="a">
+          Заттың химиялық құрамы туралы</label><br>
+        <label><input type="radio" name="spectroscopyQ6" value="b">
+          Тек дененің геометриялық пішіні туралы</label><br>
+        <label><input type="radio" name="spectroscopyQ6" value="c">
+          Тек дененің механикалық массасы туралы</label><br>
+      </div>
+
+      <button onclick="checkAtomicSpectroscopyQuiz()">
+        Тестті тексеру
+      </button>
+
+      <div id="spectroscopyQuizResult" class="result"></div>
+    </div>
+  `;
+
+  details.scrollIntoView({ behavior: "smooth" });
+}
+
+
+// 1. Сутегі атомының спектрлік сызығы
+function calculateAtomicSpectralLine() {
+  const n1 = Number(document.getElementById("spectroscopyN1").value);
+  const n2 = Number(document.getElementById("spectroscopyN2").value);
+  const result = document.getElementById("spectroscopyLineResult");
+
+  if (
+    !Number.isInteger(n1) ||
+    !Number.isInteger(n2) ||
+    n1 < 1 ||
+    n2 <= n1 ||
+    n2 > 30
+  ) {
+    result.innerHTML = "n₁ және n₂ бүтін сандар болуы керек. Шарт: 1 ≤ n₁ < n₂ ≤ 30.";
+    return;
+  }
+
+  const R = 1.0973731568e7;
+  const c = 299792458;
+  const h = 6.62607015e-34;
+  const e = 1.602176634e-19;
+
+  const inverseWavelength =
+    R * (1 / (n1 * n1) - 1 / (n2 * n2));
+
+  const wavelength = 1 / inverseWavelength;
+  const frequency = c / wavelength;
+  const energy = h * frequency;
+
+  let series = "Белгісіз серия";
+
+  const seriesNames = {
+    1: "Лайман",
+    2: "Бальмер",
+    3: "Пашен",
+    4: "Брэкетт",
+    5: "Пфунд"
+  };
+
+  if (seriesNames[n1]) {
+    series = seriesNames[n1] + " сериясы";
+  }
+
+  result.innerHTML = `
+    <p>Серия: ${series}</p>
+    <p>Толқын ұзындығы: ${(wavelength * 1e9).toFixed(3)} нм</p>
+    <p>Жиілік: ${frequency.toExponential(5)} Гц</p>
+    <p>Фотон энергиясы: ${(energy / e).toFixed(6)} эВ</p>
+  `;
+}
+
+
+// 2. Фотон энергиясы мен жиілігі
+function calculateSpectroscopyPhoton() {
+  const wavelengthNm =
+    Number(document.getElementById("spectroscopyWavelength").value);
+
+  const result = document.getElementById("spectroscopyPhotonResult");
+
+  if (!Number.isFinite(wavelengthNm) || wavelengthNm <= 0) {
+    result.innerHTML = "Толқын ұзындығы нөлден үлкен болуы керек.";
+    return;
+  }
+
+  const wavelength = wavelengthNm * 1e-9;
+  const h = 6.62607015e-34;
+  const c = 299792458;
+  const e = 1.602176634e-19;
+
+  const frequency = c / wavelength;
+  const energy = h * frequency;
+
+  result.innerHTML = `
+    <p>Жиілік: ${frequency.toExponential(5)} Гц</p>
+    <p>Энергия: ${energy.toExponential(5)} Дж</p>
+    <p>Энергия: ${(energy / e).toFixed(6)} эВ</p>
+  `;
+}
+
+
+// 3. Спектрлік серияны есептеу
+function calculateSpectroscopySeries() {
+  const n1 = Number(document.getElementById("spectroscopySeries").value);
+  const n2 = Number(document.getElementById("spectroscopySeriesN2").value);
+  const result = document.getElementById("spectroscopySeriesResult");
+
+  if (!Number.isInteger(n2) || n2 <= n1 || n2 > 30) {
+    result.innerHTML = "n₂ бүтін сан болуы және таңдалған n₁ мәнінен үлкен болуы керек.";
+    return;
+  }
+
+  const R = 1.0973731568e7;
+  const inverseWavelength =
+    R * (1 / (n1 * n1) - 1 / (n2 * n2));
+
+  const wavelength = 1 / inverseWavelength;
+
+  const names = {
+    1: "Лайман",
+    2: "Бальмер",
+    3: "Пашен",
+    4: "Брэкетт",
+    5: "Пфунд"
+  };
+
+  result.innerHTML = `
+    <p>Спектрлік серия: ${names[n1]}</p>
+    <p>Ауысу: n₂ = ${n2} → n₁ = ${n1}</p>
+    <p>Толқын ұзындығы: ${(wavelength * 1e9).toFixed(3)} нм</p>
+  `;
+}
+
+
+// 4. Доплерлік ығысу
+function calculateSpectroscopyDoppler() {
+  const observed =
+    Number(document.getElementById("spectroscopyObserved").value);
+
+  const rest =
+    Number(document.getElementById("spectroscopyRest").value);
+
+  const result = document.getElementById("spectroscopyDopplerResult");
+
+  if (
+    !Number.isFinite(observed) ||
+    !Number.isFinite(rest) ||
+    observed <= 0 ||
+    rest <= 0
+  ) {
+    result.innerHTML = "Екі толқын ұзындығы да нөлден үлкен болуы керек.";
+    return;
+  }
+
+  const c = 299792458;
+  const velocity = c * (observed - rest) / rest;
+
+  if (Math.abs(velocity) >= 0.1 * c) {
+    result.innerHTML =
+      "Жылдамдық c шамасына қатысты үлкен. Бұл құралдағы v ≪ c жуықтауы жарамсыз.";
+    return;
+  }
+
+  const direction = velocity > 0
+    ? "Қызыл ығысу: жарық көзі алыстап барады."
+    : velocity < 0
+      ? "Көк ығысу: жарық көзі жақындап барады."
+      : "Доплерлік ығысу жоқ.";
+
+  result.innerHTML = `
+    <p>Радиал жылдамдық: ${(velocity / 1000).toFixed(3)} км/с</p>
+    <p>${direction}</p>
+  `;
+}
+
+
+// 5. Тест нәтижесін тексеру
+function checkAtomicSpectroscopyQuiz() {
+  const answers = {
+    spectroscopyQ1: "a",
+    spectroscopyQ2: "a",
+    spectroscopyQ3: "a",
+    spectroscopyQ4: "a",
+    spectroscopyQ5: "a",
+    spectroscopyQ6: "a"
+  };
+
+  let score = 0;
+  let unanswered = 0;
+
+  for (const [name, correct] of Object.entries(answers)) {
+    const selected = document.querySelector(
+      'input[name="' + name + '"]:checked'
+    );
+
+    if (!selected) {
+      unanswered++;
+    } else if (selected.value === correct) {
+      score++;
+    }
+  }
+
+  const result = document.getElementById("spectroscopyQuizResult");
+
+  result.innerHTML = `
+    <h3>Нәтиже: ${score} / 6</h3>
+    <p>Дұрыс жауаптар: ${score}</p>
+    <p>Жауап берілмеген сұрақтар: ${unanswered}</p>
+    <p>${
+      score === 6
+        ? "Өте жақсы! Тақырыпты толық меңгердіңіз."
+        : score >= 4
+          ? "Жақсы нәтиже! Теорияны тағы қайталаңыз."
+          : "Теорияны қайталап, тестті қайта орындаңыз."
+    }</p>
+  `;
+}
   
+function showUniversityXrayModule(topic, categoryName) {
+  const details = document.getElementById("topicDetails");
+
+  details.innerHTML = `
+    <div class="card">
+      <h2>Рентген сәулелері және олардың физикалық қасиеттері</h2>
+
+      <p>
+        Рентген сәулелері — толқын ұзындығы өте қысқа,
+        энергиясы жоғары электромагниттік сәулелену.
+        Олар иондаушы сәулелерге жатады.
+      </p>
+
+      <h3>1. Рентген сәулелерінің ашылуы</h3>
+      <p>
+        Рентген сәулелерін 1895 жылы неміс физигі
+        Вильгельм Конрад Рентген ашты.
+        Бұл жаңалық медицинада, физикада және материалтануда
+        үлкен өзгерістерге жол ашты.
+      </p>
+
+      <h3>2. Негізгі физикалық қасиеттері</h3>
+      <ul>
+        <li>Электромагниттік табиғатқа ие.</li>
+        <li>Вакуумда жарық жылдамдығымен таралады.</li>
+        <li>Заттардан өту қабілеті жоғары.</li>
+        <li>Фотографиялық материалдарға әсер етеді.</li>
+        <li>Заттарды иондай алады.</li>
+        <li>Кристалдарда дифракция құбылысын тудырады.</li>
+      </ul>
+      <p>
+        Рентген сәулелерінің толқын ұзындығының жиі
+        қолданылатын шамалары шамамен 0,01–10 нм аралығында.
+        Нақты шекаралар қолданылатын жіктеуге байланысты өзгеруі мүмкін.
+      </p>
+
+      <h3>3. Рентген сәулелерінің пайда болуы</h3>
+      <p>
+        Рентген түтігінде катодтан шыққан электрондар жоғары
+        кернеумен үдетіліп, металл анодқа соғылады.
+        Электрондардың энергиясы рентген сәулелеріне айналады.
+      </p>
+
+      <h4>Тежелу сәулеленуі</h4>
+      <p>
+        Жылдам электрондар анод атомдарының электр өрісінде
+        тежелген кезде энергиясының бір бөлігін фотон түрінде
+        шығарады. Нәтижесінде үздіксіз рентген спектрі пайда болады.
+      </p>
+
+      <h4>Сипаттамалық сәулелену</h4>
+      <p>
+        Жоғары энергиялы электрон атомның ішкі электрондық
+        қабатынан электронды шығарып жіберуі мүмкін.
+        Бос орынға сыртқы қабаттағы электрон ауысқанда
+        энергия айырмасы рентген фотоны түрінде бөлінеді.
+        Мұндай сәулеленудің энергиясы элементке тән болады.
+      </p>
+
+      <p class="formula">
+        E = hν = hc / λ
+      </p>
+
+      <h3>4. Дуэйн–Хант заңы</h3>
+      <p>
+        Рентген түтігіндегі электронның ең үлкен кинетикалық
+        энергиясы бір фотонға толық берілген жағдайда
+        пайда болатын ең қысқа толқын ұзындығын анықтайды.
+      </p>
+
+      <p class="formula">
+        λmin = hc / eU
+      </p>
+      <p class="formula">
+        Emax = eU
+      </p>
+      <p>
+        Мұндағы U — түтік кернеуі, e — элементар заряд,
+        h — Планк тұрақтысы, c — жарық жылдамдығы.
+      </p>
+
+      <h3>5. Кристалдардағы рентген дифракциясы</h3>
+      <p>
+        Рентген сәулелерінің толқын ұзындығы кристалл
+        торындағы атомдар арақашықтығымен шамалас.
+        Сондықтан кристалдарда дифракция байқалады.
+        Бұл құбылыс кристалл құрылымын зерттеуге мүмкіндік береді.
+      </p>
+
+      <p class="formula">
+        nλ = 2d sin θ
+      </p>
+      <p>
+        Мұндағы n — дифракция реті, λ — толқын ұзындығы,
+        d — кристалл жазықтықтарының арақашықтығы,
+        θ — Брэгг бұрышы.
+      </p>
+
+      <h3>6. Рентген сәулелерінің затта әлсіреуі</h3>
+      <p>
+        Рентген сәулесі зат арқылы өткенде оның қарқындылығы
+        жұтылу және шашырау әсерінен азаяды.
+      </p>
+      <p class="formula">
+        I = I₀e<sup>−μx</sup>
+      </p>
+      <p>
+        Мұндағы I₀ — бастапқы қарқындылық,
+        I — заттан өткеннен кейінгі қарқындылық,
+        μ — сызықтық әлсіреу коэффициенті,
+        x — заттың қалыңдығы.
+      </p>
+      <p class="formula">
+        x₁/₂ = ln(2) / μ
+      </p>
+      <p>
+        x₁/₂ — сәуле қарқындылығын екі есе азайтатын
+        жартылай әлсіреу қабатының қалыңдығы.
+      </p>
+
+      <h3>7. Қолданылуы</h3>
+      <ul>
+        <li>Медицинада рентгенография және компьютерлік томография.</li>
+        <li>Кристалл құрылымын рентгендік дифракциямен зерттеу.</li>
+        <li>Материалдардың ішкі ақауларын анықтау.</li>
+        <li>Химиялық элементтерді талдау.</li>
+        <li>Астрономияда ғарыштық нысандарды зерттеу.</li>
+      </ul>
+
+      <h3>8. Радиациялық қауіпсіздік</h3>
+      <p>
+        Рентген сәулелері иондаушы сәулелену болғандықтан,
+        тірі жасушаларға әсер етуі мүмкін.
+        Сондықтан сәулелену уақытын азайту, қашықтықты арттыру
+        және қорғаныш экрандарын қолдану маңызды.
+        Медициналық тексерулер негізделген көрсетілім бойынша
+        және қажетті сәулелену деңгейін оңтайландыру арқылы жүргізіледі.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Есептеу құралы 1. Рентген түтігінің ең қысқа толқын ұзындығы</h3>
+      <p>Түтік кернеуі арқылы λmin және фотонның ең үлкен энергиясын анықтау.</p>
+
+      <label>Кернеу U (кВ):</label>
+      <input type="number" id="xrayVoltage" value="40" min="0.001" step="any">
+
+      <button onclick="calculateXrayTube()">Есептеу</button>
+      <div id="xrayTubeResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>Есептеу құралы 2. Брэгг теңдеуі</h3>
+      <p>Кристалдағы дифракция кезінде рентген толқын ұзындығын анықтау.</p>
+
+      <label>Жазықтықтар арақашықтығы d (нм):</label>
+      <input type="number" id="xraySpacing" value="0.2" min="0.000001" step="any">
+
+      <label>Брэгг бұрышы θ (градус):</label>
+      <input type="number" id="xrayAngle" value="30" min="0.000001" max="90" step="any">
+
+      <label>Дифракция реті n:</label>
+      <input type="number" id="xrayOrder" value="1" min="1" step="1">
+
+      <button onclick="calculateXrayBragg()">Есептеу</button>
+      <div id="xrayBraggResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>Есептеу құралы 3. Рентген сәулесінің әлсіреуі</h3>
+      <p>Заттан өткеннен кейінгі сәуле қарқындылығын есептеу.</p>
+
+      <label>Әлсіреу коэффициенті μ (см⁻¹):</label>
+      <input type="number" id="xrayMu" value="1" min="0.000001" step="any">
+
+      <label>Зат қалыңдығы x (см):</label>
+      <input type="number" id="xrayThickness" value="1" min="0" step="any">
+
+      <label>Бастапқы қарқындылық I₀:</label>
+      <input type="number" id="xrayInitialIntensity" value="100" min="0" step="any">
+
+      <button onclick="calculateXrayAttenuation()">Есептеу</button>
+      <div id="xrayAttenuationResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>Есептеу құралы 4. Рентген фотонының энергиясы</h3>
+      <p>Толқын ұзындығы бойынша фотон энергиясын есептеу.</p>
+
+      <label>Толқын ұзындығы λ (нм):</label>
+      <input type="number" id="xrayPhotonWavelength" value="0.1" min="0.000001" step="any">
+
+      <button onclick="calculateXrayPhotonEnergy()">Есептеу</button>
+      <div id="xrayPhotonEnergyResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>Білімді тексеру тесті</h3>
+
+      <form id="xrayQuiz">
+        <p>1. Рентген сәулелері табиғаты бойынша қандай сәулелену?</p>
+        <label><input type="radio" name="xq1" value="a"> Механикалық толқын</label><br>
+        <label><input type="radio" name="xq1" value="b"> Электромагниттік сәулелену</label><br>
+        <label><input type="radio" name="xq1" value="c"> Дыбыс толқыны</label><br>
+
+        <p>2. Тежелу рентген сәулеленуі қалай пайда болады?</p>
+        <label><input type="radio" name="xq2" value="a"> Электрондар тежелгенде</label><br>
+        <label><input type="radio" name="xq2" value="b"> Атомдар буланғанда</label><br>
+        <label><input type="radio" name="xq2" value="c"> Ядролар бөлінгенде ғана</label><br>
+
+        <p>3. Сипаттамалық рентген сәулеленуінің себебі:</p>
+        <label><input type="radio" name="xq3" value="a"> Сыртқы қабаттағы электрондардың еркін қозғалысы</label><br>
+        <label><input type="radio" name="xq3" value="b"> Ішкі электрондық қабаттағы бос орынның толтырылуы</label><br>
+        <label><input type="radio" name="xq3" value="c"> Дененің қызуы ғана</label><br>
+
+        <p>4. Дуэйн–Хант заңы нені анықтайды?</p>
+        <label><input type="radio" name="xq4" value="a"> Ең қысқа толқын ұзындығын</label><br>
+        <label><input type="radio" name="xq4" value="b"> Дыбыс жиілігін</label><br>
+        <label><input type="radio" name="xq4" value="c"> Кристалл массасын</label><br>
+
+        <p>5. Брэгг теңдеуі қандай құбылысты сипаттайды?</p>
+        <label><input type="radio" name="xq5" value="a"> Электр тогын</label><br>
+        <label><input type="radio" name="xq5" value="b"> Кристалдағы дифракцияны</label><br>
+        <label><input type="radio" name="xq5" value="c"> Жылулық ұлғаюды</label><br>
+
+        <p>6. Заттан өткен рентген сәулесінің қарқындылығы қалай өзгереді?</p>
+        <label><input type="radio" name="xq6" value="a"> Экспоненциалды түрде кемиді</label><br>
+        <label><input type="radio" name="xq6" value="b"> Әрқашан тұрақты қалады</label><br>
+        <label><input type="radio" name="xq6" value="c"> Міндетті түрде шексіз өседі</label><br>
+
+        <button type="button" onclick="checkXrayQuiz()">Тестті тексеру</button>
+      </form>
+
+      <div id="xrayQuizResult" class="result"></div>
+    </div>
+  `;
+
+  details.scrollIntoView({ behavior: "smooth" });
+}
+
+
+// 1. Рентген түтігінің ең қысқа толқын ұзындығы
+function calculateXrayTube() {
+  const U = Number(document.getElementById("xrayVoltage").value);
+  const result = document.getElementById("xrayTubeResult");
+
+  if (!Number.isFinite(U) || U <= 0) {
+    result.innerHTML = "Кернеуді нөлден үлкен мәнмен енгізіңіз.";
+    return;
+  }
+
+  // Duane–Hunt: λmin (нм) = 1.239841984 / U (кВ)
+  const lambda = 1.239841984 / U;
+  const energy = U;
+
+  result.innerHTML = `
+    <p>Ең қысқа толқын ұзындығы:</p>
+    <strong>λmin = ${lambda.toFixed(5)} нм</strong>
+    <p>Фотонның ең үлкен энергиясы:</p>
+    <strong>Emax = ${energy.toFixed(3)} кэВ</strong>
+  `;
+}
+
+
+// 2. Брэгг теңдеуі
+function calculateXrayBragg() {
+  const d = Number(document.getElementById("xraySpacing").value);
+  const angle = Number(document.getElementById("xrayAngle").value);
+  const n = Number(document.getElementById("xrayOrder").value);
+  const result = document.getElementById("xrayBraggResult");
+
+  if (
+    !Number.isFinite(d) || d <= 0 ||
+    !Number.isFinite(angle) || angle <= 0 || angle > 90 ||
+    !Number.isInteger(n) || n < 1
+  ) {
+    result.innerHTML = "d, θ және n мәндерін дұрыс енгізіңіз.";
+    return;
+  }
+
+  const theta = angle * Math.PI / 180;
+  const lambda = (2 * d * Math.sin(theta)) / n;
+
+  result.innerHTML = `
+    <p>Брэгг теңдеуі: nλ = 2d sin θ</p>
+    <strong>λ = ${lambda.toFixed(6)} нм</strong>
+  `;
+}
+
+
+// 3. Сәуленің затта әлсіреуі
+function calculateXrayAttenuation() {
+  const mu = Number(document.getElementById("xrayMu").value);
+  const x = Number(document.getElementById("xrayThickness").value);
+  const I0 = Number(document.getElementById("xrayInitialIntensity").value);
+  const result = document.getElementById("xrayAttenuationResult");
+
+  if (
+    !Number.isFinite(mu) || mu <= 0 ||
+    !Number.isFinite(x) || x < 0 ||
+    !Number.isFinite(I0) || I0 < 0
+  ) {
+    result.innerHTML = "Енгізілген мәндерді тексеріңіз.";
+    return;
+  }
+
+  const I = I0 * Math.exp(-mu * x);
+  const halfValueLayer = Math.log(2) / mu;
+
+  result.innerHTML = `
+    <p>Өткеннен кейінгі қарқындылық:</p>
+    <strong>I = ${I.toFixed(4)}</strong>
+    <p>Бастапқы қарқындылықтың үлесі:</p>
+    <strong>${(Math.exp(-mu * x) * 100).toFixed(2)}%</strong>
+    <p>Жартылай әлсіреу қабаты:</p>
+    <strong>x₁/₂ = ${halfValueLayer.toFixed(4)} см</strong>
+  `;
+}
+
+
+// 4. Фотон энергиясы
+function calculateXrayPhotonEnergy() {
+  const lambda = Number(
+    document.getElementById("xrayPhotonWavelength").value
+  );
+  const result = document.getElementById("xrayPhotonEnergyResult");
+
+  if (!Number.isFinite(lambda) || lambda <= 0) {
+    result.innerHTML = "Толқын ұзындығын нөлден үлкен енгізіңіз.";
+    return;
+  }
+
+  // E(эВ) = 1239.841984 / λ(нм)
+  const energyEV = 1239.841984 / lambda;
+  const energyKEV = energyEV / 1000;
+
+  result.innerHTML = `
+    <p>Фотон энергиясы:</p>
+    <strong>E = ${energyEV.toFixed(4)} эВ</strong>
+    <p>Килоэлектронвольтпен:</p>
+    <strong>E = ${energyKEV.toFixed(5)} кэВ</strong>
+  `;
+}
+
+
+// 5. Тест нәтижесін тексеру
+function checkXrayQuiz() {
+  const answers = {
+    xq1: "b",
+    xq2: "a",
+    xq3: "b",
+    xq4: "a",
+    xq5: "b",
+    xq6: "a"
+  };
+
+  let score = 0;
+  let unanswered = 0;
+
+  for (const [question, correct] of Object.entries(answers)) {
+    const selected = document.querySelector(
+      'input[name="' + question + '"]:checked'
+    );
+
+    if (!selected) {
+      unanswered++;
+    } else if (selected.value === correct) {
+      score++;
+    }
+  }
+
+  const result = document.getElementById("xrayQuizResult");
+
+  result.innerHTML = `
+    <h4>Тест нәтижесі: ${score} / 6</h4>
+    <p>Дұрыс жауап: ${score}</p>
+    <p>Жауап берілмеген сұрақ: ${unanswered}</p>
+    <p>${score === 6
+      ? "Өте жақсы! Барлық сұраққа дұрыс жауап бердіңіз."
+      : score >= 4
+        ? "Жақсы нәтиже! Қателерді қайталап шығыңыз."
+        : "Тақырыпты қайта оқып, тестті қайталап көріңіз."
+    }</p>
+  `;
+}
+
 </script>
 </body>
 </html>
