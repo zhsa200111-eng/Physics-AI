@@ -110,7 +110,7 @@ footer{text-align:center;padding:25px;color:#64748b}
 <div id="answer" class="result"></div>
 </div>
 <div id="university" class="section">
-  <h2>🎓 Теория 2.0</h2>
+  <h2>🎓 Теория</h2>
   <p>Жалпы, теориялық және заманауи физиканың негізгі және күрделі тақырыптарын меңгеріңіз.</p>
 
   <input
@@ -424,7 +424,7 @@ try {
       "Меншікті мәндер мен меншікті функциялар",
       "Гейзенберг анықталмағандық принципі",
       "Бұрыштық импульс",
-      "Спин",
+      "Кванттық механикадағы спин және спиндік кванттық күйлер",
       "Сутегі атомының кванттық моделі"
     ]
   },
@@ -441,6 +441,8 @@ try {
       "Жалпы салыстырмалылық теориясы",
       "Эйнштейн теңдеулері",
       "Қара құрдымдар",
+      "Атомдық физика және атомның кванттық модельдері",
+      "Көпэлектронды атомдар және электрондық қабықшалардың құрылысы",
       "Атом ядросының құрылысы",
       "Радиоактивтілік",
       "Ядролық реакциялар",
@@ -540,6 +542,44 @@ function showTopic(topic, categoryName) {
   details.style.display = "block";
   details.innerHTML = "";
 if (
+  topic.toLowerCase().includes("көпэлектронды атомдар") ||
+  topic.toLowerCase().includes("электрондық қабықшалардың құрылысы") ||
+  topic.toLowerCase().includes("электрондық конфигурация")
+) {
+  showUniversityMultiElectronAtomsModule(topic, categoryName);
+  return;
+}
+  if (
+  topic.toLowerCase().includes("атомдық физика") ||
+  topic.toLowerCase().includes("атомның кванттық модельдері")
+) {
+  showUniversityAtomicPhysicsModule(topic, categoryName);
+  return;
+}
+  if (
+  topic.toLowerCase().includes("кванттық механикадағы спин") ||
+  topic.toLowerCase().includes("спиндік кванттық күйлер")
+) {
+  showUniversityQuantumSpinModule(topic, categoryName);
+  return;
+}
+  if (
+  topic.toLowerCase().includes("бұрыштық импульс") ||
+  topic.toLowerCase().includes("бұрыштық момент") ||
+  topic.toLowerCase().includes("орбиталық импульс")
+) {
+  showUniversityAngularMomentumModule(topic, categoryName);
+  return;
+}
+  if (
+  topic.toLowerCase().includes("гейзенберг") ||
+  topic.toLowerCase().includes("анықталмағандық принципі")
+  topic.toLowerCase().includes("анықталмағандық қатынасы")
+) {
+  showUniversityHeisenbergModule(topic, categoryName);
+  return;
+}
+  if (
   topic.toLowerCase().includes("шексіз потенциалдық шұңқыр") ||
   topic.toLowerCase().includes("энергия деңгейлері") ||
   topic.toLowerCase().includes("бірөлшемді потенциалдық шұңқыр")
@@ -17141,6 +17181,2043 @@ function checkUniversityInfiniteWellQuiz() {
       `Жауап берілмеген сұрақ: ${unanswered}.`;
   }
 }
+  function showUniversityHeisenbergModule(topic, categoryName) {
+  const details = document.getElementById("topicDetails");
+
+  details.style.display = "block";
+  details.innerHTML = `
+    <h2>⚛️ ${topic}</h2>
+    <p><b>Бөлім:</b> ${categoryName}</p>
+
+    <div class="card">
+      <h3>1. Анықталмағандық принципінің физикалық мағынасы</h3>
+      <p>
+        Гейзенбергтің анықталмағандық принципі — кванттық механиканың
+        негізгі қағидаларының бірі. Ол микробөлшектің координатасы
+        мен импульсін бір мезгілде шексіз дәлдікпен анықтау мүмкін
+        еместігін көрсетеді.
+      </p>
+      <p>
+        Бұл өлшеу құралдарының жетілмегендігінен ғана туындамайды.
+        Анықталмағандық кванттық жүйенің табиғи қасиеті болып табылады.
+      </p>
+      <p><b>Негізгі теңсіздік:</b></p>
+      <div class="formula">Δx · Δpₓ ≥ ℏ / 2</div>
+      <p>
+        Мұндағы Δx — координатаның стандарттық ауытқуы,
+        Δpₓ — импульстің стандарттық ауытқуы,
+        ℏ — келтірілген Планк тұрақтысы.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>2. Математикалық негізі</h3>
+      <p>
+        Анықталмағандық принципі координата мен импульс
+        операторларының коммутаторынан шығады:
+      </p>
+      <div class="formula">[x̂, p̂ₓ] = iℏ</div>
+      <p>
+        Жалпы жағдайда екі эрмиттік оператор үшін Робертсон
+        анықталмағандық қатынасы қолданылады:
+      </p>
+      <div class="formula">
+        ΔA · ΔB ≥ ½ |⟨[Â, B̂]⟩|
+      </div>
+      <p>
+        Осы өрнек координата мен импульс операторларына
+        қолданылғанда Гейзенберг теңсіздігі алынады.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>3. Координата және импульс анықталмағандығы</h3>
+      <p>
+        Егер бөлшектің координатасын өте жоғары дәлдікпен
+        анықтасақ, оның импульсінің анықталмағандығы артады.
+        Керісінше, импульс дәлдігі артқан сайын координатаның
+        анықталмағандығы ұлғаяды.
+      </p>
+      <p>
+        Мысалы, электрон өте кішкентай кеңістікте шоғырланса,
+        оның импульсінің ықтимал мәндерінің диапазоны кеңейеді.
+      </p>
+      <div class="formula">Δpₓ ≥ ℏ / (2Δx)</div>
+    </div>
+
+    <div class="card">
+      <h3>4. Энергия мен уақытқа қатысты қатынас</h3>
+      <p>
+        Кванттық процестерді сипаттауда энергия мен уақыт
+        анықталмағандығына қатысты мына қатынас жиі қолданылады:
+      </p>
+      <div class="formula">ΔE · Δt ≳ ℏ / 2</div>
+      <p>
+        Мұндағы ΔE — энергияның сипаттамалық анықталмағандығы,
+        Δt — процестің уақыттық масштабы.
+      </p>
+      <p>
+        Бұл қатынас координата мен импульс қатынасы сияқты
+        екі тәуелсіз оператордың коммутаторынан тікелей
+        алынатын теңсіздік емес. Ол уақытқа тәуелді кванттық
+        процестерді сипаттауда қолданылады.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>5. Гаусстық толқындық пакет</h3>
+      <p>
+        Гаусстық пішіндегі минималды анықталмағандықты
+        толқындық пакет үшін:
+      </p>
+      <div class="formula">Δx · Δpₓ = ℏ / 2</div>
+      <p>
+        Бұл жағдайда Гейзенберг теңсіздігінің төменгі шегіне
+        қол жеткізіледі. Мұндай күй минималды анықталмағандық
+        күйі деп аталады.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>6. Анықталмағандықты есептеу құралы</h3>
+      <p>
+        Координатаның анықталмағандығы белгілі болса,
+        импульстің ең аз анықталмағандығын есептейміз.
+      </p>
+      <div class="formula">Δpₓ(min) = ℏ / (2Δx)</div>
+
+      <label>Координата анықталмағандығы Δx (нм):</label>
+      <input type="number" id="heisenbergDx" value="1" min="0.000001" step="any">
+
+      <button onclick="calculateHeisenbergMomentum()">
+        Импульс анықталмағандығын есептеу
+      </button>
+      <div id="heisenbergMomentumResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>7. Координата анықталмағандығын есептеу</h3>
+      <p>
+        Импульс анықталмағандығы берілген жағдайда
+        координатаның ең аз анықталмағандығын табамыз.
+      </p>
+      <div class="formula">Δx(min) = ℏ / (2Δpₓ)</div>
+
+      <label>Импульс анықталмағандығы Δp (кг·м/с):</label>
+      <input type="number" id="heisenbergDp" value="1e-24" min="0" step="any">
+
+      <button onclick="calculateHeisenbergPosition()">
+        Координата анықталмағандығын есептеу
+      </button>
+      <div id="heisenbergPositionResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>8. Электрон жылдамдығының анықталмағандығы</h3>
+      <p>
+        Электрон үшін импульс анықталмағандығы арқылы
+        жылдамдық анықталмағандығының төменгі шегін бағалаймыз:
+      </p>
+      <div class="formula">Δvₓ ≥ ℏ / (2mΔx)</div>
+
+      <label>Координата анықталмағандығы Δx (нм):</label>
+      <input type="number" id="heisenbergVelocityDx" value="0.1" min="0.000001" step="any">
+
+      <button onclick="calculateHeisenbergVelocity()">
+        Жылдамдық анықталмағандығын есептеу
+      </button>
+      <div id="heisenbergVelocityResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>9. Шешілген есеп</h3>
+      <p>
+        Электронның координатасы Δx = 0,1 нм дәлдікпен анықталған.
+        Импульс анықталмағандығының ең аз мәнін табыңыз.
+      </p>
+      <p>Берілгені:</p>
+      <p>Δx = 1 × 10⁻¹⁰ м</p>
+      <p>ℏ = 1,054571817 × 10⁻³⁴ Дж·с</p>
+      <p>Формула:</p>
+      <p>Δpₓ ≥ ℏ / (2Δx)</p>
+      <p><b>Жауабы:</b> Δpₓ ≥ 5,27 × 10⁻²⁵ кг·м/с.</p>
+    </div>
+
+    <div class="card">
+      <h3>10. Қолданылу салалары</h3>
+      <ul>
+        <li>Атомдар мен электрондардың кванттық күйлерін зерттеу.</li>
+        <li>Атомдық орбитальдардың қасиеттерін түсіндіру.</li>
+        <li>Кванттық туннельдеу құбылысын зерттеу.</li>
+        <li>Кванттық оптика және кванттық ақпарат теориясы.</li>
+        <li>Микроскопиялық жүйелердің энергия деңгейлерін талдау.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>11. Білімді тексеру тесті</h3>
+      <div id="heisenbergQuiz">
+        <p><b>1. Гейзенберг принципі нені сипаттайды?</b></p>
+        <label><input type="radio" name="hq1" value="0"> Масса мен көлем байланысын</label><br>
+        <label><input type="radio" name="hq1" value="1"> Координата мен импульс анықталмағандығын</label><br>
+        <label><input type="radio" name="hq1" value="2"> Қысым мен температураны</label>
+
+        <p><b>2. Координата мен импульс анықталмағандықтарының көбейтіндісінің төменгі шегі:</b></p>
+        <label><input type="radio" name="hq2" value="0"> ℏ / 2</label><br>
+        <label><input type="radio" name="hq2" value="1"> ℏ</label><br>
+        <label><input type="radio" name="hq2" value="2"> 2ℏ</label>
+
+        <p><b>3. ℏ қандай тұрақты?</b></p>
+        <label><input type="radio" name="hq3" value="0"> Гравитациялық тұрақты</label><br>
+        <label><input type="radio" name="hq3" value="1"> Келтірілген Планк тұрақтысы</label><br>
+        <label><input type="radio" name="hq3" value="2"> Больцман тұрақтысы</label>
+
+        <p><b>4. Координатаның анықталмағандығы азайса, импульс анықталмағандығы қалай өзгереді?</b></p>
+        <label><input type="radio" name="hq4" value="0"> Азаяды</label><br>
+        <label><input type="radio" name="hq4" value="1"> Міндетті түрде нөл болады</label><br>
+        <label><input type="radio" name="hq4" value="2"> Төменгі шегі артады</label>
+
+        <p><b>5. Минималды анықталмағандық күйінде қандай теңдік орындалады?</b></p>
+        <label><input type="radio" name="hq5" value="0"> Δx · Δp = ℏ / 2</label><br>
+        <label><input type="radio" name="hq5" value="1"> Δx · Δp = 0</label><br>
+        <label><input type="radio" name="hq5" value="2"> Δx = Δp</label>
+
+        <p><b>6. Анықталмағандық принципі неліктен пайда болады?</b></p>
+        <label><input type="radio" name="hq6" value="0"> Тек өлшеу құралдарының қателігінен</label><br>
+        <label><input type="radio" name="hq6" value="1"> Кванттық күй мен операторлардың математикалық қасиеттерінен</label><br>
+        <label><input type="radio" name="hq6" value="2"> Тек бөлшектің температурасына байланысты</label>
+      </div>
+
+      <button onclick="checkHeisenbergQuiz()">
+        Тест нәтижесін тексеру
+      </button>
+      <div id="heisenbergQuizResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>12. Өзіндік жұмыс</h3>
+      <ol>
+        <li>Гейзенберг анықталмағандық принципінің физикалық мағынасын түсіндіріңіз.</li>
+        <li>Координата мен импульс операторларының коммутаторын жазыңыз.</li>
+        <li>Минималды анықталмағандық күйінің шартын түсіндіріңіз.</li>
+        <li>Электрон координатасының анықталмағандығы 0,05 нм болса, импульс анықталмағандығының төменгі шегін есептеңіз.</li>
+        <li>Энергия мен уақытқа қатысты анықталмағандық қатынасының қолданылу ерекшелігін түсіндіріңіз.</li>
+      </ol>
+    </div>
+  `;
+
+  details.scrollIntoView({ behavior: "smooth" });
+}
+
+function calculateHeisenbergMomentum() {
+  const hbar = 1.054571817e-34;
+  const dxNm = Number(document.getElementById("heisenbergDx").value);
+  const result = document.getElementById("heisenbergMomentumResult");
+
+  if (!Number.isFinite(dxNm) || dxNm <= 0) {
+    result.textContent = "Δx мәнін нөлден үлкен етіп енгізіңіз.";
+    return;
+  }
+
+  const dx = dxNm * 1e-9;
+  const dp = hbar / (2 * dx);
+
+  result.textContent =
+    "Δpₓ ≥ " + dp.toExponential(6) + " кг·м/с";
+}
+
+function calculateHeisenbergPosition() {
+  const hbar = 1.054571817e-34;
+  const dp = Number(document.getElementById("heisenbergDp").value);
+  const result = document.getElementById("heisenbergPositionResult");
+
+  if (!Number.isFinite(dp) || dp <= 0) {
+    result.textContent = "Δp мәнін нөлден үлкен етіп енгізіңіз.";
+    return;
+  }
+
+  const dx = hbar / (2 * dp);
+
+  result.textContent =
+    "Δx ≥ " + dx.toExponential(6) + " м\n" +
+    "Δx ≥ " + (dx * 1e9).toExponential(6) + " нм";
+}
+
+function calculateHeisenbergVelocity() {
+  const hbar = 1.054571817e-34;
+  const electronMass = 9.1093837e-31;
+  const dxNm = Number(document.getElementById("heisenbergVelocityDx").value);
+  const result = document.getElementById("heisenbergVelocityResult");
+
+  if (!Number.isFinite(dxNm) || dxNm <= 0) {
+    result.textContent = "Δx мәнін нөлден үлкен етіп енгізіңіз.";
+    return;
+  }
+
+  const dx = dxNm * 1e-9;
+  const dv = hbar / (2 * electronMass * dx);
+
+  result.textContent =
+    "Электрон үшін Δvₓ ≥ " + dv.toExponential(6) + " м/с";
+}
+
+function checkHeisenbergQuiz() {
+  const answers = ["1", "0", "1", "2", "0", "1"];
+  let score = 0;
+  let unanswered = 0;
+
+  answers.forEach((answer, index) => {
+    const selected = document.querySelector(
+      'input[name="hq' + (index + 1) + '"]:checked'
+    );
+
+    if (!selected) {
+      unanswered++;
+    } else if (selected.value === answer) {
+      score++;
+    }
+  });
+
+  document.getElementById("heisenbergQuizResult").textContent =
+    "Нәтиже: " + score + " / " + answers.length +
+    ". Жауап берілмеген сұрақ саны: " + unanswered + ".";
+}
+  function showUniversityAngularMomentumModule(topic, categoryName) {
+  const details = document.getElementById("topicDetails");
+
+  details.style.display = "block";
+  details.innerHTML = `
+    <h2>⚛️ ${topic}</h2>
+    <p><b>Бөлім:</b> ${categoryName}</p>
+
+    <div class="card">
+      <h3>1. Кванттық бұрыштық импульс ұғымы</h3>
+      <p>
+        Бұрыштық импульс — бөлшектің айналмалы қозғалысын
+        сипаттайтын физикалық шама. Классикалық механикада
+        ол импульс пен радиус-вектордың векторлық көбейтіндісімен
+        анықталады.
+      </p>
+      <div class="formula">L = r × p</div>
+      <p>
+        Кванттық механикада бұрыштық импульс операторлар арқылы
+        сипатталады. Оның проекциялары мен модулінің квадраты
+        тек белгілі бір квантталған мәндерді қабылдайды.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>2. Бұрыштық импульс операторлары</h3>
+      <p>Бұрыштық импульстің декарттық компоненттері:</p>
+      <div class="formula">L̂ = (L̂ₓ, L̂ᵧ, L̂ᵤ)</div>
+      <p>Модулінің квадраты:</p>
+      <div class="formula">L̂² = L̂ₓ² + L̂ᵧ² + L̂ᵤ²</div>
+      <p>Компоненттердің коммутаторлары:</p>
+      <div class="formula">[L̂ₓ, L̂ᵧ] = iℏL̂ᵤ</div>
+      <div class="formula">[L̂ᵧ, L̂ᵤ] = iℏL̂ₓ</div>
+      <div class="formula">[L̂ᵤ, L̂ₓ] = iℏL̂ᵧ</div>
+      <p>
+        Бұрыштық импульстің әртүрлі компоненттері бір мезгілде
+        дәл анықталмайды. Ал L̂² операторы мен бір компонент,
+        мысалы L̂ᵤ, өзара коммутативті.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>3. Орбиталық бұрыштық импульстің квантталуы</h3>
+      <p>
+        Орбиталық бұрыштық импульстің модулінің квадраты
+        мына меншікті мәндерге ие:
+      </p>
+      <div class="formula">L² = ℏ² l(l + 1)</div>
+      <p>
+        Бұрыштық импульстің модулі:
+      </p>
+      <div class="formula">|L| = ℏ√(l(l + 1))</div>
+      <p>
+        Мұндағы l — орбиталық кванттық сан.
+        Оның мүмкін мәндері:
+      </p>
+      <div class="formula">l = 0, 1, 2, 3, ...</div>
+    </div>
+
+    <div class="card">
+      <h3>4. Магниттік кванттық сан</h3>
+      <p>
+        Бұрыштық импульстің z осіндегі проекциясы
+        магниттік кванттық сан арқылы анықталады:
+      </p>
+      <div class="formula">Lᵤ = mₗℏ</div>
+      <p>
+        Магниттік кванттық санның мүмкін мәндері:
+      </p>
+      <div class="formula">mₗ = −l, ..., 0, ..., +l</div>
+      <p>
+        Әрбір l мәні үшін барлығы 2l + 1 түрлі магниттік
+        проекция болады.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>5. Мысал: l = 2 болған жағдай</h3>
+      <p>
+        Егер орбиталық кванттық сан l = 2 болса,
+        магниттік кванттық сан мына мәндерді қабылдайды:
+      </p>
+      <div class="formula">mₗ = −2, −1, 0, +1, +2</div>
+      <p>Мүмкін күйлер саны:</p>
+      <div class="formula">N = 2l + 1 = 5</div>
+      <p>Бұрыштық импульс модулі:</p>
+      <div class="formula">|L| = ℏ√6</div>
+    </div>
+
+    <div class="card">
+      <h3>6. Сфералық координаталардағы операторлар</h3>
+      <p>
+        Сфералық координаталарда z осі бойынша бұрыштық
+        импульс операторы:
+      </p>
+      <div class="formula">L̂ᵤ = −iℏ ∂/∂φ</div>
+      <p>
+        Бұрыштық импульстің квадраты:
+      </p>
+      <div class="formula">
+        L̂² = −ℏ² [
+        1/sinθ · ∂/∂θ(sinθ · ∂/∂θ)
+        + 1/sin²θ · ∂²/∂φ²
+        ]
+      </div>
+      <p>
+        Бұл операторлардың меншікті функциялары сфералық
+        гармоникалар Yₗᵐ(θ, φ) деп аталады.
+      </p>
+      <p>
+        Олар атомдық орбитальдардың бұрыштық бөлігін
+        математикалық тұрғыдан сипаттайды.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>7. Бұрыштық импульсті есептеу калькуляторы</h3>
+      <p>
+        Орбиталық және магниттік кванттық сандарды енгізіп,
+        бұрыштық импульс модулі мен оның проекциясын есептеңіз.
+      </p>
+
+      <label>Орбиталық кванттық сан l:</label>
+      <input type="number" id="angL" value="2" min="0" max="100" step="1">
+
+      <label>Магниттік кванттық сан mₗ:</label>
+      <input type="number" id="angM" value="1" step="1">
+
+      <button onclick="calculateAngularMomentumQuantum()">
+        Есептеу
+      </button>
+      <div id="angMomentumResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>8. Кванттық күйлер санын анықтау</h3>
+      <p>
+        Берілген l үшін магниттік кванттық сандардың
+        жалпы санын есептеңіз.
+      </p>
+
+      <label>Орбиталық кванттық сан l:</label>
+      <input type="number" id="angStateL" value="2" min="0" max="100" step="1">
+
+      <button onclick="calculateAngularStates()">
+        Күйлер санын есептеу
+      </button>
+      <div id="angStatesResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>9. Бұрыштық импульс проекциясының бағыты</h3>
+      <p>
+        L̂² және L̂ᵤ шамалары анықталған күй үшін
+        бұрыштық импульстің z осіне қатысты проекциясын
+        геометриялық түрде сипаттайтын қатынас:
+      </p>
+      <div class="formula">
+        cos θ = mₗ / √(l(l + 1))
+      </div>
+      <p>
+        Бұл өрнек бұрыштық импульс векторының классикалық
+        бейнесін түсіндіретін модель ретінде қолданылады.
+        Ол кванттық күйдің толық классикалық траекториясын
+        білдірмейді.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>10. Қолданылу салалары</h3>
+      <ul>
+        <li>Атомдағы электрондық орбитальдарды сипаттау.</li>
+        <li>Атом спектрлерінің құрылымын түсіндіру.</li>
+        <li>Магниттік өрістегі атомдардың қасиеттерін зерттеу.</li>
+        <li>Атомдық және молекулалық физика.</li>
+        <li>Кванттық оптика және спектроскопия.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>11. Білімді тексеру тесті</h3>
+      <div id="angMomentumQuiz">
+        <p><b>1. Орбиталық бұрыштық импульс модулінің квадраты қалай анықталады?</b></p>
+        <label><input type="radio" name="amq1" value="0"> ℏ²l(l + 1)</label><br>
+        <label><input type="radio" name="amq1" value="1"> ℏl</label><br>
+        <label><input type="radio" name="amq1" value="2"> ℏ²mₗ</label>
+
+        <p><b>2. Орбиталық кванттық сан l қандай мәндер қабылдайды?</b></p>
+        <label><input type="radio" name="amq2" value="0"> Тек теріс бүтін сандар</label><br>
+        <label><input type="radio" name="amq2" value="1"> 0, 1, 2, 3, ...</label><br>
+        <label><input type="radio" name="amq2" value="2"> Тек жартылай бүтін сандар</label>
+
+        <p><b>3. Магниттік кванттық санның мүмкін мәндері:</b></p>
+        <label><input type="radio" name="amq3" value="0"> Тек 0</label><br>
+        <label><input type="radio" name="amq3" value="1"> −l-ден +l-ге дейінгі бүтін сандар</label><br>
+        <label><input type="radio" name="amq3" value="2"> Тек оң сандар</label>
+
+        <p><b>4. l = 3 болса, магниттік күйлер саны қанша?</b></p>
+        <label><input type="radio" name="amq4" value="0"> 3</label><br>
+        <label><input type="radio" name="amq4" value="1"> 6</label><br>
+        <label><input type="radio" name="amq4" value="2"> 7</label>
+
+        <p><b>5. Lᵤ проекциясы қандай өрнекпен анықталады?</b></p>
+        <label><input type="radio" name="amq5" value="0"> mₗℏ</label><br>
+        <label><input type="radio" name="amq5" value="1"> lℏ²</label><br>
+        <label><input type="radio" name="amq5" value="2"> ℏ√l</label>
+
+        <p><b>6. Бұрыштық импульстің бұрыштық меншікті функциялары қалай аталады?</b></p>
+        <label><input type="radio" name="amq6" value="0"> Бессель функциялары</label><br>
+        <label><input type="radio" name="amq6" value="1"> Сфералық гармоникалар</label><br>
+        <label><input type="radio" name="amq6" value="2"> Гаусс функциялары</label>
+      </div>
+
+      <button onclick="checkAngularMomentumQuiz()">
+        Тест нәтижесін тексеру
+      </button>
+      <div id="angMomentumQuizResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>12. Өзіндік жұмыс</h3>
+      <ol>
+        <li>Кванттық бұрыштық импульстің физикалық мағынасын түсіндіріңіз.</li>
+        <li>l = 1 болғанда барлық mₗ мәндерін анықтаңыз.</li>
+        <li>l = 2 үшін бұрыштық импульс модулін есептеңіз.</li>
+        <li>Магниттік кванттық санның физикалық мағынасын сипаттаңыз.</li>
+        <li>Сфералық гармоникалардың атом физикасындағы рөлін түсіндіріңіз.</li>
+      </ol>
+    </div>
+  `;
+
+  details.scrollIntoView({ behavior: "smooth" });
+}
+
+function calculateAngularMomentumQuantum() {
+  const hbar = 1.054571817e-34;
+  const l = Number(document.getElementById("angL").value);
+  const ml = Number(document.getElementById("angM").value);
+  const result = document.getElementById("angMomentumResult");
+
+  if (
+    !Number.isInteger(l) || l < 0 ||
+    !Number.isInteger(ml) || Math.abs(ml) > l
+  ) {
+    result.textContent =
+      "Қате: l — теріс емес бүтін сан, ал mₗ мәні −l мен +l аралығындағы бүтін сан болуы керек.";
+    return;
+  }
+
+  const magnitude = hbar * Math.sqrt(l * (l + 1));
+  const projection = ml * hbar;
+
+  result.textContent =
+    "|L| = ℏ√(l(l+1)) = " + magnitude.toExponential(6) + " кг·м²/с\n" +
+    "Lᵤ = mₗℏ = " + projection.toExponential(6) + " кг·м²/с\n" +
+    "Мүмкін магниттік күйлер саны: " + (2 * l + 1);
+}
+
+function calculateAngularStates() {
+  const l = Number(document.getElementById("angStateL").value);
+  const result = document.getElementById("angStatesResult");
+
+  if (!Number.isInteger(l) || l < 0) {
+    result.textContent = "l теріс емес бүтін сан болуы керек.";
+    return;
+  }
+
+  const values = [];
+
+  for (let m = -l; m <= l; m++) {
+    values.push(m);
+  }
+
+  result.textContent =
+    "Магниттік кванттық сандар: " + values.join(", ") +
+    "\nКүйлер саны: " + values.length;
+}
+
+function checkAngularMomentumQuiz() {
+  const answers = ["0", "1", "1", "2", "0", "1"];
+  let score = 0;
+  let unanswered = 0;
+
+  answers.forEach((answer, index) => {
+    const selected = document.querySelector(
+      'input[name="amq' + (index + 1) + '"]:checked'
+    );
+
+    if (!selected) {
+      unanswered++;
+    } else if (selected.value === answer) {
+      score++;
+    }
+  });
+
+  document.getElementById("angMomentumQuizResult").textContent =
+    "Нәтиже: " + score + " / " + answers.length +
+    ". Жауап берілмеген сұрақ саны: " + unanswered + ".";
+}
+  function showUniversityQuantumSpinModule(topic, categoryName) {
+  const details = document.getElementById("topicDetails");
+
+  details.innerHTML = `
+    <div class="card">
+      <h2>Кванттық механикадағы спин және спиндік кванттық күйлер</h2>
+
+      <p>
+        Спин — элементар бөлшектерге тән меншікті импульс моменті.
+        Ол бөлшектің ішкі кванттық қасиеті болып табылады.
+        Спинді классикалық мағынадағы шардың өз осінен айналуымен
+        теңестіруге болмайды.
+      </p>
+
+      <h3>1. Спиннің негізгі сипаттамалары</h3>
+
+      <p>
+        Спин бөлшектің кванттық күйін сипаттайтын маңызды физикалық
+        шамалардың бірі. Ол спиндік кванттық санмен белгіленеді:
+      </p>
+
+      <div class="formula">
+        s = 0, 1/2, 1, 3/2, 2, ...
+      </div>
+
+      <p>
+        Спиннің толық импульс моментінің модулі:
+      </p>
+
+      <div class="formula">
+        S = ℏ√[s(s + 1)]
+      </div>
+
+      <p>
+        Мұндағы ℏ = h/(2π) — келтірілген Планк тұрақтысы.
+      </p>
+
+      <h3>2. Спиннің проекциясы</h3>
+
+      <p>
+        Таңдалған z осіне спин проекциясы магниттік кванттық санмен
+        анықталады:
+      </p>
+
+      <div class="formula">
+        Sᶻ = mₛℏ
+      </div>
+
+      <p>
+        Спиннің проекция кванттық саны мына мәндерді қабылдайды:
+      </p>
+
+      <div class="formula">
+        mₛ = −s, −s + 1, ..., s − 1, s
+      </div>
+
+      <p>
+        Спиндік күйлердің саны:
+      </p>
+
+      <div class="formula">
+        N = 2s + 1
+      </div>
+
+      <h3>3. Электрон спині</h3>
+
+      <p>
+        Электрон — спині 1/2 болатын фермион. Сондықтан оның спиндік
+        проекциясы екі түрлі мән қабылдайды:
+      </p>
+
+      <div class="formula">
+        s = 1/2
+      </div>
+
+      <div class="formula">
+        mₛ = +1/2 немесе mₛ = −1/2
+      </div>
+
+      <p>
+        Бұл күйлер шартты түрде жоғары бағытталған спин |↑⟩ және
+        төмен бағытталған спин |↓⟩ деп белгіленеді.
+      </p>
+
+      <div class="formula">
+        |↑⟩ = (1, 0)ᵀ
+      </div>
+
+      <div class="formula">
+        |↓⟩ = (0, 1)ᵀ
+      </div>
+
+      <h3>4. Спин операторлары және Паули матрицалары</h3>
+
+      <p>
+        Спин-1/2 бөлшектер үшін спин операторлары Паули матрицалары
+        арқылы өрнектеледі:
+      </p>
+
+      <div class="formula">
+        Sₓ = (ℏ/2) [ [0, 1], [1, 0] ]
+      </div>
+
+      <div class="formula">
+        Sᵧ = (ℏ/2) [ [0, −i], [i, 0] ]
+      </div>
+
+      <div class="formula">
+        Sᶻ = (ℏ/2) [ [1, 0], [0, −1] ]
+      </div>
+
+      <p>
+        Бұл операторлар спиннің әртүрлі бағыттардағы проекцияларын
+        өлшеуді сипаттайды.
+      </p>
+
+      <h3>5. Спин операторларының коммутациясы</h3>
+
+      <p>
+        Спин операторлары бір-бірімен коммутацияланбайды:
+      </p>
+
+      <div class="formula">
+        [Sₓ, Sᵧ] = iℏSᶻ
+      </div>
+
+      <div class="formula">
+        [Sᵧ, Sᶻ] = iℏSₓ
+      </div>
+
+      <div class="formula">
+        [Sᶻ, Sₓ] = iℏSᵧ
+      </div>
+
+      <p>
+        Сондықтан спиннің әртүрлі бағыттардағы проекцияларын бір
+        мезгілде дәл анықтау мүмкін емес.
+      </p>
+
+      <h3>6. Штерн–Герлах тәжірибесі</h3>
+
+      <p>
+        Штерн–Герлах тәжірибесінде магнит өрісі біртекті емес кеңістіктен
+        өткен бөлшектер шоғы екі бағытқа бөлінеді. Бұл кеңістікте
+        спин проекциясының квантталған мәндер қабылдайтынын көрсетеді.
+      </p>
+
+      <p>
+        Электронның спині 1/2 болғандықтан, идеалдандырылған тәжірибеде
+        екі спиндік проекцияға сәйкес екі нәтиже алынады.
+      </p>
+
+      <h3>7. Электронның магниттік моменті</h3>
+
+      <p>
+        Электронның спині оның магниттік моментімен байланысты:
+      </p>
+
+      <div class="formula">
+        μᶻ = −gₛ μB mₛ
+      </div>
+
+      <p>
+        Мұндағы gₛ ≈ 2,0023 — электронның спиндік g-факторы,
+        ал μB — Бор магнетоны.
+      </p>
+
+      <div class="formula">
+        μB = 9,274 × 10⁻²⁴ Дж/Тл
+      </div>
+
+      <p>
+        Минус таңбасы электрон зарядының теріс болуына байланысты.
+      </p>
+
+      <h3>8. Зееман эффектісі</h3>
+
+      <p>
+        Сыртқы магнит өрісінде бөлшектің спиндік күйлерінің энергиясы
+        әртүрлі болуы мүмкін. Спиннің z проекциясына байланысты энергия:
+      </p>
+
+      <div class="formula">
+        E = gₛ μB B mₛ
+      </div>
+
+      <p>
+        Электрон үшін mₛ = ±1/2 болғандықтан, магнит өрісінде екі
+        спиндік күйдің энергиялары ажырайды.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Есептеу құралы 1. Спиннің толық импульс моменті</h3>
+
+      <label>Спин кванттық саны s:</label>
+      <input id="spinQuantumS" type="number" value="0.5"
+        min="0" step="0.5">
+
+      <button onclick="calculateQuantumSpinMagnitude()">
+        Есептеу
+      </button>
+
+      <div id="spinMagnitudeResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>Есептеу құралы 2. Спин проекциясы</h3>
+
+      <label>Спин кванттық саны s:</label>
+      <input id="spinProjectionS" type="number" value="0.5"
+        min="0" step="0.5">
+
+      <label>Магниттік кванттық сан mₛ:</label>
+      <input id="spinProjectionM" type="number" value="0.5"
+        step="0.5">
+
+      <button onclick="calculateQuantumSpinProjection()">
+        Есептеу
+      </button>
+
+      <div id="spinProjectionResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>Есептеу құралы 3. Спиндік күйлер саны</h3>
+
+      <label>Спин кванттық саны s:</label>
+      <input id="spinStatesS" type="number" value="0.5"
+        min="0" step="0.5">
+
+      <button onclick="calculateQuantumSpinStates()">
+        Күйлер санын анықтау
+      </button>
+
+      <div id="spinStatesResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>Есептеу құралы 4. Электронның магниттік энергиясы</h3>
+
+      <label>Магнит өрісінің индукциясы B (Тл):</label>
+      <input id="spinMagneticB" type="number" value="1"
+        min="0" step="0.1">
+
+      <label>Спин проекциясы mₛ:</label>
+      <select id="spinMagneticM">
+        <option value="0.5">+1/2</option>
+        <option value="-0.5">−1/2</option>
+      </select>
+
+      <button onclick="calculateSpinMagneticEnergy()">
+        Энергияны есептеу
+      </button>
+
+      <div id="spinMagneticResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>Білімді тексеру тесті</h3>
+
+      <div class="quiz-question">
+        <p>1. Спин дегеніміз не?</p>
+        <label><input type="radio" name="spinQ1" value="a">
+          Бөлшектің меншікті импульс моменті</label><br>
+        <label><input type="radio" name="spinQ1" value="b">
+          Бөлшектің сызықтық жылдамдығы</label><br>
+        <label><input type="radio" name="spinQ1" value="c">
+          Бөлшектің температурасы</label><br>
+      </div>
+
+      <div class="quiz-question">
+        <p>2. Электронның спин кванттық саны қандай?</p>
+        <label><input type="radio" name="spinQ2" value="a"> 0</label><br>
+        <label><input type="radio" name="spinQ2" value="b"> 1/2</label><br>
+        <label><input type="radio" name="spinQ2" value="c"> 1</label><br>
+      </div>
+
+      <div class="quiz-question">
+        <p>3. Спиндік күйлер саны қандай өрнекпен анықталады?</p>
+        <label><input type="radio" name="spinQ3" value="a">
+          N = 2s + 1</label><br>
+        <label><input type="radio" name="spinQ3" value="b">
+          N = s²</label><br>
+        <label><input type="radio" name="spinQ3" value="c">
+          N = 2s</label><br>
+      </div>
+
+      <div class="quiz-question">
+        <p>4. Электронның спин проекциясы қандай мәндер қабылдайды?</p>
+        <label><input type="radio" name="spinQ4" value="a">
+          0 және 1</label><br>
+        <label><input type="radio" name="spinQ4" value="b">
+          +1/2 және −1/2</label><br>
+        <label><input type="radio" name="spinQ4" value="c">
+          +1 және −1</label><br>
+      </div>
+
+      <div class="quiz-question">
+        <p>5. Спин-1/2 бөлшегінің спин операторлары қандай матрицалармен сипатталады?</p>
+        <label><input type="radio" name="spinQ5" value="a">
+          Паули матрицаларымен</label><br>
+        <label><input type="radio" name="spinQ5" value="b">
+          Якоби матрицаларымен</label><br>
+        <label><input type="radio" name="spinQ5" value="c">
+          Бірлік матрицаның өзімен ғана</label><br>
+      </div>
+
+      <div class="quiz-question">
+        <p>6. Штерн–Герлах тәжірибесі нені көрсетеді?</p>
+        <label><input type="radio" name="spinQ6" value="a">
+          Спин проекциясының квантталуын</label><br>
+        <label><input type="radio" name="spinQ6" value="b">
+          Жарық жылдамдығының өзгеруін</label><br>
+        <label><input type="radio" name="spinQ6" value="c">
+          Дененің жылулық ұлғаюын</label><br>
+      </div>
+
+      <button onclick="checkQuantumSpinQuiz()">Тестті тексеру</button>
+      <div id="spinQuizResult" class="result"></div>
+    </div>
+  `;
+
+  details.scrollIntoView({ behavior: "smooth" });
+}
+
+
+// 1. Спиннің толық импульс моменті
+function calculateQuantumSpinMagnitude() {
+  const s = Number(document.getElementById("spinQuantumS").value);
+  const result = document.getElementById("spinMagnitudeResult");
+
+  if (!Number.isFinite(s) || s < 0 || Math.abs(2 * s - Math.round(2 * s)) > 1e-9) {
+    result.innerHTML = "s мәні теріс емес бүтін немесе жартылай бүтін сан болуы керек.";
+    return;
+  }
+
+  const hbar = 1.054571817e-34;
+  const magnitude = hbar * Math.sqrt(s * (s + 1));
+
+  result.innerHTML = `
+    <p>Формула: S = ℏ√[s(s + 1)]</p>
+    <p>Спин кванттық саны: ${s}</p>
+    <p>Спин модулі: ${magnitude.toExponential(5)} Дж·с</p>
+  `;
+}
+
+
+// 2. Спин проекциясы
+function calculateQuantumSpinProjection() {
+  const s = Number(document.getElementById("spinProjectionS").value);
+  const m = Number(document.getElementById("spinProjectionM").value);
+  const result = document.getElementById("spinProjectionResult");
+
+  const validS = Number.isFinite(s) && s >= 0 &&
+    Math.abs(2 * s - Math.round(2 * s)) < 1e-9;
+
+  const validM = Number.isFinite(m) &&
+    Math.abs(2 * m - Math.round(2 * m)) < 1e-9 &&
+    Math.abs(m) <= s &&
+    Math.abs((s - m) - Math.round(s - m)) < 1e-9;
+
+  if (!validS || !validM) {
+    result.innerHTML = "mₛ мәні −s пен +s аралығында, 1 қадамымен берілуі керек.";
+    return;
+  }
+
+  const hbar = 1.054571817e-34;
+  const projection = m * hbar;
+
+  result.innerHTML = `
+    <p>Формула: Sᶻ = mₛℏ</p>
+    <p>mₛ = ${m}</p>
+    <p>Спин проекциясы: ${projection.toExponential(5)} Дж·с</p>
+  `;
+}
+
+
+// 3. Спиндік күйлер саны
+function calculateQuantumSpinStates() {
+  const s = Number(document.getElementById("spinStatesS").value);
+  const result = document.getElementById("spinStatesResult");
+
+  if (!Number.isFinite(s) || s < 0 || Math.abs(2 * s - Math.round(2 * s)) > 1e-9) {
+    result.innerHTML = "s мәні теріс емес бүтін немесе жартылай бүтін сан болуы керек.";
+    return;
+  }
+
+  const states = 2 * s + 1;
+
+  result.innerHTML = `
+    <p>Формула: N = 2s + 1</p>
+    <p>Спин кванттық саны: ${s}</p>
+    <p>Спиндік күйлер саны: ${states}</p>
+  `;
+}
+
+
+// 4. Электронның магниттік энергиясы
+function calculateSpinMagneticEnergy() {
+  const B = Number(document.getElementById("spinMagneticB").value);
+  const m = Number(document.getElementById("spinMagneticM").value);
+  const result = document.getElementById("spinMagneticResult");
+
+  if (!Number.isFinite(B) || B < 0) {
+    result.innerHTML = "Магнит өрісі B теріс емес сан болуы керек.";
+    return;
+  }
+
+  const g = 2.002319304;
+  const muB = 9.2740100783e-24;
+
+  // Электрон үшін μz = -g μB m, ал E = -μz B.
+  const energy = g * muB * B * m;
+
+  result.innerHTML = `
+    <p>Формула: E = gₛ μB B mₛ</p>
+    <p>gₛ = ${g}</p>
+    <p>Магнит өрісі: ${B} Тл</p>
+    <p>mₛ = ${m}</p>
+    <p>Энергия: ${energy.toExponential(5)} Дж</p>
+  `;
+}
+
+
+// 5. Тест нәтижесі
+function checkQuantumSpinQuiz() {
+  const answers = {
+    spinQ1: "a",
+    spinQ2: "b",
+    spinQ3: "a",
+    spinQ4: "b",
+    spinQ5: "a",
+    spinQ6: "a"
+  };
+
+  let score = 0;
+  let unanswered = 0;
+
+  for (const [name, correct] of Object.entries(answers)) {
+    const selected = document.querySelector(
+      'input[name="' + name + '"]:checked'
+    );
+
+    if (!selected) {
+      unanswered++;
+    } else if (selected.value === correct) {
+      score++;
+    }
+  }
+
+  const result = document.getElementById("spinQuizResult");
+
+  result.innerHTML = `
+    <h3>Нәтиже: ${score} / 6</h3>
+    <p>Дұрыс жауаптар саны: ${score}</p>
+    <p>Жауап берілмеген сұрақтар: ${unanswered}</p>
+    <p>${
+      score === 6
+        ? "Өте жақсы! Тақырыпты толық меңгердіңіз."
+        : score >= 4
+          ? "Жақсы нәтиже! Кейбір ұғымдарды қайталаңыз."
+          : "Тақырып теориясын қайталап, тестті қайта орындаңыз."
+    }</p>
+  `;
+}
+  function showUniversityAtomicPhysicsModule(topic, categoryName) {
+  const details = document.getElementById("topicDetails");
+
+  details.innerHTML = `
+    <div class="card">
+      <h2>Атомдық физика және атомның кванттық модельдері</h2>
+
+      <p>
+        Атомдық физика атомның құрылысын, электрондардың атом ішіндегі
+        қозғалысын, энергетикалық күйлерін және атомдардың сәуле шығару
+        мен жұту құбылыстарын зерттейді.
+      </p>
+
+      <h3>1. Атом құрылысы туралы алғашқы түсініктер</h3>
+
+      <p>
+        Атом — химиялық элементтің қасиеттерін сақтайтын ең кіші бөлшек.
+        Оның ортасында оң зарядталған ядро орналасады, ал электрондар
+        атомның электрондық күйін қалыптастырады.
+      </p>
+
+      <p>
+        Атом моделінің дамуына бірнеше маңызды ғылыми модель әсер етті.
+      </p>
+
+      <h3>2. Томсон моделі</h3>
+
+      <p>
+        Дж. Дж. Томсон электронды ашқаннан кейін атомды оң зарядталған
+        ортада орналасқан электрондар жүйесі ретінде қарастырды.
+        Бұл модельде оң заряд атом көлеміне таралған деп есептелді.
+      </p>
+
+      <p>
+        Томсон моделі атомның ішкі құрылымын түсіндірудегі маңызды
+        тарихи кезең болды, бірақ кейінгі тәжірибелер оның дұрыс
+        еместігін көрсетті.
+      </p>
+
+      <h3>3. Резерфордтың ядролық моделі</h3>
+
+      <p>
+        Э. Резерфордтың алтын фольгамен жүргізген тәжірибесінде
+        альфа-бөлшектердің көпшілігі фольгадан аз ауытқумен өтті,
+        ал аз бөлігі үлкен бұрыштарға ауытқыды.
+      </p>
+
+      <p>
+        Осы нәтижелер атом көлемінің басым бөлігі бос кеңістік екенін,
+        ал оң заряд пен массаның негізгі бөлігі өте шағын ядроға
+        шоғырланғанын көрсетті.
+      </p>
+
+      <div class="formula">
+        r ≪ R
+      </div>
+
+      <p>
+        Мұндағы r — ядроның өлшемі, R — атомның өлшемі.
+        Ядро атомнан әлдеқайда кіші.
+      </p>
+
+      <h3>4. Бордың атом моделі</h3>
+
+      <p>
+        Нильс Бор сутегі атомының спектрін түсіндіру үшін кванттық
+        постулаттарды ұсынды. Бор моделінде электрон ядроны тек
+        белгілі рұқсат етілген стационар орбиталар бойымен айналады.
+      </p>
+
+      <p>Бордың бұрыштық импульс моментінің квантталу шарты:</p>
+
+      <div class="formula">
+        mₑvr = nℏ
+      </div>
+
+      <p>
+        Мұндағы mₑ — электрон массасы, v — электрон жылдамдығы,
+        r — орбита радиусы, n = 1, 2, 3, ... — бас кванттық сан.
+      </p>
+
+      <p>
+        Сутегі атомындағы n-ші Бор орбитасының радиусы:
+      </p>
+
+      <div class="formula">
+        rₙ = a₀n²
+      </div>
+
+      <p>
+        Мұндағы a₀ ≈ 5,292 × 10⁻¹¹ м — Бор радиусы.
+      </p>
+
+      <h3>5. Сутегі атомының энергетикалық деңгейлері</h3>
+
+      <p>
+        Бор моделі бойынша сутегі атомының энергиясы дискретті
+        мәндер қабылдайды:
+      </p>
+
+      <div class="formula">
+        Eₙ = −13,6 / n² эВ
+      </div>
+
+      <p>
+        n = 1 болғанда электрон негізгі күйде болады. n өскен сайын
+        энергия нөлге жақындайды. E = 0 шегі атомның иондану шегіне
+        сәйкес келеді.
+      </p>
+
+      <h3>6. Атомның сәуле шығаруы және жұтуы</h3>
+
+      <p>
+        Электрон жоғары энергетикалық деңгейден төменгі деңгейге
+        ауысқанда фотон шығарады. Төменгі деңгейден жоғары деңгейге
+        өту үшін атом фотон жұтады.
+      </p>
+
+      <div class="formula">
+        ΔE = Eжоғары − Eтөменгі = hν
+      </div>
+
+      <p>Фотон энергиясы мен толқын ұзындығының байланысы:</p>
+
+      <div class="formula">
+        E = hν = hc / λ
+      </div>
+
+      <p>
+        Мұндағы h — Планк тұрақтысы, ν — фотон жиілігі,
+        c — жарық жылдамдығы, λ — толқын ұзындығы.
+      </p>
+
+      <h3>7. Сутегі атомының спектрлік сериялары</h3>
+
+      <p>
+        Электрон әртүрлі энергетикалық деңгейлер арасында ауысқанда
+        спектрлік сызықтар пайда болады.
+      </p>
+
+      <ul>
+        <li>Лайман сериясы — электронның n = 1 деңгейіне ауысуы.</li>
+        <li>Бальмер сериясы — электронның n = 2 деңгейіне ауысуы.</li>
+        <li>Пашен сериясы — электронның n = 3 деңгейіне ауысуы.</li>
+      </ul>
+
+      <p>Сутегі спектрінің Ридберг формуласы:</p>
+
+      <div class="formula">
+        1 / λ = Rₕ (1 / n₁² − 1 / n₂²)
+      </div>
+
+      <p>
+        Мұнда n₂ &gt; n₁, ал Rₕ ≈ 1,097 × 10⁷ м⁻¹ —
+        Ридберг тұрақтысы.
+      </p>
+
+      <h3>8. Кванттық сандар</h3>
+
+      <p>
+        Қазіргі кванттық механикада электронның атомдағы күйі төрт
+        кванттық санмен сипатталады:
+      </p>
+
+      <ul>
+        <li>Бас кванттық сан n — энергетикалық деңгей мен орбиталь өлшемін сипаттайды.</li>
+        <li>Орбиталық кванттық сан l — орбиталық импульс моментін сипаттайды.</li>
+        <li>Магниттік кванттық сан mₗ — орбиталық момент проекциясын сипаттайды.</li>
+        <li>Спиндік кванттық сан mₛ — электрон спинінің проекциясын сипаттайды.</li>
+      </ul>
+
+      <div class="formula">
+        l = 0, 1, 2, ..., n − 1
+      </div>
+
+      <div class="formula">
+        mₗ = −l, ..., 0, ..., +l
+      </div>
+
+      <div class="formula">
+        mₛ = ±1/2
+      </div>
+
+      <h3>9. Қазіргі кванттық-механикалық модель</h3>
+
+      <p>
+        Қазіргі модельде электрон нақты классикалық орбита бойымен
+        қозғалады деп қарастырылмайды. Оның күйі толқындық функциямен
+        сипатталады. Электронды кеңістіктің белгілі бір аймағында
+        табу ықтималдығы толқындық функция модулінің квадратына
+        пропорционал:
+      </p>
+
+      <div class="formula">
+        P(r) = |ψ(r)|²
+      </div>
+
+      <p>
+        Сондықтан атомның электрондық құрылымы электрондық бұлттар
+        және орбитальдар арқылы сипатталады.
+      </p>
+
+      <p>
+        Бор моделі сутегі атомының энергетикалық деңгейлерін
+        түсіндіруде пайдалы, ал көпэлектронды атомдардың толық
+        сипаттамасы үшін кванттық механика қолданылады.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Есептеу құралы 1. Сутегі атомының энергетикалық деңгейі</h3>
+
+      <label>Бас кванттық сан n:</label>
+      <input id="atomicEnergyN" type="number" min="1"
+        step="1" value="1">
+
+      <button onclick="calculateAtomicEnergyLevel()">
+        Энергияны есептеу
+      </button>
+
+      <div id="atomicEnergyResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>Есептеу құралы 2. Бор орбитасының радиусы</h3>
+
+      <label>Бас кванттық сан n:</label>
+      <input id="atomicRadiusN" type="number" min="1"
+        step="1" value="1">
+
+      <button onclick="calculateAtomicBohrRadius()">
+        Радиусты есептеу
+      </button>
+
+      <div id="atomicRadiusResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>Есептеу құралы 3. Электрон ауысуындағы фотон энергиясы</h3>
+
+      <label>Бастапқы деңгей n₂:</label>
+      <input id="atomicTransitionN2" type="number"
+        min="2" step="1" value="3">
+
+      <label>Соңғы деңгей n₁:</label>
+      <input id="atomicTransitionN1" type="number"
+        min="1" step="1" value="2">
+
+      <button onclick="calculateAtomicTransition()">
+        Фотон энергиясын есептеу
+      </button>
+
+      <div id="atomicTransitionResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>Есептеу құралы 4. Фотонның толқын ұзындығы</h3>
+
+      <label>Фотон энергиясы (эВ):</label>
+      <input id="atomicPhotonEnergy" type="number"
+        min="0.000001" step="0.1" value="1.89">
+
+      <button onclick="calculateAtomicPhotonWavelength()">
+        Толқын ұзындығын есептеу
+      </button>
+
+      <div id="atomicPhotonResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>Білімді тексеру тесті</h3>
+
+      <div class="quiz-question">
+        <p>1. Резерфорд тәжірибесі атомның қандай құрылымын көрсетті?</p>
+        <label><input type="radio" name="atomicQ1" value="a">
+          Оң зарядталған шағын ядро бар екенін</label><br>
+        <label><input type="radio" name="atomicQ1" value="b">
+          Атомның тұтас оң зарядталған шар екенін</label><br>
+        <label><input type="radio" name="atomicQ1" value="c">
+          Электрондардың ядро ішінде орналасатынын</label><br>
+      </div>
+
+      <div class="quiz-question">
+        <p>2. Бор моделіндегі бұрыштық импульс моментінің квантталу шарты қандай?</p>
+        <label><input type="radio" name="atomicQ2" value="a">
+          mₑvr = nℏ</label><br>
+        <label><input type="radio" name="atomicQ2" value="b">
+          mₑv = nr</label><br>
+        <label><input type="radio" name="atomicQ2" value="c">
+          E = mc²</label><br>
+      </div>
+
+      <div class="quiz-question">
+        <p>3. Сутегі атомының негізгі күйіндегі энергиясы қандай?</p>
+        <label><input type="radio" name="atomicQ3" value="a">
+          −13,6 эВ</label><br>
+        <label><input type="radio" name="atomicQ3" value="b">
+          0 эВ</label><br>
+        <label><input type="radio" name="atomicQ3" value="c">
+          +13,6 эВ</label><br>
+      </div>
+
+      <div class="quiz-question">
+        <p>4. Электрон жоғары деңгейден төменгі деңгейге ауысқанда не болады?</p>
+        <label><input type="radio" name="atomicQ4" value="a">
+          Фотон шығарылады</label><br>
+        <label><input type="radio" name="atomicQ4" value="b">
+          Фотон міндетті түрде жұтылады</label><br>
+        <label><input type="radio" name="atomicQ4" value="c">
+          Электрон жойылады</label><br>
+      </div>
+
+      <div class="quiz-question">
+        <p>5. Электронның күйін сипаттайтын кванттық сандар саны қанша?</p>
+        <label><input type="radio" name="atomicQ5" value="a"> 2</label><br>
+        <label><input type="radio" name="atomicQ5" value="b"> 3</label><br>
+        <label><input type="radio" name="atomicQ5" value="c"> 4</label><br>
+      </div>
+
+      <div class="quiz-question">
+        <p>6. Электронды табу ықтималдығы тығыздығы немен анықталады?</p>
+        <label><input type="radio" name="atomicQ6" value="a">
+          |ψ|²</label><br>
+        <label><input type="radio" name="atomicQ6" value="b">
+          ψ-дің тек фазасымен</label><br>
+        <label><input type="radio" name="atomicQ6" value="c">
+          Электронның температураcымен</label><br>
+      </div>
+
+      <button onclick="checkAtomicPhysicsQuiz()">
+        Тестті тексеру
+      </button>
+
+      <div id="atomicQuizResult" class="result"></div>
+    </div>
+  `;
+
+  details.scrollIntoView({ behavior: "smooth" });
+}
+
+
+// 1. Сутегі атомының энергия деңгейі
+function calculateAtomicEnergyLevel() {
+  const n = Number(document.getElementById("atomicEnergyN").value);
+  const result = document.getElementById("atomicEnergyResult");
+
+  if (!Number.isInteger(n) || n < 1) {
+    result.innerHTML = "n оң бүтін сан болуы керек.";
+    return;
+  }
+
+  const energy = -13.6 / (n * n);
+
+  result.innerHTML = `
+    <p>Формула: Eₙ = −13,6 / n²</p>
+    <p>Кванттық сан: n = ${n}</p>
+    <p>Энергия: ${energy.toFixed(6)} эВ</p>
+  `;
+}
+
+
+// 2. Бор орбитасының радиусы
+function calculateAtomicBohrRadius() {
+  const n = Number(document.getElementById("atomicRadiusN").value);
+  const result = document.getElementById("atomicRadiusResult");
+
+  if (!Number.isInteger(n) || n < 1) {
+    result.innerHTML = "n оң бүтін сан болуы керек.";
+    return;
+  }
+
+  const a0 = 5.29177210903e-11;
+  const radius = a0 * n * n;
+
+  result.innerHTML = `
+    <p>Формула: rₙ = a₀n²</p>
+    <p>Бор радиусы: ${a0.toExponential(5)} м</p>
+    <p>Орбита радиусы: ${radius.toExponential(5)} м</p>
+  `;
+}
+
+
+// 3. Электрон ауысуындағы фотон энергиясы
+function calculateAtomicTransition() {
+  const n2 = Number(document.getElementById("atomicTransitionN2").value);
+  const n1 = Number(document.getElementById("atomicTransitionN1").value);
+  const result = document.getElementById("atomicTransitionResult");
+
+  if (
+    !Number.isInteger(n1) ||
+    !Number.isInteger(n2) ||
+    n1 < 1 ||
+    n2 <= n1
+  ) {
+    result.innerHTML = "Шығарылу үшін n₂ және n₁ бүтін сандар, n₂ > n₁ болуы керек.";
+    return;
+  }
+
+  const energy = 13.6 * (1 / (n1 * n1) - 1 / (n2 * n2));
+
+  const h = 6.62607015e-34;
+  const c = 299792458;
+  const e = 1.602176634e-19;
+  const wavelength = h * c / (energy * e);
+
+  result.innerHTML = `
+    <p>Формула: ΔE = 13,6(1/n₁² − 1/n₂²)</p>
+    <p>Фотон энергиясы: ${energy.toFixed(6)} эВ</p>
+    <p>Толқын ұзындығы: ${(wavelength * 1e9).toFixed(3)} нм</p>
+  `;
+}
+
+
+// 4. Фотонның толқын ұзындығы
+function calculateAtomicPhotonWavelength() {
+  const energy = Number(document.getElementById("atomicPhotonEnergy").value);
+  const result = document.getElementById("atomicPhotonResult");
+
+  if (!Number.isFinite(energy) || energy <= 0) {
+    result.innerHTML = "Фотон энергиясы нөлден үлкен болуы керек.";
+    return;
+  }
+
+  const h = 6.62607015e-34;
+  const c = 299792458;
+  const e = 1.602176634e-19;
+
+  const wavelength = h * c / (energy * e);
+  const frequency = energy * e / h;
+
+  result.innerHTML = `
+    <p>Формула: λ = hc / E</p>
+    <p>Фотон энергиясы: ${energy} эВ</p>
+    <p>Жиілік: ${frequency.toExponential(5)} Гц</p>
+    <p>Толқын ұзындығы: ${(wavelength * 1e9).toFixed(3)} нм</p>
+  `;
+}
+
+
+// 5. Атомдық физика тесті
+function checkAtomicPhysicsQuiz() {
+  const answers = {
+    atomicQ1: "a",
+    atomicQ2: "a",
+    atomicQ3: "a",
+    atomicQ4: "a",
+    atomicQ5: "c",
+    atomicQ6: "a"
+  };
+
+  let score = 0;
+  let unanswered = 0;
+
+  for (const [name, correct] of Object.entries(answers)) {
+    const selected = document.querySelector(
+      'input[name="' + name + '"]:checked'
+    );
+
+    if (!selected) {
+      unanswered++;
+    } else if (selected.value === correct) {
+      score++;
+    }
+  }
+
+  const result = document.getElementById("atomicQuizResult");
+
+  result.innerHTML = `
+    <h3>Нәтиже: ${score} / 6</h3>
+    <p>Дұрыс жауаптар: ${score}</p>
+    <p>Жауап берілмеген сұрақтар: ${unanswered}</p>
+    <p>${
+      score === 6
+        ? "Өте жақсы! Тақырыпты толық меңгердіңіз."
+        : score >= 4
+          ? "Жақсы нәтиже! Теорияны тағы бір қайталаңыз."
+          : "Теориялық бөлімді қайталап, тестті қайта орындаңыз."
+    }</p>
+  `;
+}
+  function showUniversityMultiElectronAtomsModule(topic, categoryName) {
+  const details = document.getElementById("topicDetails");
+
+  details.innerHTML = `
+    <div class="card">
+      <h2>Көпэлектронды атомдар және электрондық қабықшалардың құрылысы</h2>
+
+      <p>
+        Көпэлектронды атом — ядроны бірнеше электрон қоршап орналасқан
+        кванттық жүйе. Мұндай атомдарда электрондар ядромен ғана емес,
+        бір-бірімен де электростатикалық әсерлеседі.
+      </p>
+
+      <h3>1. Электрондық қабықшалар</h3>
+
+      <p>
+        Атомдағы электрондар белгілі энергетикалық күйлерде орналасады.
+        Бас кванттық сан n электрондық қабықшаны сипаттайды.
+      </p>
+
+      <div class="formula">
+        n = 1, 2, 3, 4, ...
+      </div>
+
+      <p>Қабықшалардың дәстүрлі белгіленуі:</p>
+      <ul>
+        <li>n = 1 — K қабықшасы;</li>
+        <li>n = 2 — L қабықшасы;</li>
+        <li>n = 3 — M қабықшасы;</li>
+        <li>n = 4 — N қабықшасы.</li>
+      </ul>
+
+      <p>
+        Бір қабықшадағы электрондардың ең үлкен саны:
+      </p>
+
+      <div class="formula">
+        N = 2n²
+      </div>
+
+      <p>
+        Мысалы, бірінші қабықшада 2 электрон, екінші қабықшада
+        8 электронға дейін орналасуы мүмкін.
+      </p>
+
+      <h3>2. Атомдық орбитальдар</h3>
+
+      <p>
+        Орбиталь — электронның атомдағы кванттық күйін сипаттайтын
+        толқындық функциямен байланысты кеңістіктік күй.
+        Орбитальдар орбиталық кванттық сан l арқылы ажыратылады.
+      </p>
+
+      <table>
+        <tr><th>Орбиталь</th><th>l</th><th>Орбиталь саны</th><th>Электрон сыйымдылығы</th></tr>
+        <tr><td>s</td><td>0</td><td>1</td><td>2</td></tr>
+        <tr><td>p</td><td>1</td><td>3</td><td>6</td></tr>
+        <tr><td>d</td><td>2</td><td>5</td><td>10</td></tr>
+        <tr><td>f</td><td>3</td><td>7</td><td>14</td></tr>
+      </table>
+
+      <p>Әр орбитальда ең көбі екі электрон орналасады:</p>
+
+      <div class="formula">
+        mₛ = +1/2 немесе −1/2
+      </div>
+
+      <h3>3. Паули принципі</h3>
+
+      <p>
+        Бір атомдағы екі электронның төрт кванттық саны бірдей
+        бола алмайды. Сондықтан бір орбитальда орналасқан екі
+        электронның спиндері қарама-қарсы болуы керек.
+      </p>
+
+      <div class="formula">
+        (n, l, mₗ, mₛ)₁ ≠ (n, l, mₗ, mₛ)₂
+      </div>
+
+      <h3>4. Хунд ережесі</h3>
+
+      <p>
+        Энергиялары бірдей орбитальдар алдымен бір-бірден,
+        спиндері параллель электрондармен толтырылады.
+        Содан кейін ғана электрондар жұптаса бастайды.
+      </p>
+
+      <p>
+        Мысалы, p-деңгейшесінде үш орбиталь бар. Үш электрон
+        болғанда олардың әрқайсысына бір электроннан орналасады.
+      </p>
+
+      <div class="formula">
+        ↑   ↑   ↑
+      </div>
+
+      <h3>5. Орбитальдарды толтыру реті</h3>
+
+      <p>
+        Электрондар атомда энергиясы төмен күйлерден бастап
+        орналасады. Бұл ереже көбіне Ауфбау принципі деп аталады.
+      </p>
+
+      <div class="formula">
+        1s → 2s → 2p → 3s → 3p → 4s → 3d → 4p
+      </div>
+
+      <div class="formula">
+        5s → 4d → 5p → 6s → 4f → 5d → 6p
+      </div>
+
+      <div class="formula">
+        7s → 5f → 6d → 7p
+      </div>
+
+      <p>
+        Бұл — негізгі толтырылу реті. Кейбір атомдарда, әсіресе
+        d және f элементтерінде, электрондық конфигурацияның
+        ерекшеліктері кездеседі.
+      </p>
+
+      <h3>6. Электрондық конфигурация</h3>
+
+      <p>
+        Электрондық конфигурация атом электрондарының энергетикалық
+        деңгейшелер бойынша таралуын көрсетеді.
+      </p>
+
+      <p>Мысалдар:</p>
+
+      <ul>
+        <li>Сутегі (Z = 1): 1s¹</li>
+        <li>Гелий (Z = 2): 1s²</li>
+        <li>Көміртек (Z = 6): 1s² 2s² 2p²</li>
+        <li>Оттек (Z = 8): 1s² 2s² 2p⁴</li>
+        <li>Натрий (Z = 11): 1s² 2s² 2p⁶ 3s¹</li>
+        <li>Хлор (Z = 17): 1s² 2s² 2p⁶ 3s² 3p⁵</li>
+      </ul>
+
+      <h3>7. Электрондардың қабықшалар бойынша таралуы</h3>
+
+      <p>
+        Атомдағы электрондарды бас кванттық сан бойынша топтастыруға
+        болады. Мысалы, натрий атомында электрондар қабықшаларға
+        2, 8, 1 түрінде таралады.
+      </p>
+
+      <p>
+        Сыртқы қабықшадағы электрондар валенттік электрондар деп
+        аталады. Олар атомның химиялық қасиеттерін қалыптастыруда
+        маңызды рөл атқарады.
+      </p>
+
+      <h3>8. Көпэлектронды атомдардағы әсерлесу</h3>
+
+      <p>
+        Көпэлектронды атомда электрондар арасында кулондық тебілу
+        бар. Сондықтан атомның толық энергиясы тек ядро мен
+        электрондардың әсерлесуімен ғана анықталмайды.
+      </p>
+
+      <div class="formula">
+        Vᵢⱼ = (1 / 4πε₀) · e² / rᵢⱼ
+      </div>
+
+      <p>
+        Мұндағы rᵢⱼ — екі электронның арақашықтығы.
+        Бұл әсерлесу электрондардың энергетикалық деңгейлеріне
+        және атомның спектріне ықпал етеді.
+      </p>
+
+      <h3>9. Периодтық жүйемен байланысы</h3>
+
+      <p>
+        Элементтердің периодтық жүйедегі орны олардың электрондық
+        құрылымымен байланысты. Сыртқы электрондық конфигурация
+        элементтің периодын, тобын және химиялық қасиеттерін
+        түсіндіруге көмектеседі.
+      </p>
+
+      <p>
+        s-, p-, d- және f-блоктар электрондар толтыратын
+        соңғы деңгейшеге сәйкес ажыратылады.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Есептеу құралы 1. Электрондық конфигурация</h3>
+
+      <label>Атомның реттік нөмірі Z (1–118):</label>
+      <input id="multiAtomZ" type="number" min="1"
+        max="118" step="1" value="11">
+
+      <button onclick="calculateMultiAtomConfiguration()">
+        Конфигурацияны анықтау
+      </button>
+
+      <div id="multiAtomConfigResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>Есептеу құралы 2. Қабықшалардағы электрондар саны</h3>
+
+      <label>Атомның реттік нөмірі Z (1–118):</label>
+      <input id="multiAtomShellZ" type="number" min="1"
+        max="118" step="1" value="17">
+
+      <button onclick="calculateMultiAtomShells()">
+        Қабықшаларды есептеу
+      </button>
+
+      <div id="multiAtomShellResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>Есептеу құралы 3. Деңгейшенің электрон сыйымдылығы</h3>
+
+      <label>Орбиталь түрін таңдаңыз:</label>
+      <select id="multiAtomSubshell">
+        <option value="s">s-деңгейше</option>
+        <option value="p">p-деңгейше</option>
+        <option value="d">d-деңгейше</option>
+        <option value="f">f-деңгейше</option>
+      </select>
+
+      <button onclick="calculateMultiAtomSubshellCapacity()">
+        Сыйымдылықты анықтау
+      </button>
+
+      <div id="multiAtomCapacityResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>Есептеу құралы 4. Қабықшаның максималды сыйымдылығы</h3>
+
+      <label>Бас кванттық сан n:</label>
+      <input id="multiAtomShellN" type="number" min="1"
+        max="7" step="1" value="3">
+
+      <button onclick="calculateMultiAtomMaxShell()">
+        Есептеу
+      </button>
+
+      <div id="multiAtomMaxShellResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h3>Білімді тексеру тесті</h3>
+
+      <div class="quiz-question">
+        <p>1. Бір қабықшадағы электрондардың максималды саны қандай формуламен анықталады?</p>
+        <label><input type="radio" name="multiAtomQ1" value="a"> N = 2n²</label><br>
+        <label><input type="radio" name="multiAtomQ1" value="b"> N = n²</label><br>
+        <label><input type="radio" name="multiAtomQ1" value="c"> N = 2n</label><br>
+      </div>
+
+      <div class="quiz-question">
+        <p>2. Бір орбитальда ең көбі қанша электрон орналасады?</p>
+        <label><input type="radio" name="multiAtomQ2" value="a"> 1</label><br>
+        <label><input type="radio" name="multiAtomQ2" value="b"> 2</label><br>
+        <label><input type="radio" name="multiAtomQ2" value="c"> 4</label><br>
+      </div>
+
+      <div class="quiz-question">
+        <p>3. Паули принципі нені тұжырымдайды?</p>
+        <label><input type="radio" name="multiAtomQ3" value="a">
+          Бір атомдағы екі электронның төрт кванттық саны бірдей болмайды</label><br>
+        <label><input type="radio" name="multiAtomQ3" value="b">
+          Барлық электрондар бір орбитальда орналасады</label><br>
+        <label><input type="radio" name="multiAtomQ3" value="c">
+          Электрондардың спині болмайды</label><br>
+      </div>
+
+      <div class="quiz-question">
+        <p>4. p-деңгейшесінде неше орбиталь бар?</p>
+        <label><input type="radio" name="multiAtomQ4" value="a"> 1</label><br>
+        <label><input type="radio" name="multiAtomQ4" value="b"> 3</label><br>
+        <label><input type="radio" name="multiAtomQ4" value="c"> 5</label><br>
+      </div>
+
+      <div class="quiz-question">
+        <p>5. Хунд ережесі бойынша энергиялары бірдей орбитальдар қалай толтырылады?</p>
+        <label><input type="radio" name="multiAtomQ5" value="a">
+          Алдымен жеке электрондармен</label><br>
+        <label><input type="radio" name="multiAtomQ5" value="b">
+          Алдымен электрон жұптарымен</label><br>
+        <label><input type="radio" name="multiAtomQ5" value="c">
+          Тек қарама-қарсы спиндермен бір орбитальға</label><br>
+      </div>
+
+      <div class="quiz-question">
+        <p>6. Натрий атомының электрондық конфигурациясы қандай?</p>
+        <label><input type="radio" name="multiAtomQ6" value="a">
+          1s² 2s² 2p⁶ 3s¹</label><br>
+        <label><input type="radio" name="multiAtomQ6" value="b">
+          1s² 2s² 2p⁵</label><br>
+        <label><input type="radio" name="multiAtomQ6" value="c">
+          1s² 2s² 2p⁶ 3s²</label><br>
+      </div>
+
+      <button onclick="checkMultiAtomQuiz()">Тестті тексеру</button>
+      <div id="multiAtomQuizResult" class="result"></div>
+    </div>
+  `;
+
+  details.scrollIntoView({ behavior: "smooth" });
+}
+
+
+// Орбитальдардың негізгі толтырылу реті
+function getMultiAtomOrbitalConfiguration(Z) {
+  const orbitals = [
+    ["1s", 2], ["2s", 2], ["2p", 6],
+    ["3s", 2], ["3p", 6], ["4s", 2],
+    ["3d", 10], ["4p", 6], ["5s", 2],
+    ["4d", 10], ["5p", 6], ["6s", 2],
+    ["4f", 14], ["5d", 10], ["6p", 6],
+    ["7s", 2], ["5f", 14], ["6d", 10],
+    ["7p", 6]
+  ];
+
+  let remaining = Z;
+  const config = [];
+
+  for (const [orbital, capacity] of orbitals) {
+    if (remaining <= 0) break;
+
+    const count = Math.min(remaining, capacity);
+    config.push(orbital + count);
+    remaining -= count;
+  }
+
+  // Белгілі негізгі күй ерекшеліктері
+  const exceptions = {
+    24: "1s² 2s² 2p⁶ 3s² 3p⁶ 3d⁵ 4s¹",
+    29: "1s² 2s² 2p⁶ 3s² 3p⁶ 3d¹⁰ 4s¹"
+  };
+
+  if (exceptions[Z]) {
+    return exceptions[Z];
+  }
+
+  return config.join(" ");
+}
+
+
+// 1. Электрондық конфигурация
+function calculateMultiAtomConfiguration() {
+  const Z = Number(document.getElementById("multiAtomZ").value);
+  const result = document.getElementById("multiAtomConfigResult");
+
+  if (!Number.isInteger(Z) || Z < 1 || Z > 118) {
+    result.innerHTML = "Атомның реттік нөмірі 1–118 аралығындағы бүтін сан болуы керек.";
+    return;
+  }
+
+  const config = getMultiAtomOrbitalConfiguration(Z);
+
+  result.innerHTML = `
+    <p>Атомның реттік нөмірі: Z = ${Z}</p>
+    <p>Бейтарап атомдағы электрон саны: ${Z}</p>
+    <p><strong>Электрондық конфигурация:</strong></p>
+    <p>${config}</p>
+    <p>Ескерту: бұл құрал негізгі толтырылу ретін қолданады;
+    кейбір элементтердің нақты негізгі күй конфигурациясында
+    қосымша ерекшеліктер болады.</p>
+  `;
+}
+
+
+// 2. Электрондардың қабықшалар бойынша таралуы
+function calculateMultiAtomShells() {
+  const Z = Number(document.getElementById("multiAtomShellZ").value);
+  const result = document.getElementById("multiAtomShellResult");
+
+  if (!Number.isInteger(Z) || Z < 1 || Z > 118) {
+    result.innerHTML = "Z 1–118 аралығындағы бүтін сан болуы керек.";
+    return;
+  }
+
+  const config = getMultiAtomOrbitalConfiguration(Z);
+  const shells = [0, 0, 0, 0, 0, 0, 0];
+
+  const matches = config.match(/\d+[spdf]\d+/g) || [];
+
+  matches.forEach(item => {
+    const match = item.match(/^(\d+)[spdf](\d+)$/);
+    const n = Number(match[1]);
+    const count = Number(match[2]);
+
+    shells[n - 1] += count;
+  });
+
+  const distribution = shells
+    .map((count, index) => count > 0 ? `n=${index + 1}: ${count}` : null)
+    .filter(Boolean)
+    .join("; ");
+
+  result.innerHTML = `
+    <p>Электрондық конфигурация: ${config}</p>
+    <p><strong>Қабықшалар бойынша таралуы:</strong></p>
+    <p>${distribution}</p>
+    <p>Электрондардың жалпы саны: ${shells.reduce((a, b) => a + b, 0)}</p>
+  `;
+}
+
+
+// 3. Деңгейшенің сыйымдылығы
+function calculateMultiAtomSubshellCapacity() {
+  const type = document.getElementById("multiAtomSubshell").value;
+  const result = document.getElementById("multiAtomCapacityResult");
+
+  const capacities = {
+    s: { orbitals: 1, electrons: 2 },
+    p: { orbitals: 3, electrons: 6 },
+    d: { orbitals: 5, electrons: 10 },
+    f: { orbitals: 7, electrons: 14 }
+  };
+
+  const data = capacities[type];
+
+  result.innerHTML = `
+    <p>Деңгейше: ${type}</p>
+    <p>Орбиталь саны: ${data.orbitals}</p>
+    <p>Максималды электрон саны: ${data.electrons}</p>
+  `;
+}
+
+
+// 4. Қабықшаның максималды сыйымдылығы
+function calculateMultiAtomMaxShell() {
+  const n = Number(document.getElementById("multiAtomShellN").value);
+  const result = document.getElementById("multiAtomMaxShellResult");
+
+  if (!Number.isInteger(n) || n < 1 || n > 7) {
+    result.innerHTML = "n 1–7 аралығындағы бүтін сан болуы керек.";
+    return;
+  }
+
+  const capacity = 2 * n * n;
+
+  result.innerHTML = `
+    <p>Формула: N = 2n²</p>
+    <p>Қабықша нөмірі: n = ${n}</p>
+    <p>Максималды электрон саны: ${capacity}</p>
+  `;
+}
+
+
+// 5. Тест нәтижесі
+function checkMultiAtomQuiz() {
+  const answers = {
+    multiAtomQ1: "a",
+    multiAtomQ2: "b",
+    multiAtomQ3: "a",
+    multiAtomQ4: "b",
+    multiAtomQ5: "a",
+    multiAtomQ6: "a"
+  };
+
+  let score = 0;
+  let unanswered = 0;
+
+  for (const [name, correct] of Object.entries(answers)) {
+    const selected = document.querySelector(
+      'input[name="' + name + '"]:checked'
+    );
+
+    if (!selected) {
+      unanswered++;
+    } else if (selected.value === correct) {
+      score++;
+    }
+  }
+
+  const result = document.getElementById("multiAtomQuizResult");
+
+  result.innerHTML = `
+    <h3>Нәтиже: ${score} / 6</h3>
+    <p>Дұрыс жауаптар: ${score}</p>
+    <p>Жауап берілмеген сұрақтар: ${unanswered}</p>
+    <p>${
+      score === 6
+        ? "Өте жақсы! Тақырыпты толық меңгердіңіз."
+        : score >= 4
+          ? "Жақсы нәтиже! Қалған сұрақтарды қайталаңыз."
+          : "Тақырыптың теориялық бөлімін қайталап шығыңыз."
+    }</p>
+  `;
+}
+  
 </script>
 </body>
 </html>
